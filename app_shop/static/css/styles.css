@@ -1,0 +1,282 @@
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, img, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, figcaption, footer, header, nav, section, mark {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.header__primary {
+    height: 60px;
+    margin: auto;
+}
+
+.header__primary-phone {
+    font-size: 35px;
+    line-height: 0.8;
+}
+
+.header__primary-phone:hover {
+    animation-duration: 2.5s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+    animation-name: animation_phone;
+    cursor: pointer;
+}
+
+@keyframes animation_phone {
+    0% {
+        transform: scale(1);
+    }
+    30% {
+        transform: scaleX(1.05) scaleY(0.9);
+    }
+    40% {
+        transform: scaleX(0.9) scaleY(1.05);
+    }
+    60% {
+        transform: scaleX(1.05) scaleY(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.header__primary .nav-item:before {
+    background: #00043c;
+    content: "";
+    height: 3em;
+    position: absolute;
+    width: 1px;
+}
+
+.header__primary .nav-link {
+    display: inline-flex;
+    font-weight: 500;
+    margin-left: 0.5vw;
+    margin-right: 0.5vw;
+    text-align: center;
+    transition: all 0.2s linear;
+}
+
+.header__primary .nav-link:hover {
+    color: green !important;
+    transform: scale(1.1, 1.1);
+    transition: all 0.2s linear;
+}
+
+.header__primary-nav-item-icon {
+    align-self: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 2em;
+    width: 2em;
+}
+
+.i-about-co {
+    background-image: url("../about_company.svg");
+}
+
+.i-ours-shops {
+    background-image: url("../ours_shops.svg");
+}
+
+.i-optov {
+    background-image: url("../optoviks.png");
+}
+
+.i-geolocation {
+    background-image: url("../geolocation.svg");
+}
+
+.header__primary-nav-item-text {
+    align-self: center;
+    line-height: normal;
+}
+
+.header__secondary {
+    margin: auto;
+    max-height: 150px;
+}
+
+.logo_block {
+    animation-duration: 2s;
+    background-repeat: no-repeat;
+    background-image: url("../logo.png");
+    background-size: contain;
+    height: 150px;
+    width: 150px;
+}
+
+@media (max-width: 767px) {
+    .logo_block {
+        align-self: center;
+        background-image: url("../logo-inline.png");
+        height: 80px;
+        margin: auto;
+        width: 200px;
+    }
+}
+.logo_block:hover {
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-name: animation_logo;
+    animation-timing-function: linear;
+}
+
+@keyframes animation_logo {
+    from {
+        transform: scaleX(1);
+    }
+    50% {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+.auth_block {
+    margin-left: auto
+}
+
+@media (max-width: 767px) {
+    .auth_block {
+        margin-left: 0
+    }
+}
+
+.auth_block li {
+    display: inline-flex;
+    font-size: 20px;
+}
+
+.header__secondary-auth_block {
+    display: inline-flex;
+}
+
+.header__secondary-auth_block-icon {
+    background: #ececec no-repeat center;
+    background-size: 50%;
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+}
+
+@media (max-width: 767px) {
+    .header__secondary-auth_block-icon {
+        background: #ececec no-repeat center;
+        background-size: 50%;
+        border-radius: 50%;
+        height: 40px;
+        width: 40px;
+    }
+}
+
+.header__secondary-auth_block-icon:active {
+    transform: scale(0.7, 0.7);
+}
+
+.i-log-in {
+    background-image: url("../log_in.svg");
+}
+
+.i-faq {
+    background-image: url("../faq.svg");
+}
+
+.i-basket {
+    background-image: url("../basket.svg");
+}
+
+.header__secondary-auth_block-text {
+    line-height: 1.2;
+    max-width: min-content;
+    margin-left: 15px;
+}
+
+.top_nav {
+    margin: auto;
+}
+
+.top_nav-toolbar {
+    border-radius: 25px;
+}
+
+.top_nav__search-form {
+    background: white;
+    border-radius: 25px;
+}
+
+.top_nav__search-form_block {
+    display: inline-flex;
+    width: 100%;
+}
+
+.top_nav__search-form_block > div {
+    width: 70%;
+}
+
+.top_nav__search-form_icon {
+    background: no-repeat center;
+    background-size: 50%;
+    height: 50px;
+    width: 10%;
+}
+
+.i-search-loupe {
+    background-image: url("../search-loupe.png");
+}
+
+.top_nav__search-form input {
+    border: none;
+    width: 100%!important;
+}
+
+.top_nav__search-form_button {
+    background: red;
+    border: 0;
+    border-radius: 25px;
+    color: white;
+    margin: 5px;
+    width: 20%;
+}
+
+.top_nav__search-form_button:focus,
+.top_nav__search-form_button:hover  {
+    background: #d30c00;
+    color: white;
+    outline: none!important;
+}
+
+.top_nav__after-search-icon {
+    background: no-repeat center;
+    background-size: 50%;
+    height: 50px;
+    width: 50px;
+}
+
+.i-sale {
+    background-image: url("../sale.svg");
+}
+
+.i-summer {
+    background-image: url("../summer.svg");
+}
+
+.i-health {
+    background-image: url("../health.svg");
+}
+
+.i-delivery {
+    background-image: url("../delivery.svg");
+}
+
+.top_nav__after-search-text {
+    line-height: 1;
+}
