@@ -1,8 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Oranienbaum&display=swap');
+@font-face {
+    font-family: Oranienbaum;
+    src: url("../fonts/Oranienbaum-Regular.ttf");
+}
+
 html, body, div, span, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, img, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, figcaption, footer, header, nav, section, mark {
     border: 0;
+    color: black;
     margin: 0;
     padding: 0;
     vertical-align: baseline;
+    font-family: 'Oranienbaum', serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 a {
@@ -10,16 +24,23 @@ a {
     text-decoration: none;
 }
 
-.header__primary {
+a:hover, a:hover > p, a[class="stretched-link"]:hover ~ * {
+    color: green!important;
+    text-decoration: none;
+}
+
+.header__primary-nav {
     height: 60px;
     margin: auto;
 }
 
+.footer__footer-phone,
 .header__primary-phone {
     font-size: 35px;
     line-height: 0.8;
 }
 
+.footer__footer-phone:hover,
 .header__primary-phone:hover {
     animation-duration: 2.5s;
     animation-fill-mode: both;
@@ -46,7 +67,7 @@ a {
     }
 }
 
-.header__primary .nav-item:before {
+.header__primary .nav-item::before {
     background: #00043c;
     content: "";
     height: 3em;
@@ -105,12 +126,13 @@ a {
 }
 
 .logo_block {
-    animation-duration: 2s;
-    background-repeat: no-repeat;
-    background-image: url("../logo.png");
+    background: url("../logo.png") 50% no-repeat,
+                url("../logo-add-decor_before.svg") 20% no-repeat,
+                url("../logo-add-decor_after.svg") 80% no-repeat;
     background-size: contain;
+    content: "";
     height: 150px;
-    width: 150px;
+    width: 300px;
 }
 
 @media (max-width: 767px) {
@@ -122,27 +144,10 @@ a {
         width: 200px;
     }
 }
-.logo_block:hover {
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
-    animation-name: animation_logo;
-    animation-timing-function: linear;
-}
-
-@keyframes animation_logo {
-    from {
-        transform: scaleX(1);
-    }
-    50% {
-        transform: scaleX(0);
-    }
-    to {
-        transform: scaleX(1);
-    }
-}
 
 .auth_block {
-    margin-left: auto
+    margin-left: auto;
+    text-align: center;
 }
 
 @media (max-width: 767px) {
@@ -219,6 +224,7 @@ a {
 }
 
 .top_nav__search-form_block > div {
+    margin: 0;
     width: 70%;
 }
 
@@ -235,11 +241,11 @@ a {
 
 .top_nav__search-form input {
     border: none;
-    width: 100%!important;
+    width: 100% !important;
 }
 
 .top_nav__search-form_button {
-    background: red;
+    background: #ed1a21;
     border: 0;
     border-radius: 25px;
     color: white;
@@ -248,10 +254,10 @@ a {
 }
 
 .top_nav__search-form_button:focus,
-.top_nav__search-form_button:hover  {
+.top_nav__search-form_button:hover {
     background: #d30c00;
     color: white;
-    outline: none!important;
+    outline: none !important;
 }
 
 .top_nav__after-search-icon {
@@ -279,4 +285,107 @@ a {
 
 .top_nav__after-search-text {
     line-height: 1;
+}
+
+a#text_info_full::after, a#text_info_full::before {
+    background-color: #fc0;
+    content: "";
+    display: inline-block;
+    font-size: 90%;
+    height: 1px;
+    vertical-align: middle;
+    width: 20vw;
+}
+
+.links-item {
+    background-image: url("../icons_pack.png");
+    height: 36px;
+    margin-right: 5px;
+    position: relative;
+    width: 36px;
+}
+
+.links-item_fb {
+    background-position: -1px -62px;
+}
+
+.links-item_vk {
+    background-position: -40px -62px;
+}
+
+.links-item_in {
+    background-position: -118px -62px;
+}
+
+.links-item_tw {
+    background-position: -1px -101px;
+}
+
+.links-item-long {
+    background-size: 100%;
+    height: 36px;
+    margin-right: 5px;
+    position: relative;
+    width: 115px;
+}
+
+.links-item_gp {
+    background-image: url("../google-play.png");
+}
+
+.links-item_as {
+    background-image: url("../app-store.png");
+}
+
+.subscription-block span {
+    width: fit-content;
+}
+
+.subscription-block__form-block {
+    border: 1px solid lightgrey;
+    border-radius: 25px;
+}
+
+.subscription-block:hover div[class*='d-none'] {
+    display: block !important;
+}
+
+@media (max-width: 1150px) {
+    .subscription-block:hover label {
+        display: none;
+    }
+}
+
+.subscription-block__form-block input {
+    border: none;
+    padding: 0;
+    width: 100% !important;
+}
+
+.subscription-button {
+    background: #ed1a21;
+    border: 0;
+    border-radius: 25px;
+    box-shadow: 0 0 0 1px #ed1a21;
+    color: white;
+    height: 40px;
+    padding: 5px;
+}
+
+.subscription-button:focus,
+.subscription-button:hover {
+    background: #d30c00;
+    color: white;
+    outline: none !important;
+}
+
+.footer-block a {
+    padding: 2px;
+    margin: 0;
+}
+
+@media (max-width: 991px) {
+    .footer-license {
+        background: white;
+    }
 }

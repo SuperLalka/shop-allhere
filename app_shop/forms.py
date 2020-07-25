@@ -10,3 +10,12 @@ class SearchForm(forms.Form):
         self.helper = FormHelper()
         self.helper.form_show_labels = False
         self.helper.field_class = 'col-12 p-0'
+
+class SubscriptionForm(forms.Form):
+    user_mail = forms.EmailField(label='Email', max_length=40)
+
+    def __init__(self, *args, **kwargs):
+        super(SubscriptionForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_show_labels = False
+        self.helper.field_class = 'd-none d-xl-block col-12 pr-1'

@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 
-  {% block title %}<title>AllHere интернет-магазин - over 9000 товаров по выгодынм ценам</title>{% endblock %}
+  {% block title %}<title>AllHere интернет-магазин - over 9000 товаров по выгодным ценам</title>{% endblock %}
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,140 +24,387 @@
 </head>
 
 <body>
-<div class="container-fluid m-md-0 p-md-0">
-  <!-- header -->
-  <header class="header">
-    <div class="d-none d-md-block bg-light">
-      <nav class="header__primary navbar navbar-expand-lg navbar-light col-11">
-        <a class="navbar-brand" href="#">
-          <p class="header__primary-phone">8 (800) 700-77-88</p>
-        </a>
-        <div class="navbar navbar-expand ml-auto d-none d-md-block p-0" id="navbarSupportedContent">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="header__primary-nav-item-icon mr-lg-2 i-about-co"></i>
-                <p class="header__primary-nav-item-text d-none d-lg-block">О компании</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="header__primary-nav-item-icon mr-lg-2 i-ours-shops"></i>
-                <p class="header__primary-nav-item-text d-none d-lg-block">Наши магазины</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="header__primary-nav-item-icon mr-lg-2 i-optov"></i>
-                <p class="header__primary-nav-item-text d-none d-lg-block">Юридическим лицам</p>
-              </a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="header__primary-nav-item-icon mr-lg-2 i-geolocation"></i>
-                <p class="header__primary-nav-item-text d-none d-md-block">Город</p>
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Выберите свой город</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </div>
-    <div class="header__secondary col-12 col-md-11">
-      <div class="row">
-        <div class="logo_block mr-md-5 ml-md-5">
-        </div>
-        <div class="auth_block align-self-center">
-          <ul class="list-group list-group-horizontal">
-            <li class="list-group-item flex-fill border-0 pl-1 pr-1 pl-md-2 pr-md-2">
-              <a class="nav-link p-0" href="#">
-                <div class="header__secondary-auth_block">
-                  <i class="header__secondary-auth_block-icon i-log-in"></i>
-                  <div class="header__secondary-auth_block-text align-self-center d-none d-md-block">
-                    Войти / регистрация
-                  </div>
+  <div class="container-fluid m-md-0 p-md-0">
+    <!-- header -->
+    <header class="header">
+      <div class="header__primary d-none d-md-block bg-light">
+        <nav class="header__primary-nav navbar navbar-expand-lg navbar-light col-11">
+          <a class="navbar-brand" href="#">
+            <p class="header__primary-phone">8 (800) 700-77-88</p>
+          </a>
+          <div class="navbar navbar-expand ml-auto d-none d-md-block p-0" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <i class="header__primary-nav-item-icon mr-lg-2 i-about-co"></i>
+                  <p class="header__primary-nav-item-text d-none d-lg-block">О компании</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <i class="header__primary-nav-item-icon mr-lg-2 i-ours-shops"></i>
+                  <p class="header__primary-nav-item-text d-none d-lg-block">Наши магазины</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <i class="header__primary-nav-item-icon mr-lg-2 i-optov"></i>
+                  <p class="header__primary-nav-item-text d-none d-lg-block">Юридическим лицам</p>
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="header__primary-nav-item-icon mr-lg-2 i-geolocation"></i>
+                  <p class="header__primary-nav-item-text d-none d-md-block">Город</p>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Выберите свой город</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Город 1</a>
+                  <a class="dropdown-item" href="#">Город 2</a>
                 </div>
-              </a>
-            </li>
-            <li class="list-group-item flex-fill border-0 d-none d-lg-block">
-              <a class="nav-link p-0" href="#">
-                <div class="header__secondary-auth_block">
-                  <i class="header__secondary-auth_block-icon i-faq"></i>
-                  <div class="header__secondary-auth_block-text align-self-center">
-                    Вопросы и ответы
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <div class="header__secondary col-12 col-md-11">
+        <div class="row">
+          <div class="logo_block mr-md-5 ml-md-5">
+          </div>
+          <div class="auth_block align-self-center">
+            <ul class="list-group list-group-horizontal">
+              <li class="list-group-item flex-fill border-0 pl-1 pr-1 pl-md-2 pr-md-2">
+                <a class="nav-link p-0" href="#">
+                  <div class="header__secondary-auth_block">
+                    <i class="header__secondary-auth_block-icon i-log-in"></i>
+                    <div class="header__secondary-auth_block-text align-self-center d-none d-md-block">
+                      <p>Войти / регистрация</p>
+                    </div>
                   </div>
-                </div>
-              </a>
-            </li>
-            <li class="list-group-item flex-fill border-0 pl-1 pr-1 pl-md-2 pr-md-2">
-              <a class="nav-link p-0" href="#">
-                <div class="header__secondary-auth_block">
-                  <i class="header__secondary-auth_block-icon i-basket"></i>
-                  <div class="header__secondary-auth_block-text align-self-center d-none d-md-block">
-                    Корзина
+                </a>
+              </li>
+              <li class="list-group-item flex-fill border-0 d-none d-lg-block">
+                <a class="nav-link p-0" href="#">
+                  <div class="header__secondary-auth_block">
+                    <i class="header__secondary-auth_block-icon i-faq"></i>
+                    <div class="header__secondary-auth_block-text align-self-center">
+                      <p>Вопросы и ответы</p>
+                    </div>
                   </div>
-                </div>
-              </a>
-            </li>
-          </ul>
+                </a>
+              </li>
+              <li class="list-group-item flex-fill border-0 pl-1 pr-1 pl-md-2 pr-md-2">
+                <a class="nav-link p-0" href="#">
+                  <div class="header__secondary-auth_block">
+                    <i class="header__secondary-auth_block-icon i-basket"></i>
+                    <div class="header__secondary-auth_block-text align-self-center d-none d-md-block">
+                      <p>Корзина</p>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
+    </header>
+    <!-- header end -->
+    <!-- navigation -->
+    <section class="top_nav col-12 col-md-11">
+      <nav class="top_nav-toolbar navbar navbar-expand-lg navbar-light bg-light row">
+        <ul class="navbar-nav align-items-center col-12 p-0">
+          <li class="nav-item p-0 d-none d-lg-block col-lg-2">
+            {% block list %}
+            <p class="top-nav-toolbar__catalog-text text-center">КАТАЛОГ ТОВАРОВ</p>
+            {% endblock %}
+          </li>
+          <li class="nav-item p-0 col-12 col-lg-6 col-xl-5">
+            <form class="top_nav__search-form form-inline" action="/search" method="post">
+              <div class="top_nav__search-form_block">
+                <i class="top_nav__search-form_icon i-search-loupe"></i>
+                {% csrf_token %}
+                {{ search_form.search_key|as_crispy_field }}
+                <button type="submit" class="top_nav__search-form_button p-0">Найти</button>
+              </div>
+            </form>
+          </li>
+          <li class="nav-item p-0 col-4 col-xl-5">
+            <div class="top_nav__after-search col-12 p-0 d-inline-flex justify-content-around">
+              <div class="d-inline-flex align-items-center position-relative">
+                <a class="stretched-link" href="/sale"></a>
+                <i class="top_nav__after-search-icon i-sale"></i>
+                <p class="top_nav__after-search-text text-center d-none d-xl-block">Распродажа</p>
+              </div>
+              <div class="d-inline-flex align-items-center position-relative">
+                <a class="stretched-link" href="/summer"></a>
+                <i class="top_nav__after-search-icon i-summer"></i>
+                <p class="top_nav__after-search-text text-center d-none d-xl-block">Лето</p>
+              </div>
+              <div class="d-inline-flex align-items-center position-relative">
+                <a class="stretched-link" href="/health"></a>
+                <i class="top_nav__after-search-icon i-health"></i>
+                <p class="top_nav__after-search-text text-center d-none d-xl-block">Будь здоров</p>
+              </div>
+              <div class="d-inline-flex align-items-center position-relative">
+                <a class="stretched-link" href="/delivery"></a>
+                <i class="top_nav__after-search-icon i-delivery"></i>
+                <p class="top_nav__after-search-text text-center d-none d-xl-block">Доставка продуктов</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </section>
+    <!-- navigation end -->
+  </div>
+  <!-- main -->
+  <main>
+
+  </main>
+  <!-- main end -->
+  <!-- text info -->
+  <div class="info-block col-12 col-md-11 mx-auto">
+    <div class="col-12 col-lg-10 col-xl-8 m-auto">
+      <h1 class="text-center my-3">Интернет-магазин AllHere</h1>
+      <p>Интернет-магазин AllHere - ваш любимый магазин в формате онлайн!</p>
+      <p>Заказывайте на allhere.ru, и мы доставим заказ прямо к вам домой или в ближайший магазин</p>
+      <p>AllHere - не только в Москве, но и в других городах России.</p>
+      <p>В нашем интернет-магазине вы найдёте широкий ассортимент товаров по заманчивой цене.</p>
+      <p>Чтобы купить понравившиеся товары через интернет, добавьте их в корзину и выберите удобный способ доставки.</p>
+      <p class="text-center">
+        <a data-toggle="collapse" href="#collapse_text_info" id="text_info_full" role="button" aria-expanded="false"
+           aria-controls="collapse_text_info">
+          <i class="mx-3">Читать полностью</i></a>
+      </p>
+      <div class="collapse" id="collapse_text_info">
+        <ul class="my-2"><b>Для самых маленьких у нас есть:</b>
+          <li>Смеси для беременных, на козьем молоке, специальные смеси</li>
+          <li>Каши молочные, безмолочные, готовые</li>
+          <li>Детские коляски, автокресла</li>
+          <li>Товары для ухода влажные салфетки, ватная продукция, товары для купания, мыло детское, средства для тела и
+            всё, что может пригодиться малышам и их мамам.
+          </li>
+        </ul>
+        <ul class="my-2"><b>На allhere.ru вы также сможете заказать игрушки для детей всех возрастов.</b>
+          <li>Игрушки для девочек Энчантималс, Lol, Barbie, Монстер хай, Винкс, Disney, Интерактивные куклы</li>
+          <li>Игрушки для мальчиков Nerf, Hot Wheels, Наsbro, Dickie, Silverlit, роботы</li>
+          <li>Пазлы Castorland, Step Puzzle, Educa, Trefl, Clementoni, Умная бумага, Ravensburger, Cobble Hill</li>
+          <li>Настольные игры классические, детективные, ролевые, карточные, логические, викторины, головоломки, ходилки
+          </li>
+          <li>Конструкторы Lego, Playmobil, Mega Blocks, Bauer, Город мастеров, Шуша, Kribly Boo, Bunchems, Fanсlastik,
+            Morphun
+          </li>
+        </ul>
+        <p class="my-2">Ищете что-то для всей семьи? Вас ждёт множество товаров для дома: ёлочные украшения, свечи и
+          подсвечники, рамки для фотографий, настольные подсвечники, одеяла, пледы, корзины, органайзеры для хранения,
+          стаканы, наборы для напитков, настольные лампы декоративные, офисные лампы, ножи.
+          Огромный выбор мебели: модульные кухни, диваны прямые, кресла для отдыха, офисные кресла, столы обеденные,
+          письменные, компьютерные, доступен для заказа 24/7.</p>
+        <ul class="my-2"><b>В нашем интернет-магазине представлена самая разнообразная бытовая техника:</b>
+          <li>Крупная бытовая техника: холодильники, микроволновые печи, стиральные машины.</li>
+          <li>Техника для дома: пылесосы, мультиварки, грили, кофемашины, чайники, блендеры, миксеры, обогреватели,
+            кухонные весы, утюги.
+          </li>
+          <li>Техника для красоты и здоровья: электрические зубные щётки, напольные весы, фены, машинка для стрижки
+            волос.
+          </li>
+          <li>Электроника: Экшн-камеры, мобильные телефоны, внешние аккумуляторы, сумки и рюкзаки для ноутбуков</li>
+          И многое другое!
+        </ul>
+      </div>
     </div>
-  </header>
-  <!-- header end -->
-  <!-- navigation -->
-  <section class="top_nav col-12 col-md-11">
-    <nav class="top_nav-toolbar navbar navbar-expand-lg navbar-light bg-light row">
-      <ul class="navbar-nav align-items-center col-12 p-0">
-        <li class="nav-item p-0 d-none d-lg-block col-lg-2">
-          {% block list %}
-          <p class="top-nav-toolbar__catalog-text text-center">КАТАЛОГ ТОВАРОВ</p>
-          {% endblock %}
-        </li>
-        <li class="nav-item p-0 col-12 col-lg-6 col-xl-5">
-          <form class="top_nav__search-form form-inline" action="/docs/typo_feedback" method="post">
-            <div class="top_nav__search-form_block">
-              <i class="top_nav__search-form_icon i-search-loupe"></i>
-              {% csrf_token %}
-              {{ search_form.search_key|as_crispy_field }}
-              <button type="submit" class="top_nav__search-form_button p-0">Найти</button>
-            </div>
-          </form>
-        </li>
-        <li class="nav-item p-0 col-4 col-xl-5">
-          <div class="top_nav__after-search col-12 p-0 d-inline-flex justify-content-around">
-            <div class="d-inline-flex align-items-center position-relative">
-              <a class="stretched-link" href="/sale"></a>
-              <i class="top_nav__after-search-icon i-sale"></i>
-              <p class="top_nav__after-search-text text-center d-none d-xl-block">Распродажа</p>
-            </div>
-            <div class="d-inline-flex align-items-center position-relative">
-              <a class="stretched-link" href="/summer"></a>
-              <i class="top_nav__after-search-icon i-summer"></i>
-              <p class="top_nav__after-search-text text-center d-none d-xl-block">Лето</p>
-            </div>
-            <div class="d-inline-flex align-items-center position-relative">
-              <a class="stretched-link" href="/health"></a>
-              <i class="top_nav__after-search-icon i-health"></i>
-              <p class="top_nav__after-search-text text-center d-none d-xl-block">Будь здоров</p>
-            </div>
-            <div class="d-inline-flex align-items-center position-relative">
-              <a class="stretched-link" href="/delivery"></a>
-              <i class="top_nav__after-search-icon i-delivery"></i>
-              <p class="top_nav__after-search-text text-center d-none d-xl-block">Доставка продуктов</p>
-            </div>
+  </div>
+  <!-- text info end -->
+  <!-- links&subscription -->
+  <div class="links&subscription-block d-inline-flex flex-wrap justify-content-center justify-content-lg-between align-items-center col-11 my-3 mx-auto">
+    <div class="links-block d-flex justify-content-center mb-2">
+      <div class="links-item links-item_fb">
+        <a class="stretched-link" href="https://www.facebook.com/"></a>
+      </div>
+      <div class="links-item links-item_vk">
+        <a class="stretched-link" href="https://vk.com/"></a>
+      </div>
+      <div class="links-item links-item_in">
+        <a class="stretched-link" href="https://www.instagram.com/"></a>
+      </div>
+      <div class="links-item links-item_tw">
+        <a class="stretched-link" href="https://twitter.com/"></a>
+      </div>
+      <div class="links-item-long links-item_gp">
+        <a class="stretched-link" href="https://play.google.com/store"></a>
+      </div>
+      <div class="links-item-long links-item_as">
+        <a class="stretched-link" href="https://www.apple.com/ru/ios/app-store/"></a>
+      </div>
+
+    </div>
+    <div class="subscription-block d-flex justify-content-center align-items-center mb-2">
+      <label class="text-center">
+        <span class="d-none d-lg-block text-center mr-2">Не упусти выгодное предложение!</span>
+        <span class="text-center mr-2">Подпишись на акции!</span>
+      </label>
+      <form class="subscription-block__form form-inline" action="/subscription" method="post">
+        <div class="subscription-block__form-block d-flex">
+          {% csrf_token %}
+          {{ user_mail_form.user_mail|as_crispy_field }}
+          <button type="submit" class="subscription-button">ПОДПИСАТЬСЯ</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- links&subscription end -->
+  <!-- footer -->
+  <footer class="footer-block mt-auto bg-light">
+    <ul class="navbar-nav flex-column flex-lg-row justify-content-around col-10 p-0 mx-auto">
+      <li class="nav-item flex-fill">
+        <nav class="navbar navbar-expand-lg flex-row flex-lg-column navbar-light bg-light">
+          <a class="navbar-brand" href="#">Личный кабинет</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarPersonalArea"
+                  aria-controls="navbarPersonalArea" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarPersonalArea">
+            <ul class="navbar-nav flex-column mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="#">Узнать статус заказа</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Мои данные</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Мои адреса</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">История заказов</a>
+              </li>
+            </ul>
           </div>
-        </li>
-      </ul>
-    </nav>
-  </section>
-  <!-- navigation end -->
-</div>
+        </nav>
+      </li>
+      <li class="nav-item flex-fill">
+        <nav class="navbar navbar-expand-lg flex-row flex-lg-column navbar-light bg-light">
+          <a class="navbar-brand" href="#">Онлайн магазин</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarOnlineShop"
+                  aria-controls="navbarOnlineShop" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarOnlineShop">
+            <ul class="navbar-nav flex-column mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="#">Доставка</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Оплата</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Возврат</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Вопросы и ответы</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Обратная связь</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Мобильное приложение</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Услуга Сборки мебели</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Статьи</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </li>
+      <li class="nav-item flex-fill">
+        <nav class="navbar navbar-expand-lg flex-row flex-lg-column navbar-light bg-light">
+          <a class="navbar-brand" href="#">AllHere для Вас</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAllHereForU"
+                  aria-controls="navbarAllHereForU" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarAllHereForU">
+            <ul class="navbar-nav flex-column mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="#">О компании</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Новости</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Доставка продуктов</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Социальная скидка</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Подарочные карты</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Кредитная карта</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Новые проекты AllHere</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Пресс-центр</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Политика по обработке персональных данных</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Политика конфиденциальности</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Соглашения использования AllHere Pay</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </li>
+      <li class="nav-item flex-fill">
+        <nav class="navbar navbar-expand-lg flex-row flex-lg-column navbar-light bg-light">
+          <a class="navbar-brand" href="#">Партнерам</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarForPartners"
+                  aria-controls="navbarForPartners" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarForPartners">
+            <ul class="navbar-nav flex-column mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="#">Работа в AllHere</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Поставщикам</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Аренда</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Оптовикам</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Стоп коррупция</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </li>
+    </ul>
+    <div class="footer-phone d-lg-none bg-white text-center">
+      <a class="navbar-brand" href="#">
+        <p class="footer__footer-phone m-4">8 (800) 700-77-88</p>
+      </a>
+    </div>
+    <div class="footer-license">
+      <p class="text-center col-10 mx-auto">© 2001-2020 ООО "AllHere". Все права защищены. "AllHere" является
+        зарегистрированным товарным знаком Lalka Holding SA</p>
+    </div>
+  </footer>
+  <!-- footer end -->
 </body>
 </html>
