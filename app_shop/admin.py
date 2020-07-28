@@ -1,3 +1,13 @@
 from django.contrib import admin
+from .models import SubPagesArticle, SubPagesSection
 
-# Register your models here.
+
+@admin.register(SubPagesArticle)
+class SubPagesArticleAdmin(admin.ModelAdmin):
+    list_display = ('title', 'section')
+    list_filter = ('title', 'section')
+
+
+@admin.register(SubPagesSection)
+class SubPagesSectionAdmin(admin.ModelAdmin):
+    list_display = ('title',)

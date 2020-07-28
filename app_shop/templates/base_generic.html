@@ -9,18 +9,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+  <script src="//code.jquery.com/jquery-3.5.1.slim.min.js"
           integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
           crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+  <script src="//cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
           integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
           crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+  <script src="//stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
           integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
           crossorigin="anonymous"></script>
+
   {% load crispy_forms_tags %}
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="SHORTCUT ICON" href="{% static 'favicon.ico' %}" type="image/x-icon">
 </head>
 
 <body>
@@ -29,13 +31,13 @@
     <header class="header">
       <div class="header__primary d-none d-md-block bg-light">
         <nav class="header__primary-nav navbar navbar-expand-lg navbar-light col-11">
-          <a class="navbar-brand" href="#">
-            <p class="header__primary-phone">8 (800) 700-77-88</p>
+          <a class="navbar-brand header__primary-phone" href="tel:+78001237788">
+            8 (800) 123-77-88
           </a>
           <div class="navbar navbar-expand ml-auto d-none d-md-block p-0" id="navbarSupportedContent">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{% url 'app_shop:subpage_index' %}">
                   <i class="header__primary-nav-item-icon mr-lg-2 i-about-co"></i>
                   <p class="header__primary-nav-item-text d-none d-lg-block">О компании</p>
                 </a>
@@ -221,22 +223,22 @@
   <div class="links&subscription-block d-inline-flex flex-wrap justify-content-center justify-content-lg-between align-items-center col-11 my-3 mx-auto">
     <div class="links-block d-flex justify-content-center mb-2">
       <div class="links-item links-item_fb">
-        <a class="stretched-link" href="https://www.facebook.com/"></a>
+        <a class="stretched-link" href="//www.facebook.com/"></a>
       </div>
       <div class="links-item links-item_vk">
-        <a class="stretched-link" href="https://vk.com/"></a>
+        <a class="stretched-link" href="//vk.com/"></a>
       </div>
       <div class="links-item links-item_in">
-        <a class="stretched-link" href="https://www.instagram.com/"></a>
+        <a class="stretched-link" href="//www.instagram.com/"></a>
       </div>
       <div class="links-item links-item_tw">
-        <a class="stretched-link" href="https://twitter.com/"></a>
+        <a class="stretched-link" href="//twitter.com/"></a>
       </div>
       <div class="links-item-long links-item_gp">
-        <a class="stretched-link" href="https://play.google.com/store"></a>
+        <a class="stretched-link" href="//play.google.com/store"></a>
       </div>
       <div class="links-item-long links-item_as">
-        <a class="stretched-link" href="https://www.apple.com/ru/ios/app-store/"></a>
+        <a class="stretched-link" href="//www.apple.com/ru/ios/app-store/"></a>
       </div>
 
     </div>
@@ -396,8 +398,8 @@
       </li>
     </ul>
     <div class="footer-phone d-lg-none bg-white text-center">
-      <a class="navbar-brand" href="#">
-        <p class="footer__footer-phone m-4">8 (800) 700-77-88</p>
+      <a class="navbar-brand footer__footer-phone m-4" href="tel:+78001237788">
+        8 (800) 700-77-88
       </a>
     </div>
     <div class="footer-license">

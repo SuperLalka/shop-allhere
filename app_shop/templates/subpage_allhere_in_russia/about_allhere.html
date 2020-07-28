@@ -1,0 +1,54 @@
+{% extends "subpage_allhere_in_russia/allhere_in_russia.html" %}
+
+
+{% block title %}
+    <title>AllHere в России | {{ object.title }}</title>
+{% endblock %}
+
+{% block sub-navigation %}
+<ul class="navbar-nav flex-row align-items-center w-50">
+  <li class="nav-item flex-fill">
+    <div class="dropdown text-center">
+      <a class="dropdown-toggle p-0" type="button" id="dropdownMenuAboutCompany" data-toggle="dropdown"
+         aria-haspopup="true" aria-expanded="false">
+        О компании
+      </a>
+      <div class="dropdown-menu position-absolute" aria-labelledby="dropdownMenuAboutCompany">
+        <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'allhere_in_russia' %}">AllHere в России</a>
+      </div>
+    </div>
+  </li>
+  <li class="nav-item flex-fill">
+    <div class="dropdown text-center">
+      <a class="dropdown-toggle p-0" type="button" id="dropdownMenuQuality" data-toggle="dropdown" aria-haspopup="true"
+         aria-expanded="false">
+        Качество AllHere
+      </a>
+      <div class="dropdown-menu position-absolute" aria-labelledby="dropdownMenuQuality">
+        <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'quality_department' %}">Отдел качества</a>
+        <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'sanitary_safety' %}">Санитарная безопасность</a>
+      </div>
+    </div>
+  </li>
+  <li class="nav-item flex-fill">
+    <div class="dropdown text-center">
+      <a class="btn dropdown-toggle p-0" type="button" id="dropdownMenuProjects" data-toggle="dropdown"
+         aria-haspopup="true" aria-expanded="false">
+        Проекты AllHere
+      </a>
+      <div class="dropdown-menu position-absolute" aria-labelledby="dropdownMenuProjects">
+        <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'allhere_garden' %}">AllHere Сад</a>
+        <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'allhere_city' %}">AllHere Сити</a>
+        <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'charitable_foundation' %}">Благотворительный фонд "Поколение AllHere"</a>
+        <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'сollateral_trolley_system' %}">Залоговая система для тележек</a>
+      </div>
+    </div>
+  </li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<div class="content-block__text-block">
+{{ object.body|safe }}
+</div>
+{% endblock %}

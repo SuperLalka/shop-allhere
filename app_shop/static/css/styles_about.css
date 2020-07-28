@@ -1,0 +1,206 @@
+@import url(//fonts.googleapis.com/css2?family=Oranienbaum&display=swap);
+@import url(//fonts.googleapis.com/css2?family=Vollkorn:wght@800&display=swap);
+
+@font-face {
+    font-family: Oranienbaum;
+    src: url("../fonts/Oranienbaum-Regular.ttf");
+}
+
+@font-face {
+    font-family: Vollkorn;
+    src: url("../fonts/Vollkorn-Regular.ttf");
+}
+
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, img, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, figcaption, footer, header, nav, section, mark {
+    border: 0;
+    color: black;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+    font-family: 'Oranienbaum', serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover {
+    color: red;
+    text-decoration: none;
+}
+
+.dropdown:hover .dropdown-menu {
+    display:block
+}
+
+.container-block {
+    background: #2f4c58;
+    border: 1px solid #111b1e;
+    border-radius: 25px 25px 25px 25px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header-block__primary-header {
+    height: 40px;
+    margin: auto;
+    padding: 0;
+}
+
+.header-block__primary-header .nav-item:hover {
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+}
+
+.header-block__primary-header .nav-link {
+    color: white!important;
+    display: inline-flex;
+    font-family: Vollkorn, serif;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    transition: all .2s linear;
+}
+
+.header-block__primary-header .nav-link:hover {
+    transform: scale(1.1, 1.1);
+    transition: all .2s linear;
+}
+
+.header-block__secondary-header {
+    background: white;
+    border: inset;
+    height: 150px;
+}
+
+.logo-block {
+    background: url(../imgs/logo.png) 50% no-repeat,
+                url(../imgs/logo-add-decor_before.svg) 40% no-repeat,
+                url(../imgs/logo-add-decor_after.svg) 60% no-repeat;
+    background-size: contain;
+    content: "";
+    height: 100px;
+    position: relative;
+    transition: 1s;
+    width: 500px;
+}
+
+.logo-block:hover {
+    background: url(../imgs/logo.png) 50% no-repeat,
+    url(../imgs/logo-add-decor_before.svg) 20% no-repeat,
+    url(../imgs/logo-add-decor_after.svg) 80% no-repeat;
+    background-size: contain;
+    content: "";
+}
+
+@media (max-width: 767px) {
+    .logo-block {
+        align-self: center;
+        background-image: url(../imgs/logo-inline.png);
+        height: 80px;
+        margin: auto;
+        width: 200px;
+    }
+
+    .logo-block:hover {
+        background-image: url(../imgs/logo-inline.png);
+        background-size: contain;
+        content: "";
+        height: 120px;
+    }
+}
+
+.logo-block_text {
+    transition-delay: .4s;
+}
+
+.logo-block:hover .logo-block_text{
+    visibility: visible!important;
+}
+
+.navigation-block__item-first:active,
+.navigation-block__item-first:hover {
+    background: #00d750;
+}
+
+.navigation-block__item:active,
+.navigation-block__item:hover {
+    background: #ffcc00;
+}
+
+.navigation-block__item-last:active,
+.navigation-block__item-last:hover {
+    background: #f60c00;
+}
+
+.sub-navigation-block {
+    margin-top: 2px;
+    padding: 0;
+}
+
+.sub-navigation-block a {
+    text-align: center;
+    white-space: normal;
+}
+
+.sub-navigation-block .nav-item {
+    border-right: 1px solid #111b1e;
+}
+
+.sub-navigation-block .dropdown-menu {
+    border: 1px solid #111b1e;
+    box-shadow: 0 5px 20px #111b1e;
+}
+
+.content-block {
+    background: white;
+    min-height: 60vh;
+}
+
+.content-block__name-page {
+    background: #2f4c58;
+    display: flex;
+    justify-content: center;
+    min-height: 40px;
+    width: 100%;
+}
+
+.content-block__name-text {
+    color: white;
+    font-family: Vollkorn, serif;
+    font-size: 30px;
+    text-align: right;
+}
+
+.content-block__text-block {
+    margin: 20px;
+    text-indent: 20px;
+}
+
+.footer-block {
+    height: 40px;
+    margin-top: auto;
+}
+
+.footer-block__nav {
+    background: #ffc107;
+    border-radius: 0 0 15px 15px;
+}
+
+.footer-block__nav .nav-item:hover {
+    background: #2f4c58;
+    border-radius: 10px;
+}
+
+.footer-block__nav a:hover {
+    color: #ffc107!important;
+}
+
+.footer-block__nav .nav-link {
+    font-family: Vollkorn, serif;
+    font-size: 16px;
+    font-weight: 600;
+}
+

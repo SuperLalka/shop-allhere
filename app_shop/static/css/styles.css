@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Oranienbaum&display=swap');
+@import url(//fonts.googleapis.com/css2?family=Oranienbaum&display=swap);
 @font-face {
     font-family: Oranienbaum;
-    src: url("../fonts/Oranienbaum-Regular.ttf");
+    src: url(../fonts/Oranienbaum-Regular.ttf);
 }
 
 html, body, div, span, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, img, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, figcaption, footer, header, nav, section, mark {
@@ -24,7 +24,9 @@ a {
     text-decoration: none;
 }
 
-a:hover, a:hover > p, a[class="stretched-link"]:hover ~ * {
+a:hover,
+a:hover > p,
+a[class="stretched-link"]:hover ~ * {
     color: green!important;
     text-decoration: none;
 }
@@ -37,7 +39,7 @@ a:hover, a:hover > p, a[class="stretched-link"]:hover ~ * {
 .footer__footer-phone,
 .header__primary-phone {
     font-size: 35px;
-    line-height: 0.8;
+    line-height: .8;
 }
 
 .footer__footer-phone:hover,
@@ -50,21 +52,23 @@ a:hover, a:hover > p, a[class="stretched-link"]:hover ~ * {
 }
 
 @keyframes animation_phone {
+
     0% {
         transform: scale(1);
     }
     30% {
-        transform: scaleX(1.05) scaleY(0.9);
+        transform: scaleX(1.05) scaleY(.9);
     }
     40% {
-        transform: scaleX(0.9) scaleY(1.05);
+        transform: scaleX(.9) scaleY(1.05);
     }
     60% {
-        transform: scaleX(1.05) scaleY(0.9);
+        transform: scaleX(1.05) scaleY(.9);
     }
     100% {
         transform: scale(1);
     }
+
 }
 
 .header__primary .nav-item::before {
@@ -78,16 +82,16 @@ a:hover, a:hover > p, a[class="stretched-link"]:hover ~ * {
 .header__primary .nav-link {
     display: inline-flex;
     font-weight: 500;
-    margin-left: 0.5vw;
-    margin-right: 0.5vw;
+    margin-left: .5vw;
+    margin-right: .5vw;
     text-align: center;
-    transition: all 0.2s linear;
+    transition: all .2s linear;
 }
 
 .header__primary .nav-link:hover {
     color: green !important;
     transform: scale(1.1, 1.1);
-    transition: all 0.2s linear;
+    transition: all .2s linear;
 }
 
 .header__primary-nav-item-icon {
@@ -100,19 +104,19 @@ a:hover, a:hover > p, a[class="stretched-link"]:hover ~ * {
 }
 
 .i-about-co {
-    background-image: url("../about_company.svg");
+    background-image: url(../imgs/about_company.svg);
 }
 
 .i-ours-shops {
-    background-image: url("../ours_shops.svg");
+    background-image: url(../imgs/ours_shops.svg);
 }
 
 .i-optov {
-    background-image: url("../optoviks.png");
+    background-image: url(../imgs/optoviks.png);
 }
 
 .i-geolocation {
-    background-image: url("../geolocation.svg");
+    background-image: url(../imgs/geolocation.svg);
 }
 
 .header__primary-nav-item-text {
@@ -126,9 +130,9 @@ a:hover, a:hover > p, a[class="stretched-link"]:hover ~ * {
 }
 
 .logo_block {
-    background: url("../logo.png") 50% no-repeat,
-                url("../logo-add-decor_before.svg") 20% no-repeat,
-                url("../logo-add-decor_after.svg") 80% no-repeat;
+    background: url(../imgs/logo.png) 50% no-repeat,
+                url(../imgs/logo-add-decor_before.svg) 20% no-repeat,
+                url(../imgs/logo-add-decor_after.svg) 80% no-repeat;
     background-size: contain;
     content: "";
     height: 150px;
@@ -136,13 +140,15 @@ a:hover, a:hover > p, a[class="stretched-link"]:hover ~ * {
 }
 
 @media (max-width: 767px) {
+
     .logo_block {
         align-self: center;
-        background-image: url("../logo-inline.png");
+        background-image: url(../imgs/logo-inline.png);
         height: 80px;
         margin: auto;
         width: 200px;
     }
+
 }
 
 .auth_block {
@@ -151,9 +157,11 @@ a:hover, a:hover > p, a[class="stretched-link"]:hover ~ * {
 }
 
 @media (max-width: 767px) {
+
     .auth_block {
-        margin-left: 0
+        margin-left: 0;
     }
+
 }
 
 .auth_block li {
@@ -184,19 +192,19 @@ a:hover, a:hover > p, a[class="stretched-link"]:hover ~ * {
 }
 
 .header__secondary-auth_block-icon:active {
-    transform: scale(0.7, 0.7);
+    transform: scale(.7, .7);
 }
 
 .i-log-in {
-    background-image: url("../log_in.svg");
+    background-image: url(../imgs/log_in.svg);
 }
 
 .i-faq {
-    background-image: url("../faq.svg");
+    background-image: url(../imgs/faq.svg);
 }
 
 .i-basket {
-    background-image: url("../basket.svg");
+    background-image: url(../imgs/basket.svg);
 }
 
 .header__secondary-auth_block-text {
@@ -236,7 +244,7 @@ a:hover, a:hover > p, a[class="stretched-link"]:hover ~ * {
 }
 
 .i-search-loupe {
-    background-image: url("../search-loupe.png");
+    background-image: url(../imgs/search-loupe.png);
 }
 
 .top_nav__search-form input {
@@ -268,26 +276,27 @@ a:hover, a:hover > p, a[class="stretched-link"]:hover ~ * {
 }
 
 .i-sale {
-    background-image: url("../sale.svg");
+    background-image: url(../imgs/sale.svg);
 }
 
 .i-summer {
-    background-image: url("../summer.svg");
+    background-image: url(../imgs/summer.svg);
 }
 
 .i-health {
-    background-image: url("../health.svg");
+    background-image: url(../imgs/health.svg);
 }
 
 .i-delivery {
-    background-image: url("../delivery.svg");
+    background-image: url(../imgs/delivery.svg);
 }
 
 .top_nav__after-search-text {
     line-height: 1;
 }
 
-a#text_info_full::after, a#text_info_full::before {
+a#text_info_full::after,
+a#text_info_full::before {
     background-color: #fc0;
     content: "";
     display: inline-block;
@@ -298,7 +307,7 @@ a#text_info_full::after, a#text_info_full::before {
 }
 
 .links-item {
-    background-image: url("../icons_pack.png");
+    background-image: url(../imgs/icons_pack.png);
     height: 36px;
     margin-right: 5px;
     position: relative;
@@ -330,11 +339,11 @@ a#text_info_full::after, a#text_info_full::before {
 }
 
 .links-item_gp {
-    background-image: url("../google-play.png");
+    background-image: url(../imgs/google-play.png);
 }
 
 .links-item_as {
-    background-image: url("../app-store.png");
+    background-image: url(../imgs/app-store.png);
 }
 
 .subscription-block span {
