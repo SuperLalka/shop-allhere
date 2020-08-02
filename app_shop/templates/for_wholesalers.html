@@ -1,0 +1,98 @@
+{% extends "base_generic.html" %}
+
+{% load crispy_forms_tags %}
+
+
+{% block title %}<title>AllHere интернет-магазин - Информация оптовикам</title>{% endblock %}
+
+{% block css-file %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles_for_wholesalers.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="for_wholesalers-block container">
+  <div class="for_wholesalers-block__section">
+    <div class="for_wholesalers-block__header">
+      <p>AllHere</p>
+      <p>для бизнеса</p>
+    </div>
+    <h2>УСЛОВИЯ ОФОРМЛЕНИЯ ЗАКАЗА</h2>
+    <ul class="section-container">
+      <li class="section-item">
+        <img src="{% static 'imgs/docs.svg' %}" alt="docs">
+        <p><b>Для оформлением заказа необходимо заполнить <a href="#request">заявку</a> ниже.</b></p>
+        <p>Вашу заявку обработает менеджер по работе с корпоративными клиентами и свяжется для уточнение деталей.</p>
+      </li>
+      <li class="section-item">
+        <img src="{% static 'imgs/piggy-bank.svg' %}" alt="piggy_bank">
+        <h3>от 50 000 рублей -</h3>
+        <p>минимальная сумма одного заказа</p>
+      </li>
+      <li class="section-item">
+        <img src="{% static 'imgs/docs2_circle.svg' %}" alt="docs2">
+        <p>Если вы оформляете заказ через интернет-магазин, а не через менеджера, в комментариях к заказу укажите "Для
+          юридических лиц".</p>
+      </li>
+      <li class="section-item">
+        <img src="{% static 'imgs/truck.svg' %}" alt="truck">
+        <h4>Вы можете получить товар двумя способами:</h4>
+        <p>самовывоз со склада Auchan.ru в Москве</p>
+        <p>доставка в магазин АШАН вашего города</p>
+      </li>
+    </ul>
+  </div>
+  <div class="for_wholesalers-block__section">
+    <h2><a name="request">ЗАЯВКА НА ОФОРМЛЕНИЕ ЗАКАЗА</a></h2>
+    <form class="for_wholesalers-form-block">
+      <div class="for_wholesalers-form col-8">
+        {% csrf_token %}
+        {{ application_for_ordering_form|crispy }}
+        <button type="submit" class="btn btn-success m-0 contact-button">Отправить заявку</button>
+      </div>
+    </form>
+  </div>
+  <div class="for_wholesalers-block__section">
+    <h2>СВЯЗАТЬСЯ С НАМИ</h2>
+    <ul class="section-container">
+      <li class="section-item">
+        <img src="{% static 'imgs/mail.svg' %}" alt="mail">
+        <h4><b>по электронной почте</b></h4>
+        <a class="btn btn-primary contact-button" href="mailto:b2b@allhere.ru">b2b@allhere.ru</a>
+        <p>С понедельника по пятницу с 9:00 до 18:00</p>
+      </li>
+      <li class="section-item">
+        <img src="{% static 'imgs/phone.svg' %}" alt="phone">
+        <h4><b>по телефону</b></h4>
+        <a class="btn btn-danger contact-button" href="tel:+78001237788">8 (800) 123-77-88</a>
+        <p>Круглосуточно (звонок бесплатный)</p>
+      </li>
+    </ul>
+  </div>
+  <div class="for_wholesalers-block__section">
+    <h2>ОПЛАТА И ПОЛУЧЕНИЕ ЗАКАЗА</h2>
+    <ul class="section-container">
+      <li class="section-item">
+        <img src="{% static 'imgs/docs.svg' %}" alt="docs">
+        <p>Клиентская служба Auchan.ru отправляет <b>счет на оплату</b></p>
+      </li>
+      <li class="section-item">
+        <img src="{% static 'imgs/docs.svg' %}" alt="docs">
+        <p>Вы <b>оплачиваете</b> выставленный <b>счет</b></p>
+      </li>
+      <li class="section-item">
+        <img src="{% static 'imgs/truck.svg' %}" alt="truck">
+        <p>После поступления 100% оплаты, заказ отгружается в соответствии с выбранным <b>способом доставки</b></p>
+      </li>
+      <li class="section-item">
+        <img src="{% static 'imgs/docs.svg' %}" alt="docs">
+        <p>Выдача заказа осуществляется по <b>доверенности</b> на право получения товара от организации плательщика,
+          либо с <b>печатью</b> организации</p>
+      </li>
+    </ul>
+  </div>
+</div>
+{% endblock %}
+
+{% block text-info %}
+{% endblock %}

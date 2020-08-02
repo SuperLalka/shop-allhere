@@ -1,0 +1,20 @@
+{% extends "subpage_allhere_in_russia/allhere_shops.html" %}
+
+
+{% block name-page %}
+{{ object.name }} ({{ object.city }})
+{% endblock %}
+
+{% block content %}
+<div class="shop-detail-block container">
+  <div class="col-6">
+    <div class="shop-detail-block__info-block">Адрес (нажмите на ссылку ниже для открытия карты)</div>
+    <span class="ymaps-geolink">
+      {{ object.address }}
+    </span>
+  </div>
+  <div class="col-6 align-self-center">
+    {{ object.description|safe }}
+  </div>
+</div>
+{% endblock %}

@@ -3,21 +3,21 @@
 
 @font-face {
     font-family: Oranienbaum;
-    src: url("../fonts/Oranienbaum-Regular.ttf");
+    src: url(../fonts/Oranienbaum-Regular.ttf);
 }
 
 @font-face {
     font-family: Vollkorn;
-    src: url("../fonts/Vollkorn-Regular.ttf");
+    src: url(../fonts/Vollkorn-Regular.ttf);
 }
 
 html, body, div, span, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, img, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, figcaption, footer, header, nav, section, mark {
     border: 0;
     color: black;
+    font-family: 'Oranienbaum', serif;
     margin: 0;
     padding: 0;
     vertical-align: baseline;
-    font-family: 'Oranienbaum', serif;
 }
 
 a {
@@ -154,29 +154,65 @@ a:hover {
     box-shadow: 0 5px 20px #111b1e;
 }
 
-.content-block {
-    background: white;
-    min-height: 60vh;
-}
-
-.content-block__name-page {
+.sub-navigation-block__name-page {
+    align-items: center;
     background: #2f4c58;
     display: flex;
-    justify-content: center;
-    min-height: 40px;
+    height: 50px;
     width: 100%;
 }
 
-.content-block__name-text {
+.sub-navigation-block__name-text {
     color: white;
     font-family: Vollkorn, serif;
     font-size: 30px;
     text-align: right;
+    width: 100%;
+}
+
+.content-block {
+    background: white;
+    min-height: calc(100vh - 335px);
 }
 
 .content-block__text-block {
-    margin: 20px;
+    padding: 20px;
     text-indent: 20px;
+}
+
+.content-block__city-list {
+    background: aliceblue;
+    display: inline-block;
+    margin-top: 20px;
+    vertical-align: top;
+}
+
+.shop-detail-block {
+    display: flex;
+    min-height: inherit;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.shop-detail-block__info-block {
+    background: #85ca43;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.map-block {
+    border: 2px solid #000000;
+    display: inline-flex;
+    height: 60vh;
+    margin: 20px;
+    padding: 0;
+}
+
+.map-block__iframe {
+    width: inherit;
 }
 
 .footer-block {

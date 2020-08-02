@@ -20,8 +20,12 @@
           crossorigin="anonymous"></script>
 
   {% load crispy_forms_tags %}
+
+  {% block css-file %}
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  {% endblock %}
+
   <link rel="SHORTCUT ICON" href="{% static 'favicon.ico' %}" type="image/x-icon">
 </head>
 
@@ -43,7 +47,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'all_shops' %}">
                   <i class="header__primary-nav-item-icon mr-lg-2 i-ours-shops"></i>
                   <p class="header__primary-nav-item-text d-none d-lg-block">Наши магазины</p>
                 </a>
@@ -163,10 +167,12 @@
   </div>
   <!-- main -->
   <main>
-
+    {% block content %}
+    {% endblock %}
   </main>
   <!-- main end -->
   <!-- text info -->
+  {% block text-info %}
   <div class="info-block col-12 col-md-11 mx-auto">
     <div class="col-12 col-lg-10 col-xl-8 m-auto">
       <h1 class="text-center my-3">Интернет-магазин AllHere</h1>
@@ -218,6 +224,7 @@
       </div>
     </div>
   </div>
+  {% endblock %}
   <!-- text info end -->
   <!-- links&subscription -->
   <div class="links&subscription-block d-inline-flex flex-wrap justify-content-center justify-content-lg-between align-items-center col-11 my-3 mx-auto">
@@ -332,7 +339,7 @@
           <div class="collapse navbar-collapse" id="navbarAllHereForU">
             <ul class="navbar-nav flex-column mr-auto">
               <li class="nav-item">
-                <a class="nav-link" href="#">О компании</a>
+                <a class="nav-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'allhere_in_russia' %}">О компании</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Новости</a>
@@ -350,7 +357,7 @@
                 <a class="nav-link" href="#">Кредитная карта</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Новые проекты AllHere</a>
+                <a class="nav-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'allhere_garden' %}">Новые проекты AllHere</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Пресс-центр</a>
@@ -378,7 +385,7 @@
           <div class="collapse navbar-collapse" id="navbarForPartners">
             <ul class="navbar-nav flex-column mr-auto">
               <li class="nav-item">
-                <a class="nav-link" href="#">Работа в AllHere</a>
+                <a class="nav-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'vacancies' %}">Работа в AllHere</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Поставщикам</a>
@@ -387,7 +394,7 @@
                 <a class="nav-link" href="#">Аренда</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Оптовикам</a>
+                <a class="nav-link" href="{% url 'app_shop:for_wholesalers' %}">Оптовикам</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Стоп коррупция</a>

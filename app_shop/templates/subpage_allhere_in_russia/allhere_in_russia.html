@@ -18,6 +18,8 @@
   <script src="//stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
           integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
           crossorigin="anonymous"></script>
+  <script src="https://api-maps.yandex.ru/2.1/?apikey={{ API_KEY_YANDEX_GEOCODER }}&lang=ru_RU&load=Geolink"
+          type="text/javascript"></script>
 
   {% load crispy_forms_tags %}
   {% load static %}
@@ -71,7 +73,7 @@
           </li>
           <li class="nav-item flex-fill active">
             <div class="navigation-block__item position-relative">
-              <a class="stretched-link" href="#"></a>
+              <a class="stretched-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'all_shops' %}"></a>
               <p class="text-center">Ваш магазин</p>
             </div>
           </li>
@@ -83,13 +85,13 @@
           </li>
           <li class="nav-item flex-fill">
             <div class="navigation-block__item position-relative">
-              <a class="stretched-link" href="#"></a>
+              <a class="stretched-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'advantages' %}"></a>
               <p class="text-center">Работа в AllHere</p>
             </div>
           </li>
           <li class="nav-item flex-fill">
             <div class="navigation-block__item position-relative">
-              <a class="stretched-link" href="#"></a>
+              <a class="stretched-link" href="{% url 'app_shop:for_wholesalers' %}"></a>
               <p class="text-center">Оптовикам</p>
             </div>
           </li>
@@ -102,7 +104,8 @@
           <li class="nav-item flex-fill">
             <div class="navigation-block__item-last position-relative">
               <div class="dropdown dropup text-center">
-                <a class="dropdown-toggle p-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="dropdown-toggle p-0" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
                   Личный кабинет
                 </a>
                 <div class="dropdown-menu border-danger position-absolute" aria-labelledby="dropdownMenuButton">
@@ -122,37 +125,41 @@
         {% block sub-navigation %}
         {% endblock %}
       </nav>
+      <div class="sub-navigation-block__name-page">
+        <p class="sub-navigation-block__name-text">
+          {% block name-page %}
+          {{ object.title }}
+          {% endblock %}
+        </p>
+      </div>
     </div>
     <!-- sub-navigation end -->
     <!-- content -->
     <div class="content-block">
-      <div class="content-block__name-page">
-        <p class="content-block__name-text">{% block name-page %}{% endblock %}</p>
-      </div>
-    {% block content %}
-    {% endblock %}
+      {% block content %}
+      {% endblock %}
     </div>
     <!-- content end -->
     <!-- footer -->
     <footer class="footer-block container p-0">
       <nav class="footer-block__nav navbar py-0">
-          <ul class="navbar-nav flex-row align-items-center text-center w-50">
-            <li class="nav-item flex-fill">
-              <a class="nav-link p-0" href="#">
-                Аренда
-              </a>
-            </li>
-            <li class="nav-item flex-fill">
-              <a class="nav-link p-0" href="#">
-                Пресса
-              </a>
-            </li>
-            <li class="nav-item flex-fill">
-              <a class="nav-link p-0" href="#">
-                Политика конфиденциальности
-              </a>
-            </li>
-          </ul>
+        <ul class="navbar-nav flex-row align-items-center text-center w-50">
+          <li class="nav-item flex-fill">
+            <a class="nav-link p-0" href="#">
+              Аренда
+            </a>
+          </li>
+          <li class="nav-item flex-fill">
+            <a class="nav-link p-0" href="#">
+              Пресса
+            </a>
+          </li>
+          <li class="nav-item flex-fill">
+            <a class="nav-link p-0" href="#">
+              Политика конфиденциальности
+            </a>
+          </li>
+        </ul>
       </nav>
     </footer>
     <!-- footer end -->

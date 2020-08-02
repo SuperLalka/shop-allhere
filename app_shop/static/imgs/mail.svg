@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <g id="auchan_biznes_pochta" transform="translate(-615 -936)">
+    <g id="auchan_biznes_pochta-2" data-name="auchan_biznes_pochta" transform="translate(624 950.972)">
+      <path id="Path_135" data-name="Path 135" d="M44.169,59.44H43.1a2.316,2.316,0,0,1-2.311,2.311H4.439A2.318,2.318,0,0,1,2.129,59.44V33.189a2.318,2.318,0,0,1,2.311-2.311H40.794A2.316,2.316,0,0,1,43.1,33.189V59.44h2.129V33.189a4.438,4.438,0,0,0-4.439-4.439H4.439A4.44,4.44,0,0,0,0,33.189V59.44a4.44,4.44,0,0,0,4.439,4.439H40.794a4.438,4.438,0,0,0,4.439-4.439Z" transform="translate(0 -28.75)" fill="#474955"/>
+      <path id="Path_136" data-name="Path 136" d="M99.483,103.926,87.531,115.879a7.176,7.176,0,0,1-10.151,0l-11.93-11.933a1.064,1.064,0,1,0-1.5,1.5l11.93,11.933a9.308,9.308,0,0,0,13.165,0l11.949-11.952a1.064,1.064,0,1,0-1.5-1.506Z" transform="translate(-59.791 -99.093)" fill="#474955"/>
+      <path id="Path_137" data-name="Path 137" d="M75.584,302.741l-12,12A1.066,1.066,0,0,0,65.1,316.25l12-12a1.065,1.065,0,1,0-1.508-1.506Z" transform="translate(-59.457 -285.909)" fill="#474955"/>
+      <path id="Path_138" data-name="Path 138" d="M467.384,314.7l-12-12.006a1.065,1.065,0,1,0-1.508,1.5l12,12.006a1.064,1.064,0,0,0,1.5-1.506Z" transform="translate(-426.188 -285.862)" fill="#474955"/>
+    </g>
+    <rect id="Rectangle_84" data-name="Rectangle 84" width="64" height="64" transform="translate(615 936)" fill="none"/>
+  </g>
+</svg>

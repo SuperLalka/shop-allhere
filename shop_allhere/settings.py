@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
+API_KEY_YANDEX_GEOCODER = 'cde609d7-f22f-47ce-ad92-d40daaf1d438'
 
 # Application definition
 
