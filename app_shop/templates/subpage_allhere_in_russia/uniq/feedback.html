@@ -1,0 +1,23 @@
+{% extends "subpage_allhere_in_russia/allhere_in_russia.html" %}
+
+
+{% block title %}
+<title>AllHere в России | {{ object.title}}</title>
+{% endblock %}
+
+{% block name-page %}
+{{ object.title}}
+{% endblock %}
+
+{% block content %}
+<div class="feedback-block col-12">
+  <div class="feedback-block__text">
+    <h4>Наши координаты</h4>
+    <span class="ymaps-geolink">Адрес: 107140 Москва, ул. Верхняя Красносельская, 3А</span>
+    <p>Центральный офис</p>
+    <p>Факс: (495) 721 1753</p>
+    <p>Факс для бухгалтерии: (495) 721 1361</p>
+    <p>Клиентская служба АШАН: <a href="tel:+78007005800">8-800-700-5-800</a></p>
+  </div>
+</div>
+{% endblock %}

@@ -1,12 +1,15 @@
 from django.contrib import admin
+from django.db import models
+from django.forms import TextInput
 
-from .models import Shops, ShopType, SubPagesArticle, SubPagesSection
+from .models import News, Shops, ShopType, SubPagesArticle, SubPagesSection
 
 
 @admin.register(SubPagesArticle)
 class SubPagesArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'section', 'uniq_template')
     list_filter = ('section', 'uniq_template')
+    search_fields = ['title']
 
 
 @admin.register(SubPagesSection)
@@ -23,3 +26,12 @@ class ShopsAdmin(admin.ModelAdmin):
 @admin.register(ShopType)
 class ShopTypeAdmin(admin.ModelAdmin):
     list_display = ('title',)
+
+
+@admin.register(News)
+class NewsAdmin(admin.ModelAdmin):
+    date_hierarchy = 'datetime'
+    list_display = ('title', 'datetime')
+    list_per_page = 50
+    formfield_overrides = {models.CharField: {'widget': TextInput(attrs={'size': '100'})}}
+    search_fields = ('title', 'body')

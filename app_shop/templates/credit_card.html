@@ -1,0 +1,319 @@
+{% extends "base_generic.html" %}
+
+
+{% load crispy_forms_tags %}
+
+{% block title %}<title>AllHere интернет-магазин | Кредитная карта</title>{% endblock %}
+
+{% block css-file %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles_main_subpages.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="credit-card-block m-auto col-12">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-white my-0 mx-5">
+      <li class="breadcrumb-item"><a href="{% url 'app_shop:index' %}">Главная страница</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Кредитная карта</li>
+    </ol>
+  </nav>
+  <!-- header -->
+  <div class="credit-card-block__header">
+    <div class="credit-card-block__header-content offset-md-1 col-12 col-sm-10 col-md-6 col-xl-4">
+      <p class="header-content-title">ПОЗВОЛЬТЕ СЕБЕ БОЛЬШЕ С КАРТОЙ ALLHERE</p>
+      <div class="header-content-block">
+        <img class="header-content__card-image d-none d-sm-block" src="{% static 'imgs/credit-card.png' %}">
+        <div class="header-content__under-card">
+          2%
+          <br>
+          бонусными баллами за все покупки в магазинах AllHere и на сайте allhere.ru
+        </div>
+        <div class="header-content__text">
+          <p>Бонусная программа лояльности совместно с сетью магазинов «AllHere» предоставляет возможность получать
+            бонусные баллы за каждую покупку:</p>
+          <p>• 2% от суммы покупок в магазинах AllHere и на сайте allhere.ru</p>
+          <p>• 1% от суммы покупок в любых других магазинах России и за рубежом, а также за покупки в Интернете</p>
+          <p>1 бонусный балл = 1 рубль</p>
+          <p>Банковская Карта AllHere VISA является расчетной картой с разрешенным овердрафтом, которая дает вам
+            возможность совершать покупки в России, за рубежом и в интернет-магазинах.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- header end -->
+  <!-- main_content -->
+  <div class="credit-card-block__main-content col-12 col-xl-10">
+    <div class="accordion" id="accordionCreditCard">
+      <div class="card border-0">
+        <div class="card-header" id="headingOne">
+          <a class="stretched-link" data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="false"
+             aria-controls="collapseOne">Как получить карту AllHere</a>
+        </div>
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionCreditCard">
+          <div class="card-body">
+            <p>Оставьте онлайн-заявку на карту AllHere прямо сейчас или при следующем посещении магазина AllHere на
+              стойке
+              банка и моментально заберите ее в магазине, чтобы получить баллы при первой же покупке!</p>
+            <h2 class="text-center my-4">Онлайн-заявка на оформление карты</h2>
+            <form class="col-6 m-auto">
+              {% csrf_token %}
+              {{ card_application_form|crispy }}
+              <p class="text-center"><input class="checkbox mr-3" type="checkbox" required>Соглашаюсь с условиями
+                обработки персональных данных</p>
+              <div class="text-center my-4">
+                <button class="main-content-button btn btn-danger" type="submit">Отправить заявку</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="card border-0">
+        <div class="card-header" id="headingTwo">
+          <a class="stretched-link" data-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false"
+             aria-controls="collapseTwo">Как пополнить карту AllHere</a>
+        </div>
+        <nav id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionCreditCard">
+          <div class="card-body">
+            <div class="d-flex flex-column flex-lg-row w-100">
+              <nav class="navbar navbar-expand-lg flex-row flex-lg-column navbar-light">
+                <h4>Онлайн с любой банковской карты</h4>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarCardReplenishment-1"
+                        aria-controls="navbarCardReplenishment-1" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCardReplenishment-1">
+                  <ul class="flex-fill">
+                    <li>Моментально</li>
+                    <li>Без комиссии банка</li>
+                    <li>100 000 р. единовременно, 300 000 р. в день</li>
+                  </ul>
+                </div>
+              </nav>
+              <nav class="navbar navbar-expand-lg flex-row flex-lg-column navbar-light">
+                <h4>Перевод из любого банкового учреждения</h4>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarCardReplenishment-2"
+                        aria-controls="navbarCardReplenishment-2" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCardReplenishment-2">
+                  <ul class="flex-fill">
+                    <li>До 5 рабочих дней</li>
+                    <li>Комиссия согласно тарифам стороннего банка</li>
+                    <li>Номер счёта карты и реквизиты банка</li>
+                  </ul>
+                </div>
+              </nav>
+              <nav class="navbar navbar-expand-lg flex-row flex-lg-column navbar-light">
+                <h4>Внутрибанковский перевод</h4>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarCardReplenishment-3"
+                        aria-controls="navbarCardReplenishment-3" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCardReplenishment-3">
+                  <ul class="flex-fill">
+                    <li>До 5 рабочих дней</li>
+                    <li>Без комиссии</li>
+                    <li>Номер счёта и паспорт</li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+            <div class="text-center my-4">
+              <a class="main-content-button btn btn-danger" href="//www.crediteurope.ru/card2card" type="submit">Пополнить
+                карту</a>
+            </div>
+            <hr>
+            <h3 class="text-center my-4"><b>Наличными</b></h3>
+            <div class="d-flex flex-column flex-lg-row w-100">
+              <nav class="navbar navbar-expand-lg flex-row flex-lg-column navbar-light">
+                <h4>Банкоматы АО «Кредит Европа Банк» с функцией приема наличных</h4>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarCardReplenishment-4"
+                        aria-controls="navbarCardReplenishment-4" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCardReplenishment-4">
+                  <ul class="flex-fill">
+                    <li>Моментально</li>
+                    <li>Без комиссии</li>
+                    <li>По банковской карте</li>
+                  </ul>
+                </div>
+              </nav>
+              <nav class="navbar navbar-expand-lg flex-row flex-lg-column navbar-light">
+                <h4>Терминалы «Элекснет»</h4>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarCardReplenishment-5"
+                        aria-controls="navbarCardReplenishment-5" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCardReplenishment-5">
+                  <ul class="flex-fill">
+                    <li>На следующий рабочий день</li>
+                    <li>Без комиссии в банкоматах, расположенных на территории магазинов AllHere и и Леруа Мерлен.</li>
+                    <li>Комиссия 2% по основному меню (50р./мин) и 1,8% при использовании услуги «Записная книжка»
+                      (40р./мин)
+                    </li>
+                    <li>Номер счёта карты</li>
+                  </ul>
+                </div>
+              </nav>
+              <nav class="navbar navbar-expand-lg flex-row flex-lg-column navbar-light">
+                <h4>Отделения АО «Кредит Европа Банк»</h4>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarCardReplenishment-6"
+                        aria-controls="navbarCardReplenishment-6" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCardReplenishment-6">
+                  <ul class="flex-fill">
+                    <li>Моментально</li>
+                    <li>Комиссия 200 р.</li>
+                    <li>Номер счёта и паспорт</li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <div class="card border-0">
+        <div class="card-header" id="headingThree">
+          <a class="stretched-link" data-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false"
+             aria-controls="collapseThree">Бонусные баллы на карте AllHere</a>
+        </div>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionCreditCard">
+          <div class="card-body">
+            <h4><b>Бонусные баллы с каждой Вашей покупки:</b></h4>
+            <ul>
+              <li>2% от суммы покупки в магазинах AllHere и на сайте allhere.ru</li>
+              <li>1% от суммы покупки в любом другом магазине</li>
+              <li>1 бонусный балл = 1 рубль</li>
+            </ul>
+            <br>
+            <h4><b>Накапливайте бонусы без границ</b></h4>
+            <p>Не ограничивайте себя! Размер бонусного вознаграждения по картам AllHere не ограничен. Бонусные баллы
+              зачисляются на карту AllHere моментально за любую покупку и сразу же доступны к использованию!</p>
+            <br>
+            <h4><b>Управляйте бонусными баллами онлайн</b></h4>
+            <p>Воспользуйтесь накопленными баллами для оплаты покупок в магазинах AllHere в удобный для вас момент.</p>
+            <h3 class="text-center mt-2"><a data-toggle="collapse" href="#collapseMoreInfo" role="button"
+                                            aria-expanded="false" aria-controls="collapseMoreInfo">
+              Подробнее
+            </a>
+            </h3>
+            <div class="collapse" id="collapseMoreInfo">
+              <div class="card card-body p-0">
+                <h4><b>Как настроить опцию списания Баллов?</b></h4>
+                <p>Для этого необходимо настроить опцию списания Баллов в мобильном приложении или Интернет-Банке (для
+                  возможности совершения покупки на Вашем счете должно быть не менее 100 Бонусных баллов).</p>
+                <h5 class="my-3"><b>В МОБИЛЬНОМ ПРИЛОЖЕНИИ АО «КРЕДИТ ЕВРОПА БАНК»:</b></h5>
+                <ol>
+                  <li>Скачайте мобильное приложение «Кредит Европа Банк» в App Store или Google Play</li>
+                  <li>Зайдите в Мобильный Банк, используя Ваши логин и пароль от Интернет-Банка</li>
+                  <li>Зайдите в раздел «Мои продукты» > «Карты»</li>
+                  <li>Выберите карту AllHere</li>
+                  <li>Зайдите в меню списания Баллов +</li>
+                  <li>Выберите опцию «Списать при оплате»</li>
+                </ol>
+                <h5 class="my-3"><b>В ИНТЕРНЕТ-БАНКЕ АО «КРЕДИТ ЕВРОПА БАНК»:</b></h5>
+                <ol>
+                  <li>Зайдите в Интернет-Банк, используя Ваши логин и пароль от Интернет-Банка</li>
+                  <li>Зайдите в раздел «Мои продукты» > «Карты»</li>
+                  <li>Выберите карту AllHere</li>
+                  <li>Зайдите в меню списания Баллов +</li>
+                  <li>Выберите опцию «Списать при оплате»</li>
+                </ol>
+                <p class="mb-2">Обращаем внимание, что для возможности совершения покупки на Вашем счете должно быть не
+                  менее 100 Бонусных баллов.</p>
+                <p class="mb-2">Баллы будут списаны в пользу Вашей следующей покупки в магазине AllHere в момент оплаты
+                  Картой.</p>
+                <p class="mb-2">После совершения покупки переключение в режим накопления Баллов (отключение опции
+                  списания Баллов при оплате) происходит автоматически.</p>
+                <p class="mb-2">Для осуществления следующей покупки за счёт Баллов необходимо вновь включить режим
+                  списания Баллов.</p>
+                <p class="mb-2">Также накопленные Баллы можно обменивать на Подарочные карты AllHere в Пункте
+                  обслуживания Клиентов. Подарочные карты предоставляются AllHere с заранее установленным номиналом (при
+                  наличии), равным сумме денежных средств, за которую карта может быть приобретена.</p>
+                <h3 class="text-center mt-2"><a data-toggle="collapse" href="#collapseMoreInfo" role="button"
+                                                aria-expanded="false" aria-controls="collapseMoreInfo">
+                  Скрыть подробности
+                </a>
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card border-0">
+        <div class="card-header" id="headingFour">
+          <a class="stretched-link" data-toggle="collapse" href="#collapseFour" role="button" aria-expanded="false"
+             aria-controls="collapseFour">Тарифы и услуги</a>
+        </div>
+        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionCreditCard">
+          <div class="card-body">
+            <table class="w-75 m-auto">
+              <tr class="text-center">
+                <th>Услуги</th>
+                <th>Стоимость<i class="text-danger">*</i></th>
+              </tr>
+              <tr>
+                <td>Срок действия</td>
+                <td>3 года</td>
+              </tr>
+              <tr>
+                <td>Стоимость обслуживания</td>
+                <td>бесплатно</td>
+              </tr>
+              <tr>
+                <td>Обслуживание дополнительной карты</td>
+                <td>бесплатно</td>
+              </tr>
+              <tr>
+                <td>Снятие наличных</td>
+                <td>4,9% (минимум 450 р.)</td>
+              </tr>
+              <tr>
+                <td>SMS-сервис</td>
+                <td>59 р. в месяц, 1-ый месяц - бесплатно</td>
+              </tr>
+              <tr>
+                <td>Интернет-банк</td>
+                <td>бесплатно</td>
+              </tr>
+              <tr>
+                <td>Мобильный банк</td>
+                <td>бесплатно</td>
+              </tr>
+              <tr>
+                <td>Кредитный лимит</td>
+                <td>до 500 000 р.</td>
+              </tr>
+              <tr>
+                <td>Льготный период</td>
+                <td>до 50 дней</td>
+              </tr>
+              <tr>
+                <td>Процент за пользование кредитом</td>
+                <td>29%</td>
+              </tr>
+            </table>
+            <hr>
+            <p><i class="text-danger mr-2">*</i>Полностью ознакомиться с тарифами, правилами и иными условиями по карте
+              можно на сайте <a href="//www.oney.ru/">www.oney.ru</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- main_content end -->
+  <hr>
+</div>
+{% endblock %}
+
+{% block text-info %}
+{% endblock %}

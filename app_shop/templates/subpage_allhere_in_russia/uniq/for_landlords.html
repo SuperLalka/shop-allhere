@@ -1,0 +1,21 @@
+{% extends "subpage_allhere_in_russia/allhere_in_russia.html" %}
+
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+<title>AllHere в России | {{ object.title }}</title>
+{% endblock %}
+
+{% block name-page %}
+{{ object.title }}
+{% endblock %}
+
+{% block content %}
+<form class="questionnaire-block col-8 m-auto py-3" action="/" method="post">
+  {% csrf_token %}
+	{{ for_landlords_form|crispy }}
+	<hr>
+<button class="questionnaire-button btn btn-warning w-100" type="submit" href="#">Отправить</button>
+</form>
+{% endblock %}

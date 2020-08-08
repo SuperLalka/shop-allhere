@@ -1,0 +1,340 @@
+{% extends "base_generic.html" %}
+
+
+{% block title %}<title>AllHere интернет-магазин | Подарочные карты</title>{% endblock %}
+
+{% block css-file %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles_main_subpages.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="m-auto col-11">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-white m-0">
+      <li class="breadcrumb-item"><a href="{% url 'app_shop:index' %}">Главная страница</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Подарочные карты</li>
+    </ol>
+  </nav>
+</div>
+<div class="gift-cards-block container-fluid">
+  <!-- header -->
+  <div class="gift-cards-block__header w-100">
+    <h2 class="gift-cards-block__header-section">Подарочная карта AllHere - подари свободу выбора!</h2>
+    <div class="gift-cards-block__underheader">
+      <div class="underheader-card-info col-11 col-lg-7">
+        <div class="col-12 col-md-8 align-self-center">
+          <h3 class="mb-2">О карте</h3>
+          <p>Подарочная карта АШАН - Ваш идеальный подарок накануне праздника или любого другого события. Среди
+            огромного
+            ассортимента предлагаемых товаров в АШАН всегда можно самостоятельно выбрать подарок по душе: косметику,
+            текстиль, бытовую технику, товары для дома, ремонта и интерьера, компьютерную технику, товары для спорта и
+            отдыха и многое другое.</p>
+        </div>
+        <div class="d-none d-md-block col-md-4 align-self-center p-0">
+          <img class="img-fluid" src="{% static 'imgs/gift_cards.png' %}" alt="gift-card">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- header end -->
+  <!-- benefits -->
+  <div class="gift-cards-block__benefits">
+    <h2 class="text-center my-2 my-md-4">Преимущества карты</h2>
+    <div class="benefits-info" id="benefits_target">
+      <div class="front">
+        <div class="benefits-front">
+          <div class="benefits-front__item col-6 col-md-4">
+            <figure class="benefits-front__item-content">
+              <p><img src="{% static 'imgs/benefits-1.png' %}" alt="benefits"></p>
+              <figcaption>
+                <b>Дарите выбор</b>
+                <p>более 1 млн идей подарка</p>
+              </figcaption>
+            </figure>
+          </div>
+          <div class="benefits-front__item col-6 col-md-4">
+            <figure class="benefits-front__item-content">
+              <p><img src="{% static 'imgs/benefits-2.png' %}" alt="benefits"></p>
+              <figcaption>
+                <b>12 месяцев</b>
+                <p>срок действия карты</p>
+              </figcaption>
+            </figure>
+          </div>
+          <div class="benefits-front__item col-6 col-md-4">
+            <figure class="benefits-front__item-content">
+              <p><img src="{% static 'imgs/benefits-3.png' %}" alt="benefits"></p>
+              <figcaption>
+                <b>Открытка</b>
+                <p>с вашими пожеланиями</p>
+              </figcaption>
+            </figure>
+          </div>
+          <div class="benefits-front__item col-6 col-md-4">
+            <figure class="benefits-front__item-content">
+              <p><img src="{% static 'imgs/benefits-4.png' %}" alt="benefits"></p>
+              <figcaption>
+                <b>Моментальная активация</b>
+                <p>карта активируется сразу после внесения денежных средств</p>
+              </figcaption>
+            </figure>
+          </div>
+          <div class="benefits-front__item col-6 col-md-4">
+            <figure class="benefits-front__item-content">
+              <p><img src="{% static 'imgs/benefits-5.png' %}" alt="benefits"></p>
+              <figcaption>
+                <b>Любой бюджет</b>
+                <p>выбор номинала на любой бюджет
+                  (от 250 до 15 000 рублей)</p>
+                <p class="d-none d-lg-block">или фиксированного номинала на
+                  250, 500, 1000 или 2000 рублей</p>
+              </figcaption>
+            </figure>
+          </div>
+          <div class="benefits-front__item col-6 col-md-4">
+            <figure class="benefits-front__item-content">
+              <p><img src="{% static 'imgs/benefits-6.png' %}" alt="benefits"></p>
+              <figcaption>
+                <b>Корпоративным клиентам</b>
+                <p>прекрасный подарок коллегам и партнерам</p>
+              </figcaption>
+              <a href="#benefits_target" class="benefits-transformation-button btn btn-success">Подробнее</a>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="back">
+        <div class="benefits-back">
+          <div class="buying-steps-text col-12 col-md-10 m-auto">
+            <h3 class="d-none d-sm-block">Корпоративным клиентам</h3>
+            <p class="d-none d-sm-block">Подарочная карта поможет лучше слов выразить признательность за проделанную
+              работу, а также станет прекрасным подарком партнерам, клиентам, сотрудникам и коллегам.</p>
+            <p class="d-none d-md-block">Каждая подарочная карта вложена в оригинальную открытку, в которой мы
+              совершенно бесплатно разместим Ваше индивидуальное поздравление!</p>
+            <p>Воспользовавшись Подарочной картой АШАН, вы можете приобрести все необходимое для вашей организации.
+              Например, для корпоративного мероприятия.</p>
+            <h3>Как приобрести корпоративную карту?</h3>
+            <div class="benefits-back__buying-steps w-100">
+              <div class="buying-steps-item text-center">
+                <p class="buying-steps-numbers">1</p>
+                <div class="d-none d-md-block">
+                  <p>Оставьте заявку по телефону</p>
+                  <a href="tel:+74956603085">+7 (495) 660 30 85</a>
+                  <p>или на почту</p>
+                  <a href="mailto:podarokb2b@allhere.ru">podarokb2b@allhere.ru</a>
+                </div>
+                <div class="d-md-none">
+                  <p>Оставьте заявку по телефону <a href="tel:+74956603085">+7 (495) 660 30 85</a> или на почту <a
+                          href="mailto:podarokb2b@allhere.ru">podarokb2b@allhere.ru</a></p>
+                </div>
+              </div>
+              <div class="buying-steps-item text-center">
+                <p class="buying-steps-numbers">2</p>
+                <div class="d-none d-md-block">
+                  <p>Укажите количество карт,</p>
+                  <p>требуемые номиналы,</p>
+                  <p>контактные данные,</p>
+                  <p>реквизиты компании</p>
+                </div>
+                <div class="d-md-none">
+                  <p>Укажите количество карт, требуемые номиналы, контактные данные, реквизиты компании</p>
+                </div>
+              </div>
+              <div class="buying-steps-item text-center">
+                <p class="buying-steps-numbers">3</p>
+                <div class="d-none d-md-block">
+                  <p>В течение <b>24 часов</b> после</p>
+                  <p>получения заявки наши</p>
+                  <p>менеджеры свяжутся с Вами</p>
+                </div>
+                <div class="d-md-none">
+                  <p>В течение <b>24 часов</b> после получения заявки наши менеджеры свяжутся с Вами</p>
+                </div>
+              </div>
+              <div class="buying-steps-item text-center">
+                <p class="buying-steps-numbers">4</p>
+                <div class="d-none d-md-block">
+                  <p>Подпишите договор и</p>
+                  <p>оплатите счет</p>
+                </div>
+                <div class="d-md-none">
+                  <p>Подпишите договор и оплатите счет</p>
+                </div>
+              </div>
+            </div>
+            <p>Минимальная сумма заказа для юридического лица составляет 20,000 рублей, с доставкой в регион по адресу
+              заказчика – 40,000 рублей. Срок действия подарочных карт составляет 12 месяцев с момента перевода
+              денежных средств.</p>
+          </div>
+          <div class="text-center">
+            <a href="#benefits_close" class="benefits-transformation-button btn btn-success">Назад к преимуществам
+              карты</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- benefits end -->
+  <!-- info-block -->
+  <div class="gift-cards-block_control-button text-center m-auto w-50">
+    <button class="info-control-button btn btn-outline-info" type="button" data-toggle="collapse"
+            data-target=".multi-collapse"
+            aria-expanded="false"
+            aria-controls="сollapse-section-1 сollapse-section-2 сollapse-section-3 сollapse-section-4 сollapse-section-5 сollapse-section-6 сollapse-section-7 сollapse-section-8">
+      Показать всю информацию
+    </button>
+  </div>
+  <div class="gift-cards-block__info col-12 col-md-10 col-lg-8">
+    <div class="info-section">
+      <a data-toggle="collapse" href="#collapse-section-1" aria-expanded="false" aria-controls="collapse-section-1">
+        <h3 class="info-section-heading">Какую карту выбрать?</h3>
+      </a>
+      <div class="info-section-content collapse multi-collapse" id="collapse-section-1">
+        <div class="info-section-content__side">
+          <p>Подарочная карта с фиксированным
+            номиналом 250, 500, 1 000 и 2 000 руб.</p>
+        </div>
+        <div class="info-section-content__separator">
+        </div>
+        <div class="info-section-content__side">
+          <p>Подарочная карта с нефиксированным
+            номиналом от 250 до 15 000 рублей</p>
+        </div>
+      </div>
+    </div>
+    <div class="info-section">
+      <a data-toggle="collapse" href="#collapse-section-2" aria-expanded="false" aria-controls="collapse-section-2">
+        <h3 class="info-section-heading">Активация</h3>
+      </a>
+      <div class="info-section-content collapse multi-collapse" id="collapse-section-2">
+        <div class="info-section-content__side">
+          <p>При покупке подарочной карты необходимо
+            активировать ее на кассе.</p>
+        </div>
+        <div class="info-section-content__separator">
+        </div>
+        <div class="info-section-content__side">
+          <p>При покупке подарочной карты необходимо
+            активировать ее на кассе.</p>
+          <p><b>Предъявите карту кассиру и внесите
+            любую сумму от 250 до 15 000 рублей.</b></p>
+        </div>
+      </div>
+    </div>
+    <div class="info-section">
+      <a data-toggle="collapse" href="#collapse-section-3" aria-expanded="false" aria-controls="collapse-section-3">
+        <h3 class="info-section-heading">Лимит карты</h3>
+      </a>
+      <div class="info-section-content collapse multi-collapse" id="collapse-section-3">
+        <div class="info-section-content__side">
+          <p>Человек, получивший карту, располагает
+            суммой, <b>указанной на карте.</b></p>
+        </div>
+        <div class="info-section-content__separator">
+        </div>
+        <div class="info-section-content__side">
+          <p>Человек, получивший карту располагает суммой,
+            <b>внесенной на карту дарителем.</b></p>
+        </div>
+      </div>
+    </div>
+    <div class="info-section">
+      <a data-toggle="collapse" href="#collapse-section-4" aria-expanded="false" aria-controls="collapse-section-4">
+        <h3 class="info-section-heading">Превышение лимита</h3>
+      </a>
+      <div class="info-section-content collapse multi-collapse" id="collapse-section-4">
+        <div class="info-section-content__side w-100">
+          <p>Если стоимость покупки превышает баланс карты, возможна доплата наличными средствами,
+            банковской картой или другой подарочной картой АШАН.</p>
+        </div>
+      </div>
+    </div>
+    <div class="info-section">
+      <a data-toggle="collapse" href="#collapse-section-5" aria-expanded="false" aria-controls="collapse-section-5">
+        <h3 class="info-section-heading">Использование карты</h3>
+      </a>
+      <div class="info-section-content collapse multi-collapse" id="collapse-section-5">
+        <div class="info-section-content__side">
+          <p>Для оплаты предъявите вашу карту на кассе.
+            <b>Стоимость покупки должна быть равна
+              или больше номинала карты.</b></p>
+          <br>
+          <p><b>Если стоимость покупки ниже баланса
+            карты, покупка невозможна.</b></p>
+        </div>
+        <div class="info-section-content__separator">
+        </div>
+        <div class="info-section-content__side">
+          <p>Для оплаты предъявите вашу карту на кассе.
+            <b>Оплатить покупки можно полностью или
+              частично. При предъявлении карты на кассе
+              сообщите сумму, которую желаете списать.</b></p>
+          <br>
+          <p><b>Если стоимость покупки ниже баланса
+            карты, то оставшуюся сумму можно
+            использовать в следующий раз.</b></p>
+        </div>
+      </div>
+      <div class="info-section">
+        <a data-toggle="collapse" href="#collapse-section-6" aria-expanded="false" aria-controls="collapse-section-6">
+          <h3 class="info-section-heading">Срок действия</h3>
+        </a>
+        <div class="info-section-content collapse multi-collapse" id="collapse-section-6">
+          <div class="info-section-content__side w-100">
+            <p>Срок действия подарочной карты <b>12 месяцев</b>
+              после покупки карты и внесения на неё денежных средств.</p>
+          </div>
+        </div>
+      </div>
+      <div class="info-section">
+        <a data-toggle="collapse" href="#collapse-section-7" aria-expanded="false" aria-controls="collapse-section-7">
+          <h3 class="info-section-heading">Статус карты</h3>
+        </a>
+        <div class="info-section-content collapse multi-collapse" id="collapse-section-7">
+          <div class="info-section-content__side w-100">
+            <p>Узнать статус, срок действия и баланс подарочной карты можно на кассе магазина или
+              по e-mail: <b>podarok@auchan.ru</b>, указав номер карты.</p>
+          </div>
+        </div>
+      </div>
+      <div class="info-section">
+        <a data-toggle="collapse" href="#collapse-section-8" aria-expanded="false" aria-controls="collapse-section-8">
+          <h3 class="info-section-heading">Обмен и возврат</h3>
+        </a>
+        <div class="info-section-content collapse multi-collapse" id="collapse-section-8">
+          <div class="info-section-content__side w-100">
+            <p>Подарочные карты не подлежат возврату и обмену, в том числе на денежные средства.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- info-block end -->
+  <!-- footer -->
+  <div class="gift-cards-block__footer w-100">
+    <div class="footer-card-info col-11 col-lg-7">
+      <div class="col-12 col-md-8 align-self-center">
+        <h3 class="mb-2">Как приобрести?</h3>
+        <p class="d-none d-sm-block">Подарочную карту можно приобрести в прикассовой зоне магазинов AllHere России.</p>
+        <br>
+        <p>Обращаем ваше внимание, что оплата покупок подарочной картой возможна только в гипермаркетах AllHere, AllHere
+          Сити, AllHere Сад и Наша Радуга.
+          В магазинах AllHere Супермаркет, Мой AllHere и в интернет-магазине allhere.ru подарочные карты к оплате не
+          принимаются.</p>
+        <div class="text-right">
+        <a href="{% url 'app_shop:subpage_allhere_in_russia' 'all_shops' %}" class="footer-card-button btn btn-success">Найти ближайший магазин</a>
+        </div>
+        </div>
+      <div class="d-none d-md-block col-md-4 align-self-center p-0">
+        <img class="img-fluid" src="{% static 'imgs/gift_cards.png' %}" alt="gift-card">
+      </div>
+    </div>
+  </div>
+  <!-- footer end -->
+</div>
+<hr>
+{% endblock %}
+
+{% block text-info %}
+{% endblock %}

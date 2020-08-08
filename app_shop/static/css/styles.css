@@ -1,7 +1,26 @@
 @import url(//fonts.googleapis.com/css2?family=Oranienbaum&display=swap);
+@import url(//fonts.googleapis.com/css2?family=Vollkorn:wght@800&display=swap);
+@import url(//fonts.googleapis.com/css2?family=Bitter:wght@500&display=swap);
+@import url(//fonts.googleapis.com/css2?family=Lobster&display=swap);
+
 @font-face {
     font-family: Oranienbaum;
     src: url(../fonts/Oranienbaum-Regular.ttf);
+}
+
+@font-face {
+    font-family: Vollkorn;
+    src: url(../fonts/Vollkorn-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'Bitter', serif;
+    src: url(../fonts/Bitter-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'Lobster', cursive;
+    src: url(../fonts/Lobster-Regular.ttf);
 }
 
 html, body, div, span, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, img, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, figcaption, footer, header, nav, section, mark {
@@ -120,6 +139,7 @@ a[class="stretched-link"]:hover ~ * {
 
 .header__primary-nav-item-text {
     align-self: center;
+    font-family: 'Bitter', serif;
     line-height: normal;
 }
 
@@ -305,6 +325,10 @@ a#text_info_full::before {
     width: 20vw;
 }
 
+.links-block > div:hover {
+    filter: brightness(110%);
+}
+
 .links-item {
     background-image: url(../imgs/icons_pack.png);
     height: 36px;
@@ -388,6 +412,7 @@ a#text_info_full::before {
 }
 
 .footer-block a {
+    font-family: 'Bitter', serif;
     padding: 2px;
     margin: 0;
 }

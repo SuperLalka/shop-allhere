@@ -80,3 +80,20 @@ class ShopType(models.Model):
     class Meta:
         verbose_name = 'ShopType'
         verbose_name_plural = 'ShopsType'
+
+
+class News(models.Model):
+    title = models.CharField(max_length=100, help_text="Enter a news titles")
+    body = HTMLField(help_text="Enter a news text")
+    datetime = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('app_shop:news', args=[self.id])
+
+    class Meta:
+        ordering = ['datetime', 'title']
+        verbose_name = 'News'
+        verbose_name_plural = 'News'

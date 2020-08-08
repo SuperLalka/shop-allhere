@@ -53,7 +53,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'for_wholesalers' %}">
                   <i class="header__primary-nav-item-icon mr-lg-2 i-optov"></i>
                   <p class="header__primary-nav-item-text d-none d-lg-block">Юридическим лицам</p>
                 </a>
@@ -77,7 +77,7 @@
       </div>
       <div class="header__secondary col-12 col-md-11">
         <div class="row">
-          <div class="logo_block mr-md-5 ml-md-5">
+          <div class="logo_block ml-md-3 ml-lg-5">
           </div>
           <div class="auth_block align-self-center">
             <ul class="list-group list-group-horizontal">
@@ -92,7 +92,7 @@
                 </a>
               </li>
               <li class="list-group-item flex-fill border-0 d-none d-lg-block">
-                <a class="nav-link p-0" href="#">
+                <a class="nav-link p-0" href="{% url 'app_shop:main_sub_pages' 'faq_page' %}">
                   <div class="header__secondary-auth_block">
                     <i class="header__secondary-auth_block-icon i-faq"></i>
                     <div class="header__secondary-auth_block-text align-self-center">
@@ -311,10 +311,10 @@
                 <a class="nav-link" href="#">Возврат</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Вопросы и ответы</a>
+                <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'faq_page' %}">Вопросы и ответы</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Обратная связь</a>
+                <a class="nav-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'feedback' %}">Обратная связь</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Мобильное приложение</a>
@@ -342,19 +342,19 @@
                 <a class="nav-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'allhere_in_russia' %}">О компании</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Новости</a>
+                <a class="nav-link" href="{% url 'app_shop:news' %}">Новости</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Доставка продуктов</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Социальная скидка</a>
+                <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'social_discount' %}">Социальная скидка</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Подарочные карты</a>
+                <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'gift_cards' %}">Подарочные карты</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Кредитная карта</a>
+                <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'credit_card' %}">Кредитная карта</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'allhere_garden' %}">Новые проекты AllHere</a>
@@ -385,16 +385,16 @@
           <div class="collapse navbar-collapse" id="navbarForPartners">
             <ul class="navbar-nav flex-column mr-auto">
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'vacancies' %}">Работа в AllHere</a>
+                <a class="nav-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'advantages' %}">Работа в AllHere</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Поставщикам</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Аренда</a>
+                <a class="nav-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'tenants_and_landlords' %}">Аренда</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'app_shop:for_wholesalers' %}">Оптовикам</a>
+                <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'for_wholesalers' %}">Оптовикам</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Стоп коррупция</a>
