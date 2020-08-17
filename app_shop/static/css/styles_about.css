@@ -31,7 +31,7 @@ span.ymaps-geolink {
     white-space: normal;
 }
 
-ymaps[title] {
+.ymaps-geolink-feedback {
     position: absolute!important;
     left: -400px!important;
     top: -100px!important;
@@ -39,7 +39,7 @@ ymaps[title] {
 
 @media (max-width: 1199px) {
 
-    ymaps[title] {
+    .ymaps-geolink-feedback {
         position: absolute!important;
         left: -25px!important;
         top: 180px!important;

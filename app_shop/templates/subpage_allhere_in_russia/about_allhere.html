@@ -2,7 +2,7 @@
 
 
 {% block title %}
-    <title>AllHere в России | {{ object.title }}</title>
+<title>AllHere в России | {{ object.title }}</title>
 {% endblock %}
 
 {% block sub-navigation %}
@@ -10,9 +10,7 @@
   <li class="nav-item flex-fill">
     <div class="dropdown text-center">
       <a class="dropdown-toggle p-0" type="button" id="dropdownMenuAboutCompany" data-toggle="dropdown"
-         aria-haspopup="true" aria-expanded="false">
-        О компании
-      </a>
+         aria-haspopup="true" aria-expanded="false">О компании</a>
       <div class="dropdown-menu position-absolute" aria-labelledby="dropdownMenuAboutCompany">
         <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'allhere_in_russia' %}">AllHere в России</a>
       </div>
@@ -21,9 +19,7 @@
   <li class="nav-item flex-fill">
     <div class="dropdown text-center">
       <a class="dropdown-toggle p-0" type="button" id="dropdownMenuQuality" data-toggle="dropdown" aria-haspopup="true"
-         aria-expanded="false">
-        Качество AllHere
-      </a>
+         aria-expanded="false">Качество AllHere</a>
       <div class="dropdown-menu position-absolute" aria-labelledby="dropdownMenuQuality">
         <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'quality_department' %}">Отдел качества</a>
         <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'sanitary_safety' %}">Санитарная безопасность</a>
@@ -33,9 +29,7 @@
   <li class="nav-item flex-fill">
     <div class="dropdown text-center">
       <a class="btn dropdown-toggle p-0" type="button" id="dropdownMenuProjects" data-toggle="dropdown"
-         aria-haspopup="true" aria-expanded="false">
-        Проекты AllHere
-      </a>
+         aria-haspopup="true" aria-expanded="false">Проекты AllHere</a>
       <div class="dropdown-menu position-absolute" aria-labelledby="dropdownMenuProjects">
         <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'allhere_garden' %}">AllHere Сад</a>
         <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'allhere_city' %}">AllHere Сити</a>

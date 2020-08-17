@@ -1,1 +1,41 @@
 {% extends "base_generic.html" %}
+
+
+{% load static %}
+
+{% block content %}
+<div class="content-block">
+  <nav class="content-block__navigation navbar navbar-expand-md navbar-light p-0">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+            aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>КАТЕГОРИИ ТОВАРОВ
+    </button>
+    <div class="content-block__collapse-block collapse navbar-collapse" id="navbarText">
+      <ul class="content-block__products products-block navbar-nav w-100">
+        <div class="products-block__categories col-4">
+          <div class="list-group" id="list-tab" role="tablist">
+            {% for obj in highest_categories %}
+            <a class="list-group-item list-group-item-action" id="list-{{ obj.nav_name }}-list" data-toggle="list"
+               href="#list-{{ obj.nav_name }}" role="tab" aria-controls="{{ obj.nav_name }}">{{ obj.name }}</a>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="products-block__sections col-8">
+          <div class="tab-content" id="nav-tabContent">
+            {% for obj in highest_categories %}
+            <div class="tab-pane fade {% if forloop.parentloop.first %}show active{% endif %}" id="list-{{ obj.nav_name }}" role="tabpanel"
+                 aria-labelledby="list-{{ obj.nav_name }}-list">
+              {% for item in list_categories %}
+              {% if obj.name in item.category %}
+              {{ item.name }}
+              {% endif %}
+              {% endfor %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </ul>
+    </div>
+  </nav>
+</div>
+{% endblock %}

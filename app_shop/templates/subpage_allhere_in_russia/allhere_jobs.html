@@ -2,7 +2,7 @@
 
 
 {% block title %}
-    <title>Работа в AllHere | {{ object.title }}</title>
+<title>Работа в AllHere | {{ object.title }}</title>
 {% endblock %}
 
 {% block sub-navigation %}
@@ -14,10 +14,13 @@
         Работа в AllHere
       </a>
       <div class="dropdown-menu position-absolute" aria-labelledby="dropdownMenuJob">
-        <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'advantages' %}">Преимущества AllHere</a>
+        <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'advantages' %}">Преимущества
+          AllHere</a>
         <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'our_values' %}">Наши ценности</a>
-        <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'young_specialist' %}">Молодому специалисту</a>
-        <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'internship_program' %}">Международная программа стажировки</a>
+        <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'young_specialist' %}">Молодому
+          специалисту</a>
+        <a class="dropdown-item" href="{% url 'app_shop:subpage_allhere_in_russia' 'internship_program' %}">Международная
+          программа стажировки</a>
       </div>
     </div>
   </li>
@@ -35,6 +38,6 @@
 
 {% block content %}
 <div class="content-block__text-block">
-{{ object.body|safe }}
+  {{ object.body|safe }}
 </div>
 {% endblock %}

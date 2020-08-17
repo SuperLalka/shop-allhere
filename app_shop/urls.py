@@ -14,8 +14,7 @@ allhere_in_russia_patterns = [
 
 app_name = 'app_shop'
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^(?P<page>\w+)?$', views.index, name='main_sub_pages'),
+    url(r'^$', views.ProductListView.as_view(), name='index'),
+    url(r'^(?P<page>\w+)?$', views.main_sub_pages, name='main_sub_pages'),
     url(r'^ru/', include(allhere_in_russia_patterns)),
-    #url(r'^pokupki/(?P<section>\w+)/(?P<subsection>\w+)?/(?P<paragraph>\w+)?$', views.ArticleView.as_view(), name='article_page'),
 ]

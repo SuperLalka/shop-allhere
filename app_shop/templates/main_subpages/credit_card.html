@@ -1,12 +1,12 @@
 {% extends "base_generic.html" %}
 
 
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}<title>AllHere интернет-магазин | Кредитная карта</title>{% endblock %}
 
 {% block css-file %}
-{% load static %}
 <link rel="stylesheet" href="{% static 'css/styles_main_subpages.css' %}">
 {% endblock %}
 
@@ -20,23 +20,25 @@
   </nav>
   <!-- header -->
   <div class="credit-card-block__header">
-    <div class="credit-card-block__header-content offset-md-1 col-12 col-sm-10 col-md-6 col-xl-4">
+    <div class="credit-card-block__header-content offset-md-1 col-12 col-md-6 col-xl-4">
       <p class="header-content-title">ПОЗВОЛЬТЕ СЕБЕ БОЛЬШЕ С КАРТОЙ ALLHERE</p>
-      <div class="header-content-block">
-        <img class="header-content__card-image d-none d-sm-block" src="{% static 'imgs/credit-card.png' %}">
+      <div class="header-content-block d-none d-md-flex">
+        <img class="header-content__card-image" src="{% static 'imgs/credit-card.png' %}">
         <div class="header-content__under-card">
           2%
           <br>
           бонусными баллами за все покупки в магазинах AllHere и на сайте allhere.ru
         </div>
-        <div class="header-content__text">
-          <p>Бонусная программа лояльности совместно с сетью магазинов «AllHere» предоставляет возможность получать
-            бонусные баллы за каждую покупку:</p>
-          <p>• 2% от суммы покупок в магазинах AllHere и на сайте allhere.ru</p>
-          <p>• 1% от суммы покупок в любых других магазинах России и за рубежом, а также за покупки в Интернете</p>
+        <div class="header-content__text d-none d-lg-block">
+          <p>Бонусная программа лояльности совместно с сетью магазинов «AllHere» предоставляет возможность получать бонусные баллы за каждую
+            покупку:</p>
+          <ul class="m-2">
+            <li>• 2% от суммы покупок в магазинах AllHere и на сайте allhere.ru</li>
+            <li>• 1% от суммы покупок в любых других магазинах России и за рубежом, а также за покупки в Интернете</li>
+          </ul>
           <p>1 бонусный балл = 1 рубль</p>
-          <p>Банковская Карта AllHere VISA является расчетной картой с разрешенным овердрафтом, которая дает вам
-            возможность совершать покупки в России, за рубежом и в интернет-магазинах.</p>
+          <p>Банковская Карта AllHere VISA является расчетной картой с разрешенным овердрафтом, которая дает вам возможность совершать покупки в
+            России, за рубежом и в интернет-магазинах.</p>
         </div>
       </div>
     </div>
@@ -47,20 +49,18 @@
     <div class="accordion" id="accordionCreditCard">
       <div class="card border-0">
         <div class="card-header" id="headingOne">
-          <a class="stretched-link" data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="false"
-             aria-controls="collapseOne">Как получить карту AllHere</a>
+          <a class="stretched-link" data-toggle="collapse" href="#collapseOne" role="button" aria-expanded="false" aria-controls="collapseOne">Как
+            получить карту AllHere</a>
         </div>
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionCreditCard">
           <div class="card-body">
-            <p>Оставьте онлайн-заявку на карту AllHere прямо сейчас или при следующем посещении магазина AllHere на
-              стойке
-              банка и моментально заберите ее в магазине, чтобы получить баллы при первой же покупке!</p>
+            <p>Оставьте онлайн-заявку на карту AllHere прямо сейчас или при следующем посещении магазина AllHere на стойке банка и моментально
+              заберите ее в магазине, чтобы получить баллы при первой же покупке!</p>
             <h2 class="text-center my-4">Онлайн-заявка на оформление карты</h2>
             <form class="col-6 m-auto">
               {% csrf_token %}
               {{ card_application_form|crispy }}
-              <p class="text-center"><input class="checkbox mr-3" type="checkbox" required>Соглашаюсь с условиями
-                обработки персональных данных</p>
+              <p class="text-center"><input class="checkbox mr-3" type="checkbox" required>Соглашаюсь с условиями обработки персональных данных</p>
               <div class="text-center my-4">
                 <button class="main-content-button btn btn-danger" type="submit">Отправить заявку</button>
               </div>
@@ -70,8 +70,8 @@
       </div>
       <div class="card border-0">
         <div class="card-header" id="headingTwo">
-          <a class="stretched-link" data-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false"
-             aria-controls="collapseTwo">Как пополнить карту AllHere</a>
+          <a class="stretched-link" data-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">
+            Как пополнить карту AllHere</a>
         </div>
         <nav id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionCreditCard">
           <div class="card-body">
@@ -123,8 +123,7 @@
               </nav>
             </div>
             <div class="text-center my-4">
-              <a class="main-content-button btn btn-danger" href="//www.crediteurope.ru/card2card" type="submit">Пополнить
-                карту</a>
+              <a class="main-content-button btn btn-danger" href="//www.crediteurope.ru/card2card" type="submit">Пополнить карту</a>
             </div>
             <hr>
             <h3 class="text-center my-4"><b>Наличными</b></h3>

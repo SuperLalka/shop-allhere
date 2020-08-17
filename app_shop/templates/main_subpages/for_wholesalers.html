@@ -1,13 +1,13 @@
 {% extends "base_generic.html" %}
 
 
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}<title>AllHere интернет-магазин - Информация оптовикам</title>{% endblock %}
 
 {% block css-file %}
-	{% load static %}
-	<link rel="stylesheet" href="{% static 'css/styles_main_subpages.css' %}">
+<link rel="stylesheet" href="{% static 'css/styles_main_subpages.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -30,7 +30,7 @@
 				<li class="section-item">
 					<img src="{% static 'imgs/docs.svg' %}" alt="docs">
 					<p><b>Для оформлением заказа необходимо заполнить <a href="#request">заявку</a> ниже.</b></p>
-					<p>Вашу заявку обработает менеджер по работе с корпоративными клиентами и свяжется для уточнение деталей.</p>
+					<p class="d-none d-md-block">Вашу заявку обработает менеджер по работе с корпоративными клиентами и свяжется для уточнение деталей.</p>
 				</li>
 				<li class="section-item">
 					<img src="{% static 'imgs/piggy-bank.svg' %}" alt="piggy_bank">
@@ -45,18 +45,18 @@
 				<li class="section-item">
 					<img src="{% static 'imgs/truck.svg' %}" alt="truck">
 					<h4>Вы можете получить товар двумя способами:</h4>
-					<p>самовывоз со склада Auchan.ru в Москве</p>
-					<p>доставка в магазин АШАН вашего города</p>
+					<p>самовывоз со склада AllHere.ru в Москве</p>
+					<p>доставка в магазин AllHere вашего города</p>
 				</li>
 			</ul>
 		</div>
 		<div class="for_wholesalers-block__section">
 			<h2><a name="request">ЗАЯВКА НА ОФОРМЛЕНИЕ ЗАКАЗА</a></h2>
 			<form class="for_wholesalers-form-block">
-				<div class="for_wholesalers-form col-8">
+				<div class="for_wholesalers-form col-12 col-md-10 col-lg-8">
 					{% csrf_token %}
 					{{ application_for_ordering_form|crispy }}
-					<button type="submit" class="btn btn-success m-0 contact-button">Отправить заявку</button>
+					<button type="submit" class="contact-button btn btn-success m-0 w-100">Отправить заявку</button>
 				</div>
 			</form>
 		</div>
@@ -66,13 +66,13 @@
 				<li class="section-item">
 					<img src="{% static 'imgs/mail.svg' %}" alt="mail">
 					<h4><b>по электронной почте</b></h4>
-					<a class="btn btn-primary contact-button" href="mailto:b2b@allhere.ru">b2b@allhere.ru</a>
+					<a class="contact-button btn btn-primary" href="mailto:b2b@allhere.ru">b2b@allhere.ru</a>
 					<p>С понедельника по пятницу с 9:00 до 18:00</p>
 				</li>
 				<li class="section-item">
 					<img src="{% static 'imgs/phone.svg' %}" alt="phone">
 					<h4><b>по телефону</b></h4>
-					<a class="btn btn-danger contact-button" href="tel:+78001237788">8 (800) 123-77-88</a>
+					<a class="contact-button btn btn-danger" href="tel:+78001237788">8 (800) 123-77-88</a>
 					<p>Круглосуточно (звонок бесплатный)</p>
 				</li>
 			</ul>
@@ -82,7 +82,7 @@
 			<ul class="section-container">
 				<li class="section-item">
 					<img src="{% static 'imgs/docs.svg' %}" alt="docs">
-					<p>Клиентская служба Auchan.ru отправляет <b>счет на оплату</b></p>
+					<p>Клиентская служба AllHere.ru отправляет <b>счет на оплату</b></p>
 				</li>
 				<li class="section-item">
 					<img src="{% static 'imgs/docs.svg' %}" alt="docs">

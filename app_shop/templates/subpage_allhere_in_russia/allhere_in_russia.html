@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 
+
+{% load static %}
+{% load crispy_forms_tags %}
+
 <html lang="en">
 <head>
 
@@ -7,8 +11,10 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="SHORTCUT ICON" href="{% static 'favicon.ico' %}" type="image/x-icon">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'css/styles_about.css' %}">
   <script src="//code.jquery.com/jquery-3.5.1.slim.min.js"
           integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
           crossorigin="anonymous"></script>
@@ -18,14 +24,9 @@
   <script src="//stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
           integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
           crossorigin="anonymous"></script>
-  <script src="https://api-maps.yandex.ru/2.1/?apikey={{ API_KEY_YANDEX_GEOCODER }}&lang=ru_RU&load=Geolink"
+  <script src="//api-maps.yandex.ru/2.1/?apikey={{ API_KEY_YANDEX_GEOCODER }}&lang=ru_RU&load=Geolink"
           type="text/javascript"></script>
 
-  {% load crispy_forms_tags %}
-  {% load static %}
-
-  <link rel="stylesheet" href="{% static 'css/styles_about.css' %}">
-  <link rel="SHORTCUT ICON" href="{% static 'favicon.ico' %}" type="image/x-icon">
 </head>
 
 <body>
@@ -36,19 +37,13 @@
         <div class="navbar ml-auto h-100 py-0">
           <ul class="navbar-nav flex-row align-items-center h-100">
             <li class="nav-item d-flex align-items-center h-100 mr-3">
-              <a class="nav-link p-0" href="#">
-                Доставка
-              </a>
+              <a class="nav-link p-0" href="{% url 'app_shop:main_sub_pages' 'service' %}">Доставка</a>
             </li>
             <li class="nav-item d-flex align-items-center h-100 mr-3">
-              <a class="nav-link p-0" href="#">
-                Оплата
-              </a>
+              <a class="nav-link p-0" href="{% url 'app_shop:main_sub_pages' 'service' %}">Оплата</a>
             </li>
             <li class="nav-item d-flex align-items-center h-100 mr-3">
-              <a class="nav-link p-0" href="{% url 'app_shop:subpage_allhere_in_russia' 'tenants_and_landlords' %}">
-                Аренда
-              </a>
+              <a class="nav-link p-0" href="{% url 'app_shop:subpage_allhere_in_russia' 'tenants_and_landlords' %}">Аренда</a>
             </li>
           </ul>
         </div>

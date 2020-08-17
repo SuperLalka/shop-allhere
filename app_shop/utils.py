@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 import csv
+import re
+import requests
+from bs4 import BeautifulSoup
 from io import open
 
 from app_shop import models
@@ -33,3 +36,23 @@ def get_map_objects():
         writer = csv.writer(f)
         for item in objects:
             writer.writerow([item.longitude, item.latitude, item.address, item.name])
+
+
+def pars_products():
+    resp = requests.get("https://www.auchan.ru/")
+    soup = BeautifulSoup(resp.text, 'html.parser')
+    ret = []
+    category_block = soup.find_all(attrs={"class": "m-menu__item"})
+    for obj in category_block:
+        top_category = obj.find(attrs={"class": "m-menu__txt"})
+        parent_category, _ = models.ProductClassification.objects.get_or_create(name=top_category.text.upper(), highest_category=True)
+
+        other_category = obj.find_all(attrs={"class": "m-menu__submenu-item-link"})
+        act_category = ""
+        for x in other_category:
+            item = re.search(r'/pokupki/[a-z-]+?/[a-z-]+?.html\">(.+?)</a>', str(x))
+            if item:
+                act_category, _ = models.ProductClassification.objects.get_or_create(name=x.text, category_id=parent_category.id)
+            else:
+                lower_category = models.ProductClassification.objects.get_or_create(name=x.text, category_id=act_category.id)
+    return ret

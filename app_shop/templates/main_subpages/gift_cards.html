@@ -1,10 +1,11 @@
 {% extends "base_generic.html" %}
 
 
+{% load static %}
+
 {% block title %}<title>AllHere интернет-магазин | Подарочные карты</title>{% endblock %}
 
 {% block css-file %}
-{% load static %}
 <link rel="stylesheet" href="{% static 'css/styles_main_subpages.css' %}">
 {% endblock %}
 
@@ -246,7 +247,7 @@
       <div class="info-section-content collapse multi-collapse" id="collapse-section-4">
         <div class="info-section-content__side w-100">
           <p>Если стоимость покупки превышает баланс карты, возможна доплата наличными средствами,
-            банковской картой или другой подарочной картой АШАН.</p>
+            банковской картой или другой подарочной картой AllHere.</p>
         </div>
       </div>
     </div>
@@ -294,7 +295,7 @@
         <div class="info-section-content collapse multi-collapse" id="collapse-section-7">
           <div class="info-section-content__side w-100">
             <p>Узнать статус, срок действия и баланс подарочной карты можно на кассе магазина или
-              по e-mail: <b>podarok@auchan.ru</b>, указав номер карты.</p>
+              по e-mail: <b><a href="mailto:podarok@auchan.ru">podarok@auchan.ru</a></b>, указав номер карты.</p>
           </div>
         </div>
       </div>

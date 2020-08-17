@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.views import generic
 
-from .models import News, Shops, SubPagesArticle
+from .models import News, Product, Shops, SubPagesArticle
 
 
-def index(request, **kwargs):
+def main_sub_pages(request, **kwargs):
     template_name = 'index.html'
     if kwargs:
-        template_name = '%s.html' % kwargs['page']
+        template_name = 'main_subpages/%s.html' % kwargs['page']
     return render(
         request,
         template_name
@@ -52,3 +52,16 @@ class NewsDetailView(generic.DetailView):
             'news_list': News.objects.all(),
         })
         return super().get_context_data(**context)
+
+
+class ProductDetailView(generic.DetailView):
+    model = Product
+    template_name = 'index.html'
+    slug_field = 'id'
+    slug_url_kwarg = 'id'
+
+
+class ProductListView(generic.ListView):
+    model = Product
+    paginate_by = 100
+    template_name = 'index.html'

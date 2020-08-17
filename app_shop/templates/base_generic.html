@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 
+
+{% load static %}
+{% load crispy_forms_tags %}
+
 <html lang="en">
 <head>
 
@@ -7,7 +11,8 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+  <link rel="SHORTCUT ICON" href="{% static 'favicon.ico' %}" type="image/x-icon">
+  <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <script src="//code.jquery.com/jquery-3.5.1.slim.min.js"
           integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -18,15 +23,13 @@
   <script src="//stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
           integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
           crossorigin="anonymous"></script>
-
-  {% load crispy_forms_tags %}
+  <script src="//api-maps.yandex.ru/2.1/?apikey={{ API_KEY_YANDEX_GEOCODER }}&lang=ru_RU&load=Geolink"
+          type="text/javascript"></script>
 
   {% block css-file %}
-  {% load static %}
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   {% endblock %}
 
-  <link rel="SHORTCUT ICON" href="{% static 'favicon.ico' %}" type="image/x-icon">
 </head>
 
 <body>
@@ -35,7 +38,7 @@
     <header class="header">
       <div class="header__primary d-none d-md-block bg-light">
         <nav class="header__primary-nav navbar navbar-expand-lg navbar-light col-11">
-          <a class="navbar-brand header__primary-phone" href="tel:+78001237788">
+          <a class="header__primary-phone navbar-brand" href="tel:+78001237788">
             8 (800) 123-77-88
           </a>
           <div class="navbar navbar-expand ml-auto d-none d-md-block p-0" id="navbarSupportedContent">
@@ -77,35 +80,36 @@
       </div>
       <div class="header__secondary col-12 col-md-11">
         <div class="row">
-          <div class="logo_block ml-md-3 ml-lg-5">
+          <div class="logo_block">
+            <a class="stretched-link" href="{% url 'app_shop:index' %}"></a>
           </div>
-          <div class="auth_block align-self-center">
-            <ul class="list-group list-group-horizontal">
-              <li class="list-group-item flex-fill border-0 pl-1 pr-1 pl-md-2 pr-md-2">
+          <div class="auth-block">
+            <ul class="auth-block__list-group">
+              <li class="auth-block__group-item">
                 <a class="nav-link p-0" href="#">
-                  <div class="header__secondary-auth_block">
-                    <i class="header__secondary-auth_block-icon i-log-in"></i>
-                    <div class="header__secondary-auth_block-text align-self-center d-none d-md-block">
-                      <p>Войти / регистрация</p>
+                  <div class="auth-block__list-item">
+                    <i class="auth-block__icon i-log-in"></i>
+                    <div class="auth-block__text d-none d-md-block">
+                      <p>Войти /<br> регистрация</p>
                     </div>
                   </div>
                 </a>
               </li>
-              <li class="list-group-item flex-fill border-0 d-none d-lg-block">
+              <li class="auth-block__group-item d-none d-lg-block">
                 <a class="nav-link p-0" href="{% url 'app_shop:main_sub_pages' 'faq_page' %}">
-                  <div class="header__secondary-auth_block">
-                    <i class="header__secondary-auth_block-icon i-faq"></i>
-                    <div class="header__secondary-auth_block-text align-self-center">
-                      <p>Вопросы и ответы</p>
+                  <div class="auth-block__list-item">
+                    <i class="auth-block__icon i-faq"></i>
+                    <div class="auth-block__text">
+                      <p>Вопросы <br>и ответы</p>
                     </div>
                   </div>
                 </a>
               </li>
-              <li class="list-group-item flex-fill border-0 pl-1 pr-1 pl-md-2 pr-md-2">
+              <li class="auth-block__group-item">
                 <a class="nav-link p-0" href="#">
-                  <div class="header__secondary-auth_block">
-                    <i class="header__secondary-auth_block-icon i-basket"></i>
-                    <div class="header__secondary-auth_block-text align-self-center d-none d-md-block">
+                  <div class="auth-block__list-item">
+                    <i class="auth-block__icon i-basket"></i>
+                    <div class="auth-block__text d-none d-md-block">
                       <p>Корзина</p>
                     </div>
                   </div>
@@ -126,7 +130,7 @@
             <p class="top-nav-toolbar__catalog-text text-center">КАТАЛОГ ТОВАРОВ</p>
             {% endblock %}
           </li>
-          <li class="nav-item p-0 col-12 col-lg-6 col-xl-5">
+          <li class="nav-item p-0 col-12 col-md-8 col-lg-5">
             <form class="top_nav__search-form form-inline" action="/search" method="post">
               <div class="top_nav__search-form_block">
                 <i class="top_nav__search-form_icon i-search-loupe"></i>
@@ -136,27 +140,27 @@
               </div>
             </form>
           </li>
-          <li class="nav-item p-0 col-4 col-xl-5">
+          <li class="nav-item p-0 col-6 col-md-4 col-lg-5">
             <div class="top_nav__after-search col-12 p-0 d-inline-flex justify-content-around">
               <div class="d-inline-flex align-items-center position-relative">
                 <a class="stretched-link" href="/sale"></a>
                 <i class="top_nav__after-search-icon i-sale"></i>
-                <p class="top_nav__after-search-text text-center d-none d-xl-block">Распродажа</p>
+                <p class="top_nav__after-search-text d-none d-xl-block">Распродажа</p>
               </div>
               <div class="d-inline-flex align-items-center position-relative">
                 <a class="stretched-link" href="/summer"></a>
                 <i class="top_nav__after-search-icon i-summer"></i>
-                <p class="top_nav__after-search-text text-center d-none d-xl-block">Лето</p>
+                <p class="top_nav__after-search-text d-none d-xl-block">Лето</p>
               </div>
               <div class="d-inline-flex align-items-center position-relative">
                 <a class="stretched-link" href="/health"></a>
                 <i class="top_nav__after-search-icon i-health"></i>
-                <p class="top_nav__after-search-text text-center d-none d-xl-block">Будь здоров</p>
+                <p class="top_nav__after-search-text d-none d-xl-block">Будь здоров</p>
               </div>
               <div class="d-inline-flex align-items-center position-relative">
                 <a class="stretched-link" href="/delivery"></a>
                 <i class="top_nav__after-search-icon i-delivery"></i>
-                <p class="top_nav__after-search-text text-center d-none d-xl-block">Доставка продуктов</p>
+                <p class="top_nav__after-search-text d-none d-xl-block">Доставка продуктов</p>
               </div>
             </div>
           </li>
@@ -166,16 +170,18 @@
     <!-- navigation end -->
   </div>
   <!-- main -->
-  <main>
+  <main class="col-12 col-md-11 m-auto p-0">
     {% block content %}
     {% endblock %}
   </main>
   <!-- main end -->
   <!-- text info -->
   {% block text-info %}
-  <div class="info-block col-12 col-md-11 mx-auto">
+  <div class="info-block col-12 col-md-11">
     <div class="col-12 col-lg-10 col-xl-8 m-auto">
-      <h1 class="text-center my-3">Интернет-магазин AllHere</h1>
+      <h1 class="info-block__title">Интернет-магазин AllHere</h1>
+    </div>
+    <div class="info-block__text col-12 col-lg-10 col-xl-8">
       <p>Интернет-магазин AllHere - ваш любимый магазин в формате онлайн!</p>
       <p>Заказывайте на allhere.ru, и мы доставим заказ прямо к вам домой или в ближайший магазин</p>
       <p>AllHere - не только в Москве, но и в других городах России.</p>
@@ -227,8 +233,8 @@
   {% endblock %}
   <!-- text info end -->
   <!-- links&subscription -->
-  <div class="links&subscription-block d-inline-flex flex-wrap justify-content-center justify-content-lg-between align-items-center col-11 my-3 mx-auto">
-    <div class="links-block d-flex justify-content-center mb-2">
+  <div class="links-subscription-block justify-content-center justify-content-lg-between col-11">
+    <div class="links-block my-2 my-md-0">
       <div class="links-item links-item_fb">
         <a class="stretched-link" href="//www.facebook.com/"></a>
       </div>
@@ -247,9 +253,8 @@
       <div class="links-item-long links-item_as">
         <a class="stretched-link" href="//www.apple.com/ru/ios/app-store/"></a>
       </div>
-
     </div>
-    <div class="subscription-block d-flex justify-content-center align-items-center mb-2">
+    <div class="subscription-block">
       <label class="text-center">
         <span class="d-none d-lg-block text-center mr-2">Не упусти выгодное предложение!</span>
         <span class="text-center mr-2">Подпишись на акции!</span>
@@ -265,7 +270,7 @@
   </div>
   <!-- links&subscription end -->
   <!-- footer -->
-  <footer class="footer-block mt-auto bg-light">
+  <footer class="footer mt-auto bg-light">
     <ul class="navbar-nav flex-column flex-lg-row justify-content-around col-10 p-0 mx-auto">
       <li class="nav-item flex-fill">
         <nav class="navbar navbar-expand-lg flex-row flex-lg-column navbar-light bg-light">
@@ -302,13 +307,13 @@
           <div class="collapse navbar-collapse" id="navbarOnlineShop">
             <ul class="navbar-nav flex-column mr-auto">
               <li class="nav-item">
-                <a class="nav-link" href="#">Доставка</a>
+                <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'service' %}">Доставка</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Оплата</a>
+                <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'service' %}">Оплата</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Возврат</a>
+                <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'service' %}">Возврат</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'faq_page' %}">Вопросы и ответы</a>
@@ -317,10 +322,10 @@
                 <a class="nav-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'feedback' %}">Обратная связь</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Мобильное приложение</a>
+                <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'allpay_app' %}">Мобильное приложение</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Услуга Сборки мебели</a>
+                <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'furniture_assembly' %}">Услуга Сборки мебели</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Статьи</a>
@@ -363,13 +368,13 @@
                 <a class="nav-link" href="#">Пресс-центр</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Политика по обработке персональных данных</a>
+                <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'pd_processing_policy' %}">Политика по обработке персональных данных</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Политика конфиденциальности</a>
+                <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'privacy_policy' %}">Политика конфиденциальности</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Соглашения использования AllHere Pay</a>
+                <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'allpay_terms_service' %}">Соглашения использования AllHere Pay</a>
               </li>
             </ul>
           </div>
@@ -404,13 +409,13 @@
         </nav>
       </li>
     </ul>
-    <div class="footer-phone d-lg-none bg-white text-center">
+    <div class="footer-phone d-md-none bg-white text-center">
       <a class="navbar-brand footer__footer-phone m-4" href="tel:+78001237788">
         8 (800) 700-77-88
       </a>
     </div>
     <div class="footer-license">
-      <p class="text-center col-10 mx-auto">© 2001-2020 ООО "AllHere". Все права защищены. "AllHere" является
+      <p class="footer-license__link text-center col-10 mx-auto">© 2001-2020 ООО "AllHere". Все права защищены. "AllHere" является
         зарегистрированным товарным знаком Lalka Holding SA</p>
     </div>
   </footer>

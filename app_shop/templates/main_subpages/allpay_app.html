@@ -1,0 +1,115 @@
+{% extends "base_generic.html" %}
+
+
+{% load static %}
+
+{% block title %}<title>AllHere интернет-магазин | Мобильное приложение AllHere Pay</title>{% endblock %}
+
+{% block css-file %}
+<link rel="stylesheet" href="{% static 'css/styles_main_subpages.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="allpay-app-block m-auto col-11">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-white m-0">
+      <li class="breadcrumb-item"><a href="{% url 'app_shop:index' %}">Главная страница</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Мобильное приложение AllHere Pay</li>
+    </ol>
+  </nav>
+  <hr class="d-none d-sm-block">
+  <div class="allpay-app-block__header d-none d-sm-flex col-10">
+    <p class="allpay-app-block__header-text d-none d-md-block">Скачайте наше приложение в App Store и Google Play и используйте ваши новые
+      возможности: покупки в магазинах с AllHere Scan&Pay*, онлайн‑заказ товаров из каталога, просмотр актуальной информации о наших акциях и
+      предложениях и многое другое.</p>
+  </div>
+  <hr>
+  <div class="allpay-app-block__content">
+    <h2>AllHere Scan* — самостоятельное сканирование товаров в магазине</h2>
+    <h3>Как работает AllHere Scan*?</h3>
+    <ul class="allpay-app-block__steps-list col-12 col-lg-10 col-xl-8">
+      <li>
+        <img src="{% static 'imgs/arrow_down.png' %}" alt="arrow_down">
+        <p>Открой мобильное приложение AllHere</p>
+      </li>
+      <li>
+        <img src="{% static 'imgs/allpay_1.png' %}" alt="allpay_1">
+        <p>Нажми на кнопку <b>"Сканер" и отсканируй QR-код "СТАРТ"</b> при входе или внутри магазина*</p>
+      </li>
+      <li>
+        <img src="{% static 'imgs/allpay_2.png' %}" alt="allpay_2">
+        <p>Возьмите пакет, чтобы сразу складывать товары</p>
+      </li>
+      <li>
+        <img src="{% static 'imgs/allpay_3.png' %}" alt="allpay_3">
+        <p>Сканируй шрих-коды с ценников или упаковок товаров</p>
+      </li>
+      <li>
+        <img src="{% static 'imgs/allpay_4.png' %}" alt="allpay_4">
+        <p>Отсканируй <b>QR-код "ФИНИШ" в зоне AllHere Scan&Pay</b> и оплати покупки</p>
+      </li>
+    </ul>
+    <div class="allpay-app-block__under-steps col-12 col-xl-10 m-auto">
+      <p>*На сегодняшний день вы можете попробовать самостоятельное сканирование товаров в следующих магазинах: AllHere Сокольники, Авиапарк,
+        Красногорск, Мытищи, Марфино, Кунцево, Белая Дача, Сити Богородский и Пушкино Акварель.</p>
+      <p>Вы можете ознакомиться с подробным <a href="{% url 'app_shop:main_sub_pages' 'allpay_terms_service' %}">Руководством пользователя AllHere
+        Scan*</a> или в мобильном приложении в разделе "О Компании/Руководство пользователя AllHere Scan*</p>
+    </div>
+    <div class="allpay-app-block__central-line">
+      <div class="allpay-app-block__central-text">
+        <h3 class="m-2">Именно здесь</h3>
+        <ul>
+          <li>Расположены QR-коды СТАРТ и ФИНИШ.</li>
+          <li>Можно совершить оплату с помощью AllHere Pay* на терминале.</li>
+          <li>Можно получить консультацию по работе приложения.</li>
+        </ul>
+      </div>
+      <div class="allpay-app-block__central-image d-none d-md-block"></div>
+    </div>
+    <div class="allpay-app-block__under-central">
+      <h2>AllHere Pay* — инновационный способ платежа</h2>
+      <h3>Как подключить AllHere Pay*?</h3>
+      <ul class="allpay-app-block__steps-list col-12 col-lg-8 col-xl-6">
+        <li>
+          <img src="{% static 'imgs/search-loupe.png' %}" alt="search-loupe">
+          <p>Скачайте приложение AllHere</p>
+        </li>
+        <li>
+          <img src="{% static 'imgs/search-loupe.png' %}" alt="search-loupe">
+          <p>Зайдите в раздел «AllHere Pay*»</p>
+        </li>
+        <li>
+          <img src="{% static 'imgs/search-loupe.png' %}" alt="search-loupe">
+          <p>Пополните ваш счет</p>
+        </li>
+      </ul>
+    </div>
+    <div class="allpay-app-block__footer col-12 col-lg-10 col-xl-8">
+      <div class="footer-upper row">
+        <div class="footer-upper__text col-12 col-md-9">
+          <p>Ваши предложения и замечания по работе мобильного приложения AllHere направляйте через раздел приложения «Связаться с нами» или
+            оставляйте операторам горячей линии по телефону: <a href="tel:+788007005800">8-800-700-58-00</a>.</p>
+          <h2>Приятных вам покупок!</h2>
+        </div>
+        <div class="footer-upper__image d-none d-md-block col-3"></div>
+      </div>
+      <div class="footer-lower">
+        <div class="footer-lower__text">
+          <p>AllHere Scan* и AllHere Pay* могут быть использованы только в следующих магазинах: AllHere Сокольники, Авиапарк, Красногорск, Мытищи,
+            Марфино, Кунцево, Белая Дача, Сити Богородский и Пушкино Акварель. Оплата AllHere Pay* также может быть использована на сайте
+            www.allhere.ru. Ознакомиться с полным текстом Пользовательского Соглашения AllHere Pay* и Руководства по использованию AllHere Scan* можно
+            на официальном сайте www.allhere.ru, а также в мобильном приложении AllHere. Подробная информация по телефону горячей линии:
+            <a href="tel:+788007005800">8-800-700-58-00</a>.</p>
+          <p>* AllHere Pay — AllHere Пэй — инновационный способ платежа;
+            AllHere Scan — AllHere Скан — возможность самостоятельного сканирования; AllHere Scan&Pay — AllHere Скан&Пэй — специализированная зона в
+            магазине AllHere</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+{% endblock %}
+
+{% block text-info %}
+{% endblock %}

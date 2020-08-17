@@ -97,3 +97,45 @@ class News(models.Model):
         ordering = ['datetime', 'title']
         verbose_name = 'News'
         verbose_name_plural = 'News'
+
+
+DELIVERY_TERMS = (
+        ('a', 'Мелкогабаритный товар'),
+        ('b', 'Среднегабаритный товар'),
+        ('c', 'Крупногабаритный товар'),
+    )
+
+
+class Product(models.Model):
+    name = models.CharField(max_length=100, help_text="Enter product name")
+    price = models.PositiveIntegerField(help_text="Enter product price")
+    description = HTMLField(help_text="Enter a store description", null=True, blank=True)
+    images = models.ImageField(upload_to="")
+    discount = models.PositiveSmallIntegerField(default=None, help_text="If need, enter amount of discount", null=True, blank=True)
+    classification = models.ForeignKey('ProductClassification', on_delete=models.CASCADE, related_name='class_content', null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('name',)
+
+
+class ProductClassification(models.Model):
+    category = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=100, help_text="Enter а product category")
+    highest_category = models.BooleanField(default=False)
+    nav_name = models.CharField(max_length=120, editable=False, null=True, blank=True)
+
+    def __str__(self):
+        category = str(self.category).replace("/None", "")
+        return '{0} /{1}'.format(self.name, category)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if not self.nav_name:
+            self.nav_name = transliterate(self.name)
+        return super(ProductClassification, self).save()
+
+    class Meta:
+        ordering = ('name', 'highest_category')

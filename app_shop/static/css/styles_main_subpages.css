@@ -1,14 +1,146 @@
 @import "styles.css";
 
 
+/* allpay_app */
+
+.allpay-app-block {
+    cursor: default;
+}
+
+.allpay-app-block p {
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+.allpay-app-block__header {
+    background: url(../imgs/allpay_header_bg.jpg) no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-flow: column-reverse;
+    height: 40vw;
+    margin: auto;
+}
+
+.allpay-app-block__header-text {
+    font-size: 2vw!important;
+    line-height: 1.2;
+    width: 45vw;
+}
+
+.allpay-app-block__content h2 {
+    color: red;
+    font: normal 600 40px 'Oranienbaum', serif;
+    margin: 30px;
+    text-align: center;
+}
+
+.allpay-app-block__content h3 {
+    font: 30px Oranienbaum;
+    margin: 30px;
+    text-align: center;
+}
+
+.allpay-app-block__steps-list {
+    display: flex;
+    flex-flow: column;
+    list-style: none;
+    margin: auto;
+}
+
+.allpay-app-block__steps-list li {
+    align-items: center;
+    border-radius: 25px;
+    display: flex;
+    font: normal 30px /1.2 Oranienbaum;
+    min-height: 70px;
+    padding: 10px 0;
+    transition: .5s;
+}
+
+.allpay-app-block__steps-list li:hover {
+    background: lightcyan;
+    transform: scale(1.05, 1.05);
+    transition: .5s;
+}
+
+.allpay-app-block__steps-list img {
+    margin: 0 30px;
+    width: 50px;
+}
+
+.allpay-app-block__central-line {
+    background: red;
+    height: 200px;
+    margin: 50px 0 100px 0;
+    width: 100%;
+}
+
+.allpay-app-block__central-text {
+    float: left;
+    margin: 0 30px 0;
+    width: 300px;
+}
+
+.allpay-app-block__central-text * {
+    color: white;
+}
+
+.allpay-app-block__central-image {
+    background-image: url(../imgs/allpay_map.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    top: 14px;
+    height: 250px;
+    left: 50vw;
+    position: relative;
+    width: 350px;
+}
+
+.allpay-app-block__footer {
+    margin: auto;
+}
+
+.footer-upper__image {
+    background: url(../imgs/basket.png) center no-repeat;
+    background-size: contain;
+}
+
+/* allpay_app end */
+
+/* allpay_terms_service */
+
+.allpay-terms__text * {
+    font-family: 'Bitter', serif!important;
+}
+
+.allpay-terms__text p, li {
+    font-size: 18px;
+}
+
+.allpay-terms__text h4 {
+    text-align: center;
+    margin: 20px;
+}
+
+/* allpay_terms_service end */
+
 /* credit_card */
 
 .credit-card-block__header {
-    background: linear-gradient(90deg, rgba(255,255,255,1) 40%, rgba(255,255,255,0) 80%), url(../imgs/credit_card-bg.jpg) no-repeat;
+    background: linear-gradient(90deg, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 90%), url(../imgs/credit_card-bg.jpg) no-repeat;
     background-size: cover;
     min-height: 850px;
     padding: 0 0 200px 0;
     width: 100%;
+}
+
+@media (max-width: 991px) {
+
+    .credit-card-block__header {
+        background: linear-gradient(135deg, rgba(255,255,255,1) 30%, rgba(255,255,255,0) 80%), url(../imgs/credit_card-bg.jpg) no-repeat;
+        min-height: 250px;
+        margin: auto;
+    }
 }
 
 .credit-card-block__header-content {
@@ -70,7 +202,8 @@
     font-size: 18px;
     margin-top: auto;
     max-width: 600px;
-    text-align: initial;
+    text-align: justify;
+    text-indent: 10px;
 }
 
 .credit-card-block__main-content {
@@ -91,7 +224,7 @@
 
 .credit-card-block__main-content .card-header a {
     color: black;
-    font: 30px 'Lobster', cursive;
+    font: 30px Vollkorn, serif;
     letter-spacing: 1px;
 }
 
@@ -136,7 +269,6 @@
 .credit-card-block__main-content li {
     font: normal 20px /1 'Oranienbaum';
     margin: 10px;
-    text-align: initial;
 }
 
 .credit-card-block__main-content tr {
@@ -160,6 +292,15 @@
 }
 
 /* credit_card end */
+
+/* faq_page */
+
+.faq-block__text {
+    font-size: 20px;
+    text-indent: 20px;
+}
+
+/* faq_page end */
 
 /* for_wholesalers */
 
@@ -227,7 +368,6 @@ a:hover {
     border-radius: 25px;
     font-size: 20px;
     margin: 10px;
-    width: inherit;
 }
 
 .for_wholesalers-form-block {
@@ -242,6 +382,15 @@ a:hover {
     font-size: 20px;
     margin: 20px;
     padding: 20px;
+}
+
+@media (max-width: 767px) {
+
+    .for_wholesalers-form {
+        border-radius: inherit;
+        margin: 0;
+
+    }
 }
 
 .section-container {
@@ -261,6 +410,80 @@ a:hover {
 }
 
 /* for_wholesalers end */
+
+/* furniture_assembly */
+
+.furniture_assembly-block__header {
+    background: url(../imgs/furniture_assembly.png) no-repeat;
+    background-size: cover;
+    border-radius: 25px;
+    height: 350px;
+}
+
+.furniture_assembly-block__text p {
+    font: normal 20px 'Oranienbaum';
+    text-indent: 20px;
+    margin: 10px 0;
+}
+
+.furniture_assembly-block__table {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.furniture_assembly-block__table th {
+    background: #4f7a88;
+    border: 10px solid;
+    border-radius: 25px;
+    color: white;
+    font: normal 600 28px 'Oranienbaum';
+    height: 80px;
+    vertical-align: middle;
+}
+
+.furniture_assembly-block__table tr:nth-child(odd) {
+    background: #a9a9a930;
+}
+
+.furniture_assembly-block__table tr:nth-child(even) {
+    background: lightgrey;
+}
+
+.furniture_assembly-block__table td {
+    border: 10px solid white;
+    border-radius: 25px;
+    font: 25px 'Oranienbaum';
+    height: 50px;
+    vertical-align: middle;
+}
+
+.furniture_assembly-block__table td:nth-child(odd) {
+    text-indent: 20px;
+}
+
+.furniture_assembly-block__table td:nth-child(even) {
+    text-align: center;
+    width: 25%;
+}
+
+.furniture_assembly-block__undertable-text p {
+    font: 20px /1.5 'Oranienbaum';
+}
+
+.undertable-text-button {
+    border-radius: 25px;
+    font-size: 25px;
+    height: 50px;
+    margin: 15px 0;
+    width: 300px;
+}
+
+.furniture_assembly-block__footer li {
+    font: 22px /1.5 'Oranienbaum';
+    margin: 10px 0;
+}
+
+/* furniture_assembly end */
 
 /* gift_cards */
 
@@ -480,6 +703,108 @@ a:hover {
 
 /* gift_cards end */
 
+/* pd_processing_policy */
+
+.pd-processing-policy__text h3 {
+    margin: 20px auto;
+    text-align: center;
+}
+
+.pd-processing-policy__text h5 {
+    margin: 5px;
+}
+
+.pd-processing-policy__text p {
+    text-indent: 20px;
+}
+
+/* pd_processing_policy end */
+
+/* service */
+
+.service-block-nav li {
+    font-size: 30px;
+    line-height: 1;
+    text-align: center;
+    width: 25%;
+}
+
+.service-block-nav .nav-link:hover {
+    border-radius: 25px;
+    color: white;
+    transition: .3s;
+}
+.service-block-nav .active {
+    color: orangered!important;
+    font-size: 40px;
+}
+
+.link-payment:hover {
+    background: rgba(0, 0, 255, 0.51);
+}
+
+.link-delivery:hover {
+    background: rgba(0, 128, 0, 0.51);
+}
+
+.link-return:hover {
+    background: rgba(255, 165, 0, 0.51);
+}
+
+.link-terms:hover {
+    background: rgba(255, 0, 0, 0.51);
+}
+
+.service-block-content li,
+.service-block-content p {
+    font: normal 20px /1.5 serif;
+}
+
+.delivery-block__table tr {
+    text-align: center;
+}
+
+.delivery-block__table th {
+    border: 3px solid;
+    font: 22px /1.2 serif;
+    height: 60px;
+    vertical-align: middle;
+}
+
+.delivery-block__table td {
+    border: 1px solid;
+    font: 20px /1.2 serif;
+    height: 40px;
+    vertical-align: middle;
+}
+
+.payment-block a {
+    font: 24px 'Bitter', serif;
+}
+
+.payment-block__links {
+    border-radius: 25px;
+    max-height: 250px;
+    padding: 0;
+    text-align: center;
+    transition: .3s;
+}
+
+.payment-block__links:hover {
+    box-shadow: 0 0 15px black;
+    transition: .3s;
+}
+
+.payment-block__content {
+    align-items: center;
+    display: flex;
+    min-height: 250px;
+    padding: 20px 50px;
+    text-indent: 20px;
+}
+
+/* service end */
+
 /* social_discount */
 
 .social-discount-block__header {
@@ -493,13 +818,13 @@ a:hover {
 }
 
 .social-discount-block__text p {
-    font: 20px 'Bitter', serif;
+    font: 22px 'Bitter', serif;
     text-align: center;
 }
 
 .social-discount-block__text ul,
 .social-discount-block__text li {
-    font: 20px 'Bitter', serif;
+    font: 22px 'Bitter', serif;
     margin: 20px;
 }
 
