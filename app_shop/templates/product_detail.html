@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+
+{% load static %}
+
+{% block title %}<title>AllHere интернет-магазин | ...</title>{% endblock %}
+
+{% block content %}
+	<div class="product-block col-11">
+	<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-white my-0 mx-5">
+      <li class="breadcrumb-item"><a href="{% url 'app_shop:index' %}">Главная страница</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Кредитная карта</li>
+    </ol>
+  </nav>
+			{{ object }}
+	</div>
+{% endblock %}
+
+{% block text-info %}
+{% endblock %}

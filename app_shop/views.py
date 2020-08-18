@@ -1,16 +1,26 @@
 from django.shortcuts import render
 from django.views import generic
 
-from .models import News, Product, Shops, SubPagesArticle
+from .models import News, Promotions, Product, ProductClassification, Shops, SubPagesArticle
 
 
 def main_sub_pages(request, **kwargs):
-    template_name = 'index.html'
     if kwargs:
         template_name = 'main_subpages/%s.html' % kwargs['page']
+        return render(
+            request,
+            template_name
+        )
+    template_name = 'index.html'
+    promotions = Promotions.objects.filter(for_carousel=True)
+    highest_categories = ProductClassification.objects.filter(highest_category=True)
     return render(
         request,
-        template_name
+        template_name,
+        context={
+            'promotions_for_carousel': promotions,
+            'highest_categories': highest_categories,
+        }
     )
 
 
@@ -56,12 +66,24 @@ class NewsDetailView(generic.DetailView):
 
 class ProductDetailView(generic.DetailView):
     model = Product
-    template_name = 'index.html'
+    template_name = 'product_detail.html'
     slug_field = 'id'
     slug_url_kwarg = 'id'
 
 
-class ProductListView(generic.ListView):
+class CategoryListView(generic.ListView):
     model = Product
-    paginate_by = 100
-    template_name = 'index.html'
+    template_name = 'section_products.html'
+    slug_field = 'classification_id'
+    slug_url_kwarg = 'classification_id'
+
+    def get_queryset(self):
+        self.queryset = Product.objects.filter(classification_id=self.kwargs['category_id'])
+        return self.queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'category': ProductClassification.objects.get(id=self.kwargs['category_id']).name,
+        })
+        return super().get_context_data(**context)

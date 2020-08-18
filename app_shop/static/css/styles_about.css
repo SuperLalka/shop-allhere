@@ -54,7 +54,7 @@ span.ymaps-geolink {
 .container-block {
     background: #2f4c58;
     border: 1px solid #111b1e;
-    border-radius: 25px 25px 25px 25px;
+    border-radius: 25px;
     display: flex;
     flex-direction: column;
     min-height: 100vh;

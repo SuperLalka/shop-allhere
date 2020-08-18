@@ -1,5 +1,5 @@
 from .forms import ApplicationForOrderingForm, CardApplicationForm, ForLandlordsForm, ForLeaseHoldersForm, SearchForm, SubscriptionForm
-from .models import Shops, ProductClassification
+from .models import Shops
 from shop_allhere import settings
 
 
@@ -12,8 +12,6 @@ def request(request):
     user_mail_form = SubscriptionForm()
     shops_list = Shops.objects.all()
     city_list = sorted(set([item.city for item in Shops.objects.all()]))
-    highest_categories = ProductClassification.objects.filter(highest_category=True)
-    list_categories = ProductClassification.objects.all().exclude(highest_category=True)
     return {
         'application_for_ordering_form': application_for_ordering_form,
         'card_application_form': card_application_form,
@@ -24,6 +22,4 @@ def request(request):
         'shops_list': shops_list,
         'API_KEY_YANDEX_GEOCODER': settings.API_KEY_YANDEX_GEOCODER,
         'city_list': city_list,
-        'highest_categories': highest_categories,
-        'list_categories': list_categories,
     }

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.db import models
 from django.forms import TextInput
 
-from .models import News, Product, ProductClassification, Shops, ShopType, SubPagesArticle, SubPagesSection
+from .models import News, Promotions, Product, ProductClassification, Shops, ShopType, SubPagesArticle, SubPagesSection
 
 
 @admin.register(SubPagesArticle)
@@ -46,4 +46,10 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(ProductClassification)
 class ProductClassificationAdmin(admin.ModelAdmin):
     list_display = ('name', 'category')
+    search_fields = ('name',)
+
+
+@admin.register(Promotions)
+class PromotionsAdmin(admin.ModelAdmin):
+    list_display = ('name', 'start_time', 'end_time')
     search_fields = ('name',)

@@ -131,11 +131,30 @@ class ProductClassification(models.Model):
         category = str(self.category).replace("/None", "")
         return '{0} /{1}'.format(self.name, category)
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.nav_name:
             self.nav_name = transliterate(self.name)
         return super(ProductClassification, self).save()
 
+    def get_child(self):
+        return ProductClassification.objects.filter(category_id=self.id)
+
     class Meta:
         ordering = ('name', 'highest_category')
+
+
+class Promotions(models.Model):
+    name = models.CharField(max_length=100, help_text="Enter product name")
+    description = HTMLField(help_text="Enter a store description", null=True, blank=True)
+    images = models.ImageField(upload_to="promotions")
+    start_time = models.DateField(help_text="Use an interactive calendar image or enter a date in the format 'YYYY-MM-DD'", null=True, blank=True)
+    end_time = models.DateField(help_text="Use an interactive calendar image or enter a date in the format 'YYYY-MM-DD'", null=True, blank=True)
+    for_carousel = models.BooleanField(help_text="Check, if promotion should be used for the main carousel", default=False)
+
+    def __str__(self):
+        return '{0} ({1} - {2})'.format(self.name, self.start_time, self.end_time)
+
+    class Meta:
+        ordering = ('-end_time',)
+        verbose_name = 'Promotion'
+        verbose_name_plural = 'Promotions'
