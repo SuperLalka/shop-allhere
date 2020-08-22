@@ -1,4 +1,7 @@
 .git
 .idea
+env
 __pycache__
+/app_shop/media/*
+/app_shop/media/promotions/*
 out

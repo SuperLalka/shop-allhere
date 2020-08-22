@@ -1,3 +1,4 @@
+from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.urls import reverse
 from tinymce.models import HTMLField
@@ -113,9 +114,13 @@ class Product(models.Model):
     images = models.ImageField(upload_to="")
     discount = models.PositiveSmallIntegerField(default=None, help_text="If need, enter amount of discount", null=True, blank=True)
     classification = models.ForeignKey('ProductClassification', on_delete=models.CASCADE, related_name='class_content', null=True, blank=True)
+    specifications = JSONField(encoder={}, null=True, blank=True)
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('app_shop:product_detail', args=[self.id])
 
     class Meta:
         ordering = ('name',)
@@ -138,6 +143,19 @@ class ProductClassification(models.Model):
 
     def get_child(self):
         return ProductClassification.objects.filter(category_id=self.id)
+
+    def get_parent(self):
+        path = [self]
+
+        def recursive_get(self):
+            if self.category:
+                path.append(self.category)
+                recursive_get(self.category)
+            else:
+                return path
+
+        recursive_get(self)
+        return list(reversed(path))
 
     class Meta:
         ordering = ('name', 'highest_category')

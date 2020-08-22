@@ -8,11 +8,12 @@
 {% block content %}
 	<div class="category-block col-11">
 		<nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-white my-0 mx-5">
+			<ol class="breadcrumb bg-white my-0">
 				<li class="breadcrumb-item"><a href="{% url 'app_shop:index' %}">Главная страница</a></li>
 				<li class="breadcrumb-item active" aria-current="page">{{ category }}</li>
 			</ol>
 		</nav>
+		<hr>
 		<div class="category-block__list">
 			{% for object in object_list %}
 				<div class="category-block__list-items list-items card">

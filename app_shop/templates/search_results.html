@@ -1,0 +1,41 @@
+{% extends "base_generic.html" %}
+
+
+{% load static %}
+
+{% block title %}<title>AllHere интернет-магазин | Поиск по значению "{{ key }}"</title>{% endblock %}
+
+{% block content %}
+<div class="category-block col-11">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-white my-0">
+      <li class="breadcrumb-item"><a href="{% url 'app_shop:index' %}">Главная страница</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Поиск по значению "{{ key }}"</li>
+    </ol>
+  </nav>
+  <hr>
+  <div class="category-block__list">
+    {% if object_list %}
+    {% for object in object_list %}
+    <div class="category-block__list-items list-items card">
+      <div class="list-items__image-block">
+        <img src="{{ object.images.url }}" class="list-items__image card-img-top" alt="{{ object.name }}"></div>
+      <div class="list-items__text-block">
+        <ul class="list-items__group">
+          <li class="list-items__group-item"><a href="{% url 'app_shop:product_detail' object.id %}">{{ object.name }}</a></li>
+          <li class="list-items__group-item">{{ object.price }} &#8381;</li>
+        </ul>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="text-center w-100">
+      <h2>По запросу "{{ key }}" ничего не найдено</h2>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block text-info %}
+{% endblock %}

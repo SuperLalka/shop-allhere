@@ -1,5 +1,5 @@
 from .forms import ApplicationForOrderingForm, CardApplicationForm, ForLandlordsForm, ForLeaseHoldersForm, SearchForm, SubscriptionForm
-from .models import Shops
+from .models import Shops, Promotions
 from shop_allhere import settings
 
 

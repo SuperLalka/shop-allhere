@@ -1,6 +1,9 @@
+from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import generic
 
+from .forms import SearchForm
 from .models import News, Promotions, Product, ProductClassification, Shops, SubPagesArticle
 
 
@@ -12,13 +15,16 @@ def main_sub_pages(request, **kwargs):
             template_name
         )
     template_name = 'index.html'
-    promotions = Promotions.objects.filter(for_carousel=True)
+    promotions_carousel = Promotions.objects.filter(for_carousel=True)
+    promotions_ordinary = list(Promotions.objects.filter(for_carousel=False).order_by('?')[:5])
+
     highest_categories = ProductClassification.objects.filter(highest_category=True)
     return render(
         request,
         template_name,
         context={
-            'promotions_for_carousel': promotions,
+            'promotions_for_carousel': promotions_carousel,
+            'promotions_ordinary': promotions_ordinary,
             'highest_categories': highest_categories,
         }
     )
@@ -78,12 +84,47 @@ class CategoryListView(generic.ListView):
     slug_url_kwarg = 'classification_id'
 
     def get_queryset(self):
-        self.queryset = Product.objects.filter(classification_id=self.kwargs['category_id'])
-        return self.queryset
+        subcategories_qs = ProductClassification.objects.filter(category_id=self.kwargs['category_id'])
+        if subcategories_qs:
+            id_list = set()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({
-            'category': ProductClassification.objects.get(id=self.kwargs['category_id']).name,
-        })
-        return super().get_context_data(**context)
+            def recursive_get(item):
+                if item.category:
+                    child_list = ProductClassification.objects.filter(category_id=item.id)
+                    for child in child_list:
+                        id_list.add(child.id)
+                        recursive_get(item.category)
+                else:
+                    return id_list
+
+            for obj in subcategories_qs:
+                id_list.add(obj.id)
+                item = recursive_get(obj)
+            self.queryset = Product.objects.filter(classification_id__in=[obj for obj in id_list])
+            return self.queryset
+        else:
+            self.queryset = Product.objects.filter(classification_id=self.kwargs['category_id'])
+            return self.queryset
+
+
+def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context.update({
+        'category': ProductClassification.objects.get(id=self.kwargs['category_id']).name,
+    })
+    return super().get_context_data(**context)
+
+
+def search(request):
+    form = SearchForm(request.POST)
+    if not form.is_valid():
+        return HttpResponseRedirect(request)
+    key = form.cleaned_data.get("search_key")
+    object_list = Product.objects.filter(Q(name__icontains=key) | Q(description__icontains=key))
+    return render(
+        request,
+        'search_results.html',
+        context={'object_list': object_list,
+                 'key': key,
+                 }
+    )

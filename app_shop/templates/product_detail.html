@@ -3,18 +3,59 @@
 
 {% load static %}
 
-{% block title %}<title>AllHere интернет-магазин | ...</title>{% endblock %}
+{% block title %}<title>AllHere интернет-магазин | {{ object.name }}</title>{% endblock %}
 
 {% block content %}
-	<div class="product-block col-11">
-	<nav aria-label="breadcrumb">
-    <ol class="breadcrumb bg-white my-0 mx-5">
-      <li class="breadcrumb-item"><a href="{% url 'app_shop:index' %}">Главная страница</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Кредитная карта</li>
-    </ol>
-  </nav>
-			{{ object }}
-	</div>
+  <div class="product-block">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb bg-white my-0">
+        <li class="breadcrumb-item"><a href="{% url 'app_shop:index' %}">Главная страница</a></li>
+        {% for item in object.classification.get_parent %}
+          {% if not forloop.last %}
+            <li class="breadcrumb-item" aria-current="page"><a
+                href="{% url 'app_shop:section_products' item.id %}">{{ item.name }}</a></li>
+          {% else %}
+            <li class="breadcrumb-item active" aria-current="page">{{ item.name }}</li>
+          {% endif %}
+        {% endfor %}
+      </ol>
+    </nav>
+    <hr>
+    <div class="product-block__info-block col-12">
+      <div class="product-block__top-block">
+        <div class="top-block__image-container">
+          <img class="top-block__image" src="{{ object.images.url }}" alt="{{ object.name }}">
+        </div>
+        <div class="top-block__title-container">
+          <h2 class="top-block__title">{{ object.name }}</h2>
+        </div>
+        <div class="top-block__price-container">
+          <p>{{ object.price }} &#8381; / шт</p>
+          <p>В наличии:</p>
+          <button class="top-block__buy-button btn btn-danger">В корзину</button>
+        </div>
+      </div>
+      <div class="product-info__bottom-block">
+        <div class="bottom-block__description-container">
+          <h2 class="bottom-block__title">О товаре</h2>
+          <div class="bottom-block__description">{{ object.description|safe }}</div>
+        </div>
+        <div class="bottom-block__characteristic-container">
+          <h2 class="bottom-block__title">Характеристики</h2>
+          {% if object.specifications %}
+            <table class="bottom-block__table">
+            {% for key, value in object.specifications.items %}
+                <tr class="bottom-block__table-row">
+                  <td class="bottom-block__cell">{{ key }}</td>
+                  <td class="bottom-block__cell">{{ value }}</td>
+                </tr>
+            {% endfor %}
+          {% endif %}
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 {% block text-info %}

@@ -22,9 +22,9 @@
 					<div class="products-block__carousel tab-pane fade show active" role="tabpanel">
 						<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
 							<ol class="carousel-indicators">
-								<li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-								<li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-								<li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+                {% for promo in promotions_for_carousel %}
+								<li data-target="#carouselExampleCaptions" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active">{% endif %}</li>
+                {% endfor %}
 							</ol>
 							<div class="carousel-inner">
 								{% for promo in promotions_for_carousel %}
