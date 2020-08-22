@@ -16,6 +16,7 @@ app_name = 'app_shop'
 urlpatterns = [
     url(r'^$', views.main_sub_pages, name='index'),
     url(r'^search$', views.search, name='search'),
+    url(r'^subscription$', views.subscription, name='subscription'),
     url(r'^(?P<page>\w+)?$', views.main_sub_pages, name='main_sub_pages'),
     url(r'^shopping/(?P<id>\w+)$', views.ProductDetailView.as_view(), name='product_detail'),
     url(r'^shopping/category/(?P<category_id>\S+)$', views.CategoryListView.as_view(), name='section_products'),

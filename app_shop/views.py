@@ -1,23 +1,26 @@
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views import generic
 
-from .forms import SearchForm
-from .models import News, Promotions, Product, ProductClassification, Shops, SubPagesArticle
+from .forms import SearchForm, SubscriptionForm
+from .models import News, Promotions, Product, ProductClassification, Shops, SubPagesArticle, SubscriptionEmails
 
 
 def main_sub_pages(request, **kwargs):
     if kwargs:
         template_name = 'main_subpages/%s.html' % kwargs['page']
+        promotions_ordinary = list(Promotions.objects.filter(for_carousel=False).order_by('?')[:5])
         return render(
             request,
-            template_name
+            template_name,
+            context={
+                'promotions_ordinary': promotions_ordinary,
+            }
         )
     template_name = 'index.html'
     promotions_carousel = Promotions.objects.filter(for_carousel=True)
     promotions_ordinary = list(Promotions.objects.filter(for_carousel=False).order_by('?')[:5])
-
     highest_categories = ProductClassification.objects.filter(highest_category=True)
     return render(
         request,
@@ -124,7 +127,17 @@ def search(request):
     return render(
         request,
         'search_results.html',
-        context={'object_list': object_list,
-                 'key': key,
-                 }
+        context={
+            'object_list': object_list,
+            'key': key,
+            }
     )
+
+
+def subscription(request):
+    form = SubscriptionForm(request.POST)
+    if not form.is_valid():
+        return redirect(request.GET['next'])
+    user_mail = form.cleaned_data.get("user_mail")
+    SubscriptionEmails.objects.get_or_create(email=user_mail)
+    return redirect(request.GET['next'])
