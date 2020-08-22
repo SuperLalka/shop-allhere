@@ -83,6 +83,17 @@ class ShopType(models.Model):
         verbose_name_plural = 'ShopsType'
 
 
+class SubscriptionEmails(models.Model):
+    email = models.EmailField(max_length=40, help_text="Enter email for mailing", unique=True)
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = 'Mailing address'
+        verbose_name_plural = 'Postal addresses'
+
+
 class News(models.Model):
     title = models.CharField(max_length=100, help_text="Enter a news titles")
     body = HTMLField(help_text="Enter a news text")
