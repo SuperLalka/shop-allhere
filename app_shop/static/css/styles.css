@@ -422,18 +422,15 @@ span.ymaps-geolink {
 }
 
 .products-block__carousel .carousel-indicators {
-    background: rgb(174,238,197);
-    background: radial-gradient(circle, rgba(174,238,197,1) 30%, rgba(0,0,0,0) 80%);
-    border-radius: 25px;
-    bottom: -40px;
+    background: radial-gradient(circle, rgb(134, 134, 134) 30%, rgba(0,0,0,0) 80%);
+    bottom: -46px;
     padding: 10px;
 }
 
 .products-block__carousel .carousel-control-next-icon,
 .products-block__carousel .carousel-control-prev-icon {
     background-color: black;
-    border-radius: 25px;
-    padding: 20px 10px;
+    padding: 40px 30px;
 }
 
 .products-block__carousel li {
@@ -613,9 +610,9 @@ span.ymaps-geolink {
 .promo-block__big-cell {
     border: 0;
     height: 700px;
+    max-width: 50%;
     padding: 10px;
     vertical-align: middle;
-    width: 50%;
 }
 
 .promo-block__big-cell:hover .promo-block__image {
@@ -644,7 +641,7 @@ span.ymaps-geolink {
     border: 0;
     height: 350px;
     padding: 10px;
-    vertical-align: center;
+    vertical-align: middle;
     width: 25%;
 }
 
@@ -808,6 +805,8 @@ a#text_info_full::before {
     border: 3px solid transparent;
     border-radius: 25px;
     color: white;
+    font: normal calc(25px + 5 * (100vw / 1920)) Vollkorn;
+    padding: 5px 15px;
 }
 
 .subscription-button:focus,

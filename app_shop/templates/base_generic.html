@@ -176,11 +176,12 @@
 </main>
 <!-- main end -->
 <!-- promotions -->
+{% block promo %}
 <div class="promo-block col-12 col-md-11">
   <table class="promo-block__table">
     <tbody>
     <tr>
-      <td class="promo-block__big-cell" rowspan="2" colspan="2">
+      <td class="promo-block__big-cell d-none d-lg-table-cell" rowspan="2" colspan="2">
         <img class="promo-block__image" src="{{ promotions_ordinary.0.images.url }}">
         <div class="promo-block__big-cell-text d-none">
           {{ promotions_ordinary.0.description|safe }}
@@ -204,6 +205,7 @@
     </tbody>
   </table>
 </div>
+{% endblock %}
 <!-- promotions end -->
 <!-- text info -->
 {% block text-info %}
@@ -289,7 +291,7 @@
       <span class="d-none d-lg-block text-center mr-2">Не упусти выгодное предложение!</span>
       <span class="text-center mr-2">Подпишись на акции!</span>
     </label>
-    <form class="subscription-block__form form-inline" action="/subscription" method="post">
+    <form class="subscription-block__form form-inline" action="{% url 'app_shop:subscription' %}?next={{request.path}}" method="post">
       <div class="subscription-block__form-block d-flex">
         {% csrf_token %}
         {{ user_mail_form.user_mail|as_crispy_field }}
