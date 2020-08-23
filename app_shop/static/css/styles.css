@@ -682,6 +682,19 @@ span.ymaps-geolink {
 
 }
 
+.recomendations-block {
+
+}
+
+.recomendations-block img {
+    height: 200px;
+    object-fit: contain;
+}
+
+.recomendations-similiar {
+    display: flex;
+}
+
 .info-block {
     margin: 0 auto;
 }

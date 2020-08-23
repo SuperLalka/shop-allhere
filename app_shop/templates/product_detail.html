@@ -45,10 +45,10 @@
           {% if object.specifications %}
             <table class="bottom-block__table">
             {% for key, value in object.specifications.items %}
-                <tr class="bottom-block__table-row">
-                  <td class="bottom-block__cell">{{ key }}</td>
-                  <td class="bottom-block__cell">{{ value }}</td>
-                </tr>
+              <tr class="bottom-block__table-row">
+                <td class="bottom-block__cell">{{ key }}</td>
+                <td class="bottom-block__cell">{{ value }}</td>
+              </tr>
             {% endfor %}
           {% endif %}
           </table>
@@ -59,6 +59,24 @@
 {% endblock %}
 
 {% block promo %}
+  <div class="recomendations-block">
+  {% if similiar_products %}
+  <h2 class="text-center">Похожие товары</h2>
+    <div class="recomendations-similiar">
+      {% for item in similiar_products %}
+        <div class="card" style="width: 18rem;">
+          <img src="{{ item.images.url }}" class="card-img-top" alt="{{ item.name }}">
+          <div class="card-body">
+            <a class="stretched-link" href="{% url 'app_shop:product_detail' item.id %}"></a>
+            <p class="card-text">{{ item.name }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+    <div class="recomendations-also-buy"></div>
+    <div class="recomendations-promotions"></div>
+  </div>
 {% endblock %}
 
 {% block text-info %}
