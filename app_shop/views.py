@@ -66,10 +66,10 @@ class NewsDetailView(generic.DetailView):
             return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({
+        context = {
             'news_list': News.objects.all(),
-        })
+            **kwargs,
+        }
         return super().get_context_data(**context)
 
 
@@ -78,6 +78,14 @@ class ProductDetailView(generic.DetailView):
     template_name = 'product_detail.html'
     slug_field = 'id'
     slug_url_kwarg = 'id'
+
+    def get_context_data(self, **kwargs):
+        context = {
+            'similiar_products': Product.objects.filter(
+                classification=self.object.classification).exclude(id=self.object.id).order_by('?')[:5],
+            **kwargs
+        }
+        return super().get_context_data(**context)
 
 
 class CategoryListView(generic.ListView):
