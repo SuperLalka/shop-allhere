@@ -5,3 +5,4 @@ yandex-geocoder==2.0.0
 psycopg2-binary==2.8.5
 beautifulsoup4==4.9.1
 Pillow==7.2.0
+flake8==3.8.3
