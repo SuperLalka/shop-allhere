@@ -10,8 +10,11 @@ from shop_allhere import settings
 
 class SubPagesArticle(models.Model):
     title = models.CharField(max_length=40, help_text="Enter a titles article")
-    address = models.CharField(max_length=40, help_text="Enter a url address for article, otherwise the address will be set automatically", null=True, blank=True)
-    section = models.ForeignKey('SubPagesSection', on_delete=models.SET_NULL, related_name='content', null=True, blank=True)
+    address = models.CharField(
+        max_length=40, help_text="Enter a url address for article, otherwise the address will be set automatically",
+        null=True, blank=True)
+    section = models.ForeignKey(
+        'SubPagesSection', on_delete=models.SET_NULL, related_name='content', null=True, blank=True)
     body = HTMLField(help_text="Enter a text article", null=True, blank=True)
     uniq_template = models.BooleanField(default=False, help_text="check if the page will use a unique HTML template")
 
@@ -46,11 +49,14 @@ class SubPagesSection(models.Model):
 class Shops(models.Model):
     name = models.CharField(max_length=40, help_text="Enter store name")
     city = models.CharField(max_length=20, help_text="Enter the city where the store is located")
-    address = models.CharField(max_length=100, help_text="Enter address of shop in the format City, street, house number")
+    address = models.CharField(
+        max_length=100, help_text="Enter address of shop in the format City, street, house number")
     type = models.ForeignKey('ShopType', on_delete=models.SET_NULL, related_name='content', null=True, blank=True)
     description = HTMLField(help_text="Enter a store description", null=True, blank=True)
-    latitude = models.DecimalField(help_text="indicates the latitude of the location on the world map", max_digits=10, decimal_places=7, editable=False, null=True, blank=True)
-    longitude = models.DecimalField(help_text="indicates the longitude of the location on the world map", max_digits=10, decimal_places=7, editable=False, null=True, blank=True)
+    latitude = models.DecimalField(help_text="indicates the latitude of the location on the world map",
+                                   max_digits=10, decimal_places=7, editable=False, null=True, blank=True)
+    longitude = models.DecimalField(help_text="indicates the longitude of the location on the world map",
+                                    max_digits=10, decimal_places=7, editable=False, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -123,15 +129,23 @@ class Product(models.Model):
     price = models.PositiveIntegerField(help_text="Enter product price")
     description = HTMLField(help_text="Enter a store description", null=True, blank=True)
     images = models.ImageField(upload_to="")
-    discount = models.PositiveSmallIntegerField(default=None, help_text="If need, enter amount of discount", null=True, blank=True)
-    classification = models.ForeignKey('ProductClassification', on_delete=models.CASCADE, related_name='class_content', null=True, blank=True)
+    discount = models.PositiveSmallIntegerField(
+        default=None, help_text="If need, enter amount of discount", null=True, blank=True)
+    classification = models.ForeignKey(
+        'ProductClassification', on_delete=models.CASCADE, related_name='class_content', null=True, blank=True)
     specifications = JSONField(encoder={}, null=True, blank=True)
+    slug = models.CharField(max_length=120, editable=False, null=True, blank=True)
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('app_shop:product_detail', args=[self.id])
+        return reverse('app_shop:product_detail', args=[self.slug])
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.slug:
+            self.slug = transliterate(self.name)
+        return super(Product, self).save()
 
     class Meta:
         ordering = ('name',)
@@ -141,15 +155,15 @@ class ProductClassification(models.Model):
     category = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=100, help_text="Enter а product category")
     highest_category = models.BooleanField(default=False)
-    nav_name = models.CharField(max_length=120, editable=False, null=True, blank=True)
+    slug = models.CharField(max_length=120, editable=False, null=True, blank=True)
 
     def __str__(self):
         category = str(self.category).replace("/None", "")
         return '{0} /{1}'.format(self.name, category)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        if not self.nav_name:
-            self.nav_name = transliterate(self.name)
+        if not self.slug:
+            self.slug = transliterate(self.name)
         return super(ProductClassification, self).save()
 
     def get_child(self):
@@ -158,10 +172,10 @@ class ProductClassification(models.Model):
     def get_parent(self):
         path = [self]
 
-        def recursive_get(self):
-            if self.category:
-                path.append(self.category)
-                recursive_get(self.category)
+        def recursive_get(item):
+            if item.category:
+                path.append(item.category)
+                recursive_get(item.category)
             else:
                 return path
 
@@ -176,12 +190,20 @@ class Promotions(models.Model):
     name = models.CharField(max_length=100, help_text="Enter product name")
     description = HTMLField(help_text="Enter a store description", null=True, blank=True)
     images = models.ImageField(upload_to="promotions")
-    start_time = models.DateField(help_text="Use an interactive calendar image or enter a date in the format 'YYYY-MM-DD'", null=True, blank=True)
-    end_time = models.DateField(help_text="Use an interactive calendar image or enter a date in the format 'YYYY-MM-DD'", null=True, blank=True)
-    for_carousel = models.BooleanField(help_text="Check, if promotion should be used for the main carousel", default=False)
+    start_time = models.DateField(
+        help_text="Use an interactive calendar image or enter a date in the format 'YYYY-MM-DD'", null=True, blank=True)
+    end_time = models.DateField(
+        help_text="Use an interactive calendar image or enter a date in the format 'YYYY-MM-DD'", null=True, blank=True)
+    for_carousel = models.BooleanField(
+        help_text="Check, if promotion should be used for the main carousel", default=False)
+    for_category = models.ManyToManyField(
+        'ProductClassification', related_name='promo_class', null=True, blank=True)
 
     def __str__(self):
         return '{0} ({1} - {2})'.format(self.name, self.start_time, self.end_time)
+
+    def list_categories(self):
+        return self.objects.for_category
 
     class Meta:
         ordering = ('-end_time',)

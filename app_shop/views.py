@@ -83,6 +83,9 @@ class ProductDetailView(generic.DetailView):
         context = {
             'similiar_products': Product.objects.filter(
                 classification=self.object.classification).exclude(id=self.object.id).order_by('?')[:5],
+            'promotions_for_detail_page': Promotions.objects.filter(
+                Q(for_category=self.object.classification_id) |
+                Q(for_category=None, for_carousel=False)).order_by('?')[:5],
             **kwargs
         }
         return super().get_context_data(**context)
@@ -110,20 +113,35 @@ class CategoryListView(generic.ListView):
 
             for obj in subcategories_qs:
                 id_list.add(obj.id)
-                item = recursive_get(obj)
+                recursive_get(obj)
             self.queryset = Product.objects.filter(classification_id__in=[obj for obj in id_list])
             return self.queryset
         else:
             self.queryset = Product.objects.filter(classification_id=self.kwargs['category_id'])
             return self.queryset
 
+    def get_context_data(self, **kwargs):
+        category = ProductClassification.objects.get(id=self.kwargs['category_id'])
+        id_list = set()
 
-def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-    context.update({
-        'category': ProductClassification.objects.get(id=self.kwargs['category_id']).name,
-    })
-    return super().get_context_data(**context)
+        def recursive_get(item):
+            if item.category_id:
+                parent = ProductClassification.objects.get(id=item.category_id)
+                id_list.add(parent.id)
+                recursive_get(item.category)
+            else:
+                return id_list
+
+        id_list.add(self.kwargs['category_id'])
+        recursive_get(category)
+        context = {
+            'category': category,
+            'promotions_for_category_page': Promotions.objects.filter(
+                Q(for_category__in=[obj for obj in id_list]) |
+                Q(for_category=None, for_carousel=False)).order_by('?')[:5],
+            **kwargs,
+        }
+        return super().get_context_data(**context)
 
 
 def search(request):
