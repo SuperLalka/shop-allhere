@@ -3,14 +3,21 @@
 
 {% load static %}
 
-{% block title %}<title>AllHere интернет-магазин | {{ category }}</title>{% endblock %}
+{% block title %}<title>AllHere интернет-магазин | {{ category.name }}</title>{% endblock %}
 
 {% block content %}
 	<div class="category-block col-11">
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb bg-white my-0">
 				<li class="breadcrumb-item"><a href="{% url 'app_shop:index' %}">Главная страница</a></li>
-				<li class="breadcrumb-item active" aria-current="page">{{ category }}</li>
+				{% for item in category.get_parent %}
+          {% if not forloop.last %}
+            <li class="breadcrumb-item" aria-current="page"><a
+                href="{% url 'app_shop:section_products' item.id %}">{{ item.name }}</a></li>
+          {% else %}
+            <li class="breadcrumb-item active" aria-current="page">{{ item.name }}</li>
+          {% endif %}
+        {% endfor %}
 			</ol>
 		</nav>
 		<hr>
@@ -33,6 +40,18 @@
 {% endblock %}
 
 {% block promo %}
+    <div class="recomendations-block d-none d-sm-block col-12">
+    {% if promotions_for_category_page %}
+      <h2 class="recomendations-block__title d-none d-md-block">&laquo; Акции &raquo;</h2>
+      <div class="recomendations-promotions d-none d-md-flex">
+        {% for promo in promotions_for_category_page %}
+          <div class="promotions-block">
+            <img class="promotions-block__image" src="{{ promo.images.url }}" alt="{{ promo.name }}">
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
 {% endblock %}
 
 {% block text-info %}

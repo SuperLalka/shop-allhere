@@ -14,7 +14,9 @@
     src: url(../fonts/Bitter-Regular.ttf);
 }
 
-html, body, div, span, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, img, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, figcaption, footer, header, nav, section, mark {
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, img, small, strike, strong, sub, sup, tt,
+var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, figure, figcaption, footer, header, nav, section, mark {
     border: 0;
     color: black;
     margin: 0;
@@ -683,7 +685,14 @@ span.ymaps-geolink {
 }
 
 .recomendations-block {
+    background: aliceblue;
+    text-align: center;
+}
 
+.recomendations-block__title {
+    background: aliceblue;
+    padding: 10px 0;
+    text-align: center;
 }
 
 .recomendations-block img {
@@ -693,6 +702,24 @@ span.ymaps-geolink {
 
 .recomendations-similiar {
     display: flex;
+}
+
+.similiar-block__card {
+    width: 20%;
+}
+
+.recomendations-promotions {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-evenly;
+}
+
+.promotions-block {
+    overflow: hidden;
+}
+
+.promotions-block__image {
+
 }
 
 .info-block {
