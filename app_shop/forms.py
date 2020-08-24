@@ -53,20 +53,21 @@ class ForLandlordsForm(forms.Form):
     contact_person = forms.CharField(label="Ф.И.О. контактного лица", max_length=50)
     contact_telephone = forms.CharField(label="Телефонный номер контактного лица", max_length=15)
     contact_email = forms.EmailField(label="E-mail контактного лица", max_length=30)
-    additional_information = forms.CharField(label="Дополнительная информация", max_length=600,
-                                             help_text="Текст не более 600 символов, для больших обьёмов текста можно воспользоваться функцией загрузки файла ниже",
-                                             required=False, widget=forms.Textarea(attrs={'rows': 4}))
+    additional_information = forms.CharField(
+        label="Дополнительная информация", max_length=600,
+        help_text="Текст не более 600 символов, для больших обьёмов текста воспользуйтесь функцией загрузки файла ниже",
+        required=False, widget=forms.Textarea(attrs={'rows': 4}))
     file = forms.FileField(label="Вложение", required=False)
 
 
 class ForLeaseHoldersForm(forms.Form):
     contact_person = forms.CharField(label="Ф.И.О. контактного лица", max_length=50)
     contact_telephone = forms.CharField(label="Телефонный номер контактного лица", max_length=15)
-    contact_fax = forms.CharField(label="Факс контактного лица", max_length=15,
-                                  help_text="необязательное для заполнения поле", required=False)
+    contact_fax = forms.CharField(
+        label="Факс контактного лица", max_length=15, help_text="необязательное для заполнения поле", required=False)
     contact_email = forms.EmailField(label="E-mail контактного лица", max_length=30)
-    contact_website = forms.CharField(label="Сайт контактного лица", max_length=25,
-                                      help_text="необязательное для заполнения поле", required=False)
+    contact_website = forms.CharField(
+        label="Сайт контактного лица", max_length=25, help_text="необязательное для заполнения поле", required=False)
     company_name = forms.CharField(label="Название компании", max_length=50)
     brand = forms.CharField(label="Торговая марка/Название магазина", max_length=50)
     description_company = forms.CharField(
@@ -110,7 +111,8 @@ class ForLeaseHoldersForm(forms.Form):
         max_length=100,
         help_text="Текст не более 100 символов",
         widget=forms.Textarea(attrs={'rows': 1}))
-    required_footage = forms.CharField(label="Необходимый метраж помещения (минимальный, максимальный, оптимальный)", max_length=50)
+    required_footage = forms.CharField(
+        label="Необходимый метраж помещения (минимальный, максимальный, оптимальный)", max_length=50)
     technical_requirements = forms.CharField(
         label="Уточните технические требования (по электроэнергии, воде, др.)",
         max_length=300,

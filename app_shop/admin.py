@@ -47,11 +47,11 @@ class ProductCharacteristicsForm(forms.ModelForm):
     carbohydrates = forms.FloatField(label="Углеводы на 100 г.", required=False)
     net_weight = forms.FloatField(label="Масса нетто, кг", required=False)
     gross_weight = forms.FloatField(label="Масса брутто, кг", required=False)
-    ingredients = forms.CharField(label="Ингредиенты", max_length=150, required=False,
-                                  widget=forms.Textarea(attrs={'rows': 3}))
+    ingredients = forms.CharField(
+        label="Ингредиенты", max_length=150, required=False, widget=forms.Textarea(attrs={'rows': 3}))
     dimensions = forms.CharField(label="ДхШхВ, мм", max_length=10, required=False)
-    manufacturer = forms.CharField(label="Производитель", max_length=100, required=False,
-                                   widget=forms.Textarea(attrs={'rows': 2}))
+    manufacturer = forms.CharField(
+        label="Производитель", max_length=100, required=False, widget=forms.Textarea(attrs={'rows': 2}))
     country_of_origin = forms.CharField(label="Страна производства", max_length=20, required=False)
 
     def save(self, *args, **kwargs):
@@ -59,12 +59,7 @@ class ProductCharacteristicsForm(forms.ModelForm):
         for key, value in self.cleaned_data.items():
             if key in self.declared_fields.keys() and value:
                 specifications[self.fields[key].label] = value
-        product_save = Product.objects.create(name=self.cleaned_data['name'], price=self.cleaned_data['price'],
-                                              description=self.cleaned_data['description'],
-                                              images=self.cleaned_data['images'],
-                                              discount=self.cleaned_data['discount'],
-                                              classification=self.cleaned_data['classification'],
-                                              specifications=specifications)
+        self.instance.specifications = specifications
         return super(ProductCharacteristicsForm, self).save(*args, **kwargs)
 
 
@@ -83,5 +78,5 @@ class ProductClassificationAdmin(admin.ModelAdmin):
 
 @admin.register(Promotions)
 class PromotionsAdmin(admin.ModelAdmin):
-    list_display = ('name', 'start_time', 'end_time', 'for_carousel')
+    list_display = ('name', 'start_time', 'end_time', 'for_carousel', )
     search_fields = ('name',)
