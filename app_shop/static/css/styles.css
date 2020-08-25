@@ -34,7 +34,7 @@ body {
 }
 
 body > * {
-    margin: auto;
+    margin: 0 auto;
 }
 
 a {
@@ -143,8 +143,7 @@ span.ymaps-geolink {
 
 .header__primary-nav-item-text {
     align-self: center;
-    font-family: 'Bitter', serif;
-    font-size: calc(12px + 10 * (100vw / 1920));
+    font: normal calc(12px + 10 * (100vw / 1920)) 'Bitter', serif;
     line-height: normal;
 }
 
@@ -488,11 +487,15 @@ span.ymaps-geolink {
     text-align: center;
 }
 
+.item-in-cart {
+    background: #ccff57;
+}
+
 .top-block__buy-button {
     border-radius: 25px;
     color: white;
-    font-size: calc(20px + 10 * (100vw / 1920));
-    padding: 1vh 3vw;
+    font-size: calc(22px + 10 * (100vw / 1920));
+    padding: 5px 15px;
     white-space: nowrap;
 }
 
@@ -551,12 +554,13 @@ span.ymaps-geolink {
 
 .category-block__list-items {
     margin: 1vw;
+    min-height: 400px;
     width: 22%;
 }
 
 .list-items__image-block {
     align-items: center;
-    height: 15vw;
+    height: 50%;
     justify-content: center;
     display: flex;
     width: 100%;
@@ -568,7 +572,7 @@ span.ymaps-geolink {
 }
 
 .list-items__text-block {
-    min-height: 150px;
+    height: 50%;
 }
 
 .list-items__group {
@@ -593,8 +597,172 @@ span.ymaps-geolink {
 
 .list-items__group-item:last-child:hover {
     background: #ffc107;
-    font-weight: 600;
     transition: .6s;
+}
+
+.list-items__item-container {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.list-items__link:hover {
+    color: black;
+}
+
+.list-items__price:hover {
+    color: black!important;
+}
+
+.list-items__trash-image {
+    height: 30px;
+    vertical-align: sub;
+}
+
+.cart-block {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cart-title {
+    text-align: center;
+    padding: 20px;
+}
+
+.cart-title__title {
+    font-size: calc(35px + 10 * (100vw / 1920));
+}
+
+.cart-block__product {
+
+}
+
+.cart-block__list-product {
+    list-style: none;
+}
+
+.cart-block__item {
+    height: 200px;
+}
+
+.cart-item__block {
+    align-items: center;
+    border: 1px solid black;
+    display: inline-flex;
+    height: inherit;
+    text-align: center;
+    width: 100%;
+}
+
+.cart-item__image-block {
+    width: 20%;
+}
+
+.cart-item__image {
+    height: 150px;
+}
+
+.cart-item__image:hover {
+    border: 1px double black;
+    display: flex;
+    height: 30vw;
+    position: absolute;
+    left: 0;
+}
+
+
+.cart-item__name {
+    align-items: center;
+    background: aliceblue;
+    background-clip: border-box;
+    display: flex;
+    font-size: calc(20px + 10 * (100vw / 1920));
+    justify-content: center;
+    height: 100%;
+    padding: 0 10px;
+    width: 35%;
+}
+
+.cart-item__numbers {
+    padding: 0 5px;
+    width: 20%;
+}
+
+.cart-block__button-block {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.cart-item__numbers-button {
+    align-self: center;
+    background: #ed1a21;
+    border-radius: 25px;
+    color: white;
+    font: normal calc(25px + 5 * (100vw / 1920)) Vollkorn;
+    padding: 5px 15px;
+}
+
+.cart-item__numbers-value {
+    font-size: calc(20px + 10 * (100vw / 1920));
+    padding: 10px;
+}
+
+.cart-item__cost {
+    font-size: calc(20px + 10 * (100vw / 1920));
+    width: 15%;
+}
+
+.cart-item__delete {
+    align-items: center;
+    background: red;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    position: relative;
+    width: 10%;
+}
+
+.cart-item__delete:hover {
+    background: #ff7474;
+}
+
+.cart-item__delete-image {
+    background-image: url(../imgs/icons_pack.png);
+    background-position: -1218px -780px;
+    height: 30px;
+    width: 30px;
+}
+
+.cart-block__count {
+    background: lavender;
+    height: fit-content;
+    position: sticky;
+    top: 50px;
+}
+
+.cart-block__count-header {
+
+}
+
+.cart-block__count-warning {
+    background: #6c757d;
+    border-radius: 25px;
+    color: white;
+    font: normal calc(14px + 10 * (100vw / 1920)) 'Bitter', serif;
+    padding: 10px;
+    text-align: center;
+}
+
+.cart-block__count-body {
+
+}
+
+.cart-block__count-table {
+    border-collapse: separate;
+    border-spacing: 0 15px;
+    font: normal calc(20px + 5 * (100vw / 1920)) Vollkorn;
+    width: 100%;
 }
 
 .promo-block {

@@ -106,7 +106,7 @@
               </a>
             </li>
             <li class="auth-block__group-item">
-              <a class="nav-link p-0" href="#">
+              <a class="nav-link p-0" href="{% url 'app_shop:cart' %}">
                 <div class="auth-block__list-item">
                   <i class="auth-block__icon i-basket"></i>
                   <div class="auth-block__text d-none d-md-block">
@@ -170,7 +170,7 @@
   <!-- navigation end -->
 </div>
 <!-- main -->
-<main class="col-12 col-md-11 m-auto p-0">
+<main class="col-12 col-md-11 mx-auto p-0">
   {% block content %}
   {% endblock %}
 </main>
@@ -291,7 +291,8 @@
       <span class="d-none d-lg-block text-center mr-2">Не упусти выгодное предложение!</span>
       <span class="text-center mr-2">Подпишись на акции!</span>
     </label>
-    <form class="subscription-block__form form-inline" action="{% url 'app_shop:subscription' %}?next={{request.path}}" method="post">
+    <form class="subscription-block__form form-inline"
+          action="{% url 'app_shop:subscription' %}?next={{ request.path }}" method="post">
       <div class="subscription-block__form-block d-flex">
         {% csrf_token %}
         {{ user_mail_form.user_mail|as_crispy_field }}

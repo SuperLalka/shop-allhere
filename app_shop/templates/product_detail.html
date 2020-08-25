@@ -32,7 +32,13 @@
         <div class="top-block__price-container">
           <p>{{ object.price }} &#8381; / шт</p>
           <p>В наличии:</p>
-          <button class="top-block__buy-button btn btn-danger">В корзину</button>
+          {% if cart_products_list_id %}
+          {% if object.id not in cart_products_list_id %}
+          <a class="top-block__buy-button btn btn-success" href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}">В корзину</a>
+          {% else %}
+            <a class="top-block__buy-button btn btn-danger" href="{% url 'app_shop:delete_product' object.id %}?next={{ request.path }}">Удалить из корзины</a>
+          {% endif %}
+        {% endif %}
         </div>
       </div>
       <div class="product-info__bottom-block">
