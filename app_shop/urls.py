@@ -15,10 +15,14 @@ allhere_in_russia_patterns = [
 app_name = 'app_shop'
 urlpatterns = [
     url(r'^$', views.main_sub_pages, name='index'),
+    url(r'^cart$', views.cart, name='cart'),
     url(r'^search$', views.search, name='search'),
     url(r'^subscription$', views.subscription, name='subscription'),
     url(r'^(?P<page>\w+)?$', views.main_sub_pages, name='main_sub_pages'),
     url(r'^shopping/(?P<id>\w+)$', views.ProductDetailView.as_view(), name='product_detail'),
+    url(r'^shopping/buy/(?P<product_id>\w+)$', views.add_product_to_cart, name='buy_product'),
+    url(r'^shopping/del_from_cart/(?P<product_id>\w+)$', views.del_product_from_cart, name='delete_product'),
+    url(r'^shopping/del_one_copy/(?P<product_id>\w+)$', views.del_one_copy, name='delete_one_copy'),
     url(r'^shopping/category/(?P<category_id>\S+)$', views.CategoryListView.as_view(), name='section_products'),
     url(r'^ru/', include(allhere_in_russia_patterns)),
 ]

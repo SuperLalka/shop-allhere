@@ -138,3 +138,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'app_shop/media')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+SESSION_SAVE_EVERY_REQUEST = True
