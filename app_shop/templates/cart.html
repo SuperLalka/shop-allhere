@@ -2,91 +2,117 @@
 
 
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}<title>AllHere интернет-магазин | Корзина покупателя</title>{% endblock %}
 
 {% block content %}
   <div class="cart-block">
-  <div class="cart-title col-12">
-    <h2 class="cart-title__title">Сейчас в корзине {% if not products_in_cart %}ничего нет{% endif %}</h2>
-  </div>
-  <div class="cart-block__product col-12 col-lg-9 col-xl-8">
-    {% if products_in_cart %}
-      <ol class="cart-block__list-product">
-        {% for object in products_in_cart %}
-          <li class="cart-block__item cart-item">
-            <article class="cart-item__block">
-              <div class="cart-item__image-block">
-                <img class="cart-item__image" src="{{ object.images.url }}" alt="{{ object.name }}">
-              </div>
-              <div class="cart-item__name">
-                <a href="{% url 'app_shop:product_detail' object.id %}">{{ object.name }}</a>
-              </div>
-              <div class="cart-item__numbers">
-                <div class="btn-group" role="group" aria-label="Basic example">
-                  <a class="cart-item__numbers-button btn"
-                     href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}">+</a>
-                  {% for key, value in id_list.items %}
-                    {% if key == object.id|slugify %}
-                      <p class="cart-item__numbers-value">{{ value }}</p>
-                      {% if value > 1 %}
-                        <a class="cart-item__numbers-button btn"
-                           href="{% url 'app_shop:delete_one_copy' object.id %}?next={{ request.path }}">-</a>
-                      {% else %}
-                        <a class="cart-item__numbers-button btn"
-                           href="{% url 'app_shop:delete_product' object.id %}?next={{ request.path }}">-</a>
+    <div class="cart-title col-12">
+      <h2 class="cart-title__title">Сейчас в корзине {% if not products_in_cart %}ничего нет{% endif %}</h2>
+    </div>
+    <div class="cart-block__product col-12 col-lg-9 col-xl-8">
+      {% if products_in_cart %}
+        <ol class="cart-block__list-product">
+          {% for object in products_in_cart %}
+            <li class="cart-block__item cart-item">
+              <article class="cart-item__block">
+                <div class="cart-item__image-block">
+                  <img class="cart-item__image" src="{{ object.images.url }}" alt="{{ object.name }}">
+                </div>
+                <div class="cart-item__name">
+                  <a href="{% url 'app_shop:product_detail' object.id %}">{{ object.name }}</a>
+                </div>
+                <div class="cart-item__numbers">
+                  <div class="btn-group" role="group" aria-label="Basic example">
+                    <a class="cart-item__numbers-button btn"
+                       href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}">+</a>
+                    {% for key, value in id_list.items %}
+                      {% if key == object.id|slugify %}
+                        <p class="cart-item__numbers-value">{{ value }}</p>
+                        {% if value > 1 %}
+                          <a class="cart-item__numbers-button btn"
+                             href="{% url 'app_shop:delete_one_copy' object.id %}?next={{ request.path }}">-</a>
+                        {% else %}
+                          <a class="cart-item__numbers-button btn"
+                             href="{% url 'app_shop:delete_product' object.id %}?next={{ request.path }}">-</a>
+                        {% endif %}
                       {% endif %}
+                    {% endfor %}
+                  </div>
+                  <p>{{ object.price }} &#8381; / шт</p>
+                </div>
+                <div class="cart-item__cost">
+                  {% for key, value in cost_list.items %}
+                    {% if key == object.id|slugify %}
+                      <p>{{ value }} &#8381;</p>
                     {% endif %}
                   {% endfor %}
                 </div>
-                <p>{{ object.price }} &#8381; / шт</p>
-              </div>
-              <div class="cart-item__cost">
-                {% for key, value in cost_list.items %}
-                  {% if key == object.id|slugify %}
-                    <p>{{ value }} &#8381;</p>
-                  {% endif %}
-                {% endfor %}
-              </div>
-              <div class="cart-item__delete">
-                <a class="stretched-link"
-                   href="{% url 'app_shop:delete_product' object.id %}?next={{ request.path }}"></a>
-                <div class="cart-item__delete-image"></div>
-              </div>
-            </article>
-          </li>
-        {% endfor %}
-      </ol>
-    {% endif %}
-  </div>
-  <div class="cart-block__count col-12 col-lg-3 col-xl-4">
-    <div class="cart-block__count-header">
-      <h2>Итого</h2>
-      {% if warning_min_amount %}
-        <p class="cart-block__count-warning">До минимальной суммы заказа осталось {{ list_amounts|last }} &#8381;</p>
+                <div class="cart-item__delete">
+                  <a class="stretched-link"
+                     href="{% url 'app_shop:delete_product' object.id %}?next={{ request.path }}"></a>
+                  <div class="cart-item__delete-image"></div>
+                </div>
+              </article>
+            </li>
+          {% endfor %}
+        </ol>
       {% endif %}
     </div>
-    <hr>
-    <div class="cart-block__count-body">
-      <table class="cart-block__count-table">
-        <tr>
-          <td>Товары({{ products_in_cart|length }})</td>
-          <td>{{ list_amounts|first }} &#8381;</td>
-        </tr>
-        <tr>
-          <td>Стоимость самовывоза</td>
-          <td>Бесплатно</td>
-        </tr>
-        <tr>
-          <td><b>Всего к оплате</b></td>
-          <td><b>{{ list_amounts|first }} &#8381;</b></td>
-        </tr>
-      </table>
-      {% if products_in_cart %}
-        <div class="cart-block__button-block">
-          <button class="cart-item__numbers-button btn btn-danger" type="submit">Перейти к оформлению</button>
+    <div class="cart-block__count col-12 col-lg-3 col-xl-4">
+      <div class="cart-block__count-header">
+        <h2>Итого</h2>
+        {% if warning_min_amount %}
+          <p class="cart-block__count-warning">До минимальной суммы заказа осталось {{ list_amounts|last }} &#8381;</p>
+        {% endif %}
+      </div>
+      <hr>
+      <div class="cart-block__count-body">
+        <table class="cart-block__count-table">
+          <tr>
+            <td>Товары({{ products_in_cart|length }})</td>
+            <td>{{ list_amounts|first }} &#8381;</td>
+          </tr>
+          <tr>
+            <td>Стоимость самовывоза</td>
+            <td>Бесплатно</td>
+          </tr>
+          <tr>
+            <td><b>Всего к оплате</b></td>
+            <td><b>{{ list_amounts|first }} &#8381;</b></td>
+          </tr>
+        </table>
+        {% if not warning_min_amount %}
+          <div class="cart-block__button-block">
+            <button type="button" class="cart-item__numbers-button btn btn-danger" data-toggle="modal"
+                    data-target="#OrderingModal">Перейти к оформлению
+            </button>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="OrderingModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+         aria-labelledby="OrderingModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="OrderingModalLabel">Куда доставить?</h2>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="{% url 'app_shop:send_order' %}?cost={{ list_amounts|first }}" method="post">
+            {% csrf_token %}
+	          {{ order_form|crispy }}
+              <button type="button" class="btn btn-lg btn-secondary" data-dismiss="modal">Отмена</button>
+              <button type="submit" class="btn btn-lg btn-primary">Отправить заявку</button>
+            </form>
+          </div>
         </div>
-      {% endif %}
+      </div>
     </div>
   </div>
 {% endblock %}
