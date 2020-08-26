@@ -197,7 +197,7 @@ class Promotions(models.Model):
     for_carousel = models.BooleanField(
         help_text="Check, if promotion should be used for the main carousel", default=False)
     for_category = models.ManyToManyField(
-        'ProductClassification', related_name='promo_class', null=True, blank=True)
+        'ProductClassification', related_name='promo_class')
 
     def __str__(self):
         return '{0} ({1} - {2})'.format(self.name, self.start_time, self.end_time)
@@ -209,3 +209,15 @@ class Promotions(models.Model):
         ordering = ('-end_time',)
         verbose_name = 'Promotion'
         verbose_name_plural = 'Promotions'
+
+
+class OrderList(models.Model):
+    product_list = models.ManyToManyField('Product', related_name='for_order')
+    cost = models.PositiveSmallIntegerField()
+    customer = models.CharField(max_length=20, help_text="Customer", null=True, blank=True)
+    customer_phone = models.CharField(max_length=20, help_text="Customer phone", null=True, blank=True)
+    address = models.CharField(max_length=100, help_text="Delivery address")
+    order_creation_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '{0} / {1}'.format(self.address, self.cost)

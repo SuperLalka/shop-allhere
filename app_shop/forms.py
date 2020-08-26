@@ -134,3 +134,16 @@ class CardApplicationForm(forms.Form):
     region = forms.ChoiceField(label="Регион", choices=SELECT_REGION, initial="mos")
     user_name = forms.CharField(label="Ф.И.О", max_length=60)
     user_phone = forms.CharField(label="Номер телефона", max_length=20)
+
+
+class OrderForm(forms.Form):
+    customer = forms.CharField(
+        label="Заказчик", max_length=50, help_text="необязательное для заполнения поле", required=False)
+    customer_phone = forms.CharField(
+        label="Номер телефона", max_length=20,
+        initial="+7", help_text="необязательное для заполнения поле", required=False)
+    address = forms.CharField(
+        label="Укажите адрес для доставки (формат 'Город, улица, дом')",
+        max_length=100,
+        help_text="Текст не более 100 символов",
+        widget=forms.Textarea(attrs={'rows': 1}))

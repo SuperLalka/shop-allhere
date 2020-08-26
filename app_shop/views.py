@@ -4,8 +4,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.views import generic
 
-from .forms import SearchForm, SubscriptionForm
-from .models import News, Promotions, Product, ProductClassification, Shops, SubPagesArticle, SubscriptionEmails
+from .forms import OrderForm, SearchForm, SubscriptionForm
+from .models import News, OrderList, Promotions, Product, ProductClassification, Shops, \
+    SubPagesArticle, SubscriptionEmails
 
 
 def main_sub_pages(request, **kwargs):
@@ -207,6 +208,17 @@ def del_one_copy(request, product_id):
 
 
 def cart(request):
+    if not request.session.get('cart', False):
+        warning_min_amount = True
+        list_amounts = [0, int(constants.MINIMUM_ORDER_AMOUNT)]
+        return render(
+            request,
+            'cart.html',
+            context={
+                'warning_min_amount': warning_min_amount,
+                'list_amounts': list_amounts,
+            }
+        )
     id_list = request.session["cart"]
     products_in_cart = Product.objects.filter(id__in=[int(obj) for obj in id_list.keys()])
 
@@ -220,6 +232,7 @@ def cart(request):
         warning_min_amount = True
 
     list_amounts = [(sum(cost_list.values())), int(constants.MINIMUM_ORDER_AMOUNT - sum(cost_list.values()))]
+    order_form = OrderForm()
     return render(
         request,
         'cart.html',
@@ -229,5 +242,29 @@ def cart(request):
             'cost_list': cost_list,
             'warning_min_amount': warning_min_amount,
             'list_amounts': list_amounts,
+            'order_form': order_form,
         }
     )
+
+
+def send_order(request):
+    form = OrderForm(request.POST)
+    if not form.is_valid():
+        return HttpResponseRedirect(request)
+    form_data = {}
+    for key, value in form.cleaned_data.items():
+        if value and value != '+7':
+            form_data[key] = value
+    cost = int(request.GET['cost'])
+    id_list = list(request.session["cart"].keys())
+    obj = OrderList.objects.create(cost=cost, address=form_data['address'])
+    if 'customer' in form_data.keys():
+        obj.customer = form_data['customer']
+    if 'customer_phone' in form_data.keys():
+        obj.customer_phone = form_data['customer_phone']
+    for x in id_list:
+        obj.product_list.add(x)
+    obj.save()
+    if OrderList.objects.get(id=obj.id):
+        del request.session["cart"]
+    return redirect('/allhere.ru/cart')
