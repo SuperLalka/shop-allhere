@@ -87,32 +87,32 @@
           <ul class="auth-block__list-group">
             <li class="auth-block__group-item">
               <a class="nav-link p-0" href="#">
-                <div class="auth-block__list-item">
+                <figure class="auth-block__list-item">
                   <i class="auth-block__icon i-log-in"></i>
                   <div class="auth-block__text d-none d-md-block">
                     <p>Войти /<br> регистрация</p>
                   </div>
-                </div>
+                </figure>
               </a>
             </li>
             <li class="auth-block__group-item d-none d-lg-block">
               <a class="nav-link p-0" href="{% url 'app_shop:main_sub_pages' 'faq_page' %}">
-                <div class="auth-block__list-item">
+                <figure class="auth-block__list-item">
                   <i class="auth-block__icon i-faq"></i>
                   <div class="auth-block__text">
                     <p>Вопросы <br>и ответы</p>
                   </div>
-                </div>
+                </figure>
               </a>
             </li>
             <li class="auth-block__group-item">
               <a class="nav-link p-0" href="{% url 'app_shop:cart' %}">
-                <div class="auth-block__list-item">
+                <figure class="auth-block__list-item">
                   <i class="auth-block__icon i-basket"></i>
                   <div class="auth-block__text d-none d-md-block">
                     <p>Корзина</p>
                   </div>
-                </div>
+                </figure>
               </a>
             </li>
           </ul>
@@ -122,7 +122,7 @@
   </header>
   <!-- header end -->
   <!-- navigation -->
-  <section class="top_nav col-12 col-md-11">
+  <div class="top_nav col-12 col-md-11">
     <nav class="top_nav-toolbar navbar navbar-expand-lg navbar-light bg-light row">
       <ul class="navbar-nav align-items-center col-12 p-0">
         <li class="nav-item p-0 d-none d-lg-block col-lg-2">
@@ -142,31 +142,31 @@
         </li>
         <li class="nav-item p-0 col-6 col-md-4 col-lg-5">
           <div class="top_nav__after-search col-12 p-0 d-inline-flex justify-content-around">
-            <div class="d-inline-flex align-items-center position-relative">
+            <figure class="d-inline-flex align-items-center position-relative">
               <a class="stretched-link" href="/sale"></a>
               <i class="top_nav__after-search-icon i-sale"></i>
               <p class="top_nav__after-search-text d-none d-xl-block">Распродажа</p>
-            </div>
-            <div class="d-inline-flex align-items-center position-relative">
+            </figure>
+            <figure class="d-inline-flex align-items-center position-relative">
               <a class="stretched-link" href="/summer"></a>
               <i class="top_nav__after-search-icon i-summer"></i>
               <p class="top_nav__after-search-text d-none d-xl-block">Лето</p>
-            </div>
-            <div class="d-inline-flex align-items-center position-relative">
+            </figure>
+            <figure class="d-inline-flex align-items-center position-relative">
               <a class="stretched-link" href="/health"></a>
               <i class="top_nav__after-search-icon i-health"></i>
               <p class="top_nav__after-search-text d-none d-xl-block">Будь здоров</p>
-            </div>
-            <div class="d-inline-flex align-items-center position-relative">
+            </figure>
+            <figure class="d-inline-flex align-items-center position-relative">
               <a class="stretched-link" href="/delivery"></a>
               <i class="top_nav__after-search-icon i-delivery"></i>
               <p class="top_nav__after-search-text d-none d-xl-block">Доставка продуктов</p>
-            </div>
+            </figure>
           </div>
         </li>
       </ul>
     </nav>
-  </section>
+  </div>
   <!-- navigation end -->
 </div>
 <!-- main -->
@@ -177,43 +177,41 @@
 <!-- main end -->
 <!-- promotions -->
 {% block promo %}
-<div class="promo-block col-12 col-md-11">
-  <table class="promo-block__table">
-    <tbody>
-    <tr>
-      <td class="promo-block__big-cell d-none d-lg-table-cell" rowspan="2" colspan="2">
-        <img class="promo-block__image" src="{{ promotions_ordinary.0.images.url }}">
-        <div class="promo-block__big-cell-text d-none">
-          {{ promotions_ordinary.0.description|safe }}
-        </div>
-      </td>
-      <td class="promo-block__small-cell">
-        <img class="promo-block__image" src="{{ promotions_ordinary.1.images.url }}">
-      </td>
-      <td class="promo-block__small-cell">
-        <img class="promo-block__image" src="{{ promotions_ordinary.2.images.url }}">
-      </td>
-    </tr>
-    <tr>
-      <td class="promo-block__small-cell">
-        <img class="promo-block__image" src="{{ promotions_ordinary.3.images.url }}">
-      </td>
-      <td class="promo-block__small-cell">
-        <img class="promo-block__image" src="{{ promotions_ordinary.4.images.url }}">
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+  <div class="promo-block col-12 col-md-11">
+    <table class="promo-block__table">
+      <tbody>
+      <tr>
+        <td class="promo-block__big-cell d-none d-lg-table-cell" rowspan="2" colspan="2">
+          <img class="promo-block__image" src="{{ promotions_ordinary.0.images.url }}">
+          <div class="promo-block__big-cell-text d-none">
+            {{ promotions_ordinary.0.description|safe }}
+          </div>
+        </td>
+        <td class="promo-block__small-cell">
+          <img class="promo-block__image" src="{{ promotions_ordinary.1.images.url }}">
+        </td>
+        <td class="promo-block__small-cell">
+          <img class="promo-block__image" src="{{ promotions_ordinary.2.images.url }}">
+        </td>
+      </tr>
+      <tr>
+        <td class="promo-block__small-cell">
+          <img class="promo-block__image" src="{{ promotions_ordinary.3.images.url }}">
+        </td>
+        <td class="promo-block__small-cell">
+          <img class="promo-block__image" src="{{ promotions_ordinary.4.images.url }}">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 {% endblock %}
 <!-- promotions end -->
 <!-- text info -->
 {% block text-info %}
-  <div class="info-block col-12 col-md-11">
-    <div class="col-12 col-lg-10 col-xl-8 m-auto">
-      <h1 class="info-block__title">Интернет-магазин AllHere</h1>
-    </div>
-    <div class="info-block__text col-12 col-lg-10 col-xl-8">
+  <article class="info-block col-12 col-md-11">
+    <section class="info-block__text col-12 col-lg-10 col-xl-8">
+      <h1 class="info-block__title col-12 col-lg-10 col-xl-8 m-auto">Интернет-магазин AllHere</h1>
       <p>Интернет-магазин AllHere - ваш любимый магазин в формате онлайн!</p>
       <p>Заказывайте на allhere.ru, и мы доставим заказ прямо к вам домой или в ближайший магазин</p>
       <p>AllHere - не только в Москве, но и в других городах России.</p>
@@ -224,67 +222,63 @@
            aria-controls="collapse_text_info">
           <i class="mx-3">Читать полностью</i></a>
       </p>
-      <div class="collapse" id="collapse_text_info">
-        <ul class="my-2"><b>Для самых маленьких у нас есть:</b>
-          <li>Смеси для беременных, на козьем молоке, специальные смеси</li>
-          <li>Каши молочные, безмолочные, готовые</li>
-          <li>Детские коляски, автокресла</li>
-          <li>Товары для ухода влажные салфетки, ватная продукция, товары для купания, мыло детское, средства для тела и
-            всё, что может пригодиться малышам и их мамам.
-          </li>
-        </ul>
-        <ul class="my-2"><b>На allhere.ru вы также сможете заказать игрушки для детей всех возрастов.</b>
-          <li>Игрушки для девочек Энчантималс, Lol, Barbie, Монстер хай, Винкс, Disney, Интерактивные куклы</li>
-          <li>Игрушки для мальчиков Nerf, Hot Wheels, Наsbro, Dickie, Silverlit, роботы</li>
-          <li>Пазлы Castorland, Step Puzzle, Educa, Trefl, Clementoni, Умная бумага, Ravensburger, Cobble Hill</li>
-          <li>Настольные игры классические, детективные, ролевые, карточные, логические, викторины, головоломки, ходилки
-          </li>
-          <li>Конструкторы Lego, Playmobil, Mega Blocks, Bauer, Город мастеров, Шуша, Kribly Boo, Bunchems, Fanсlastik,
-            Morphun
-          </li>
-        </ul>
-        <p class="my-2">Ищете что-то для всей семьи? Вас ждёт множество товаров для дома: ёлочные украшения, свечи и
-          подсвечники, рамки для фотографий, настольные подсвечники, одеяла, пледы, корзины, органайзеры для хранения,
-          стаканы, наборы для напитков, настольные лампы декоративные, офисные лампы, ножи.
-          Огромный выбор мебели: модульные кухни, диваны прямые, кресла для отдыха, офисные кресла, столы обеденные,
-          письменные, компьютерные, доступен для заказа 24/7.</p>
-        <ul class="my-2"><b>В нашем интернет-магазине представлена самая разнообразная бытовая техника:</b>
-          <li>Крупная бытовая техника: холодильники, микроволновые печи, стиральные машины.</li>
-          <li>Техника для дома: пылесосы, мультиварки, грили, кофемашины, чайники, блендеры, миксеры, обогреватели,
-            кухонные весы, утюги.
-          </li>
-          <li>Техника для красоты и здоровья: электрические зубные щётки, напольные весы, фены, машинка для стрижки
-            волос.
-          </li>
-          <li>Электроника: Экшн-камеры, мобильные телефоны, внешние аккумуляторы, сумки и рюкзаки для ноутбуков</li>
-          И многое другое!
-        </ul>
-      </div>
-    </div>
-  </div>
+    </section>
+    <section class="collapse" id="collapse_text_info">
+      <ul class="my-2"><b>Для самых маленьких у нас есть:</b>
+        <li>Смеси для беременных, на козьем молоке, специальные смеси</li>
+        <li>Каши молочные, безмолочные, готовые</li>
+        <li>Детские коляски, автокресла</li>
+        <li>Товары для ухода влажные салфетки, ватная продукция, товары для купания, мыло детское, средства для тела и
+          всё, что может пригодиться малышам и их мамам.</li>
+      </ul>
+      <ul class="my-2"><b>На allhere.ru вы также сможете заказать игрушки для детей всех возрастов.</b>
+        <li>Игрушки для девочек Энчантималс, Lol, Barbie, Монстер хай, Винкс, Disney, Интерактивные куклы</li>
+        <li>Игрушки для мальчиков Nerf, Hot Wheels, Наsbro, Dickie, Silverlit, роботы</li>
+        <li>Пазлы Castorland, Step Puzzle, Educa, Trefl, Clementoni, Умная бумага, Ravensburger, Cobble Hill</li>
+        <li>Настольные игры классические, детективные, ролевые, карточные, логические, викторины, головоломки, ходилки
+        </li>
+        <li>Конструкторы Lego, Playmobil, Mega Blocks, Bauer, Город мастеров, Шуша, Kribly Boo, Bunchems, Fanсlastik,
+          Morphun</li>
+      </ul>
+      <p class="my-2">Ищете что-то для всей семьи? Вас ждёт множество товаров для дома: ёлочные украшения, свечи и
+        подсвечники, рамки для фотографий, настольные подсвечники, одеяла, пледы, корзины, органайзеры для хранения,
+        стаканы, наборы для напитков, настольные лампы декоративные, офисные лампы, ножи.
+        Огромный выбор мебели: модульные кухни, диваны прямые, кресла для отдыха, офисные кресла, столы обеденные,
+        письменные, компьютерные, доступен для заказа 24/7.</p>
+      <ul class="my-2"><b>В нашем интернет-магазине представлена самая разнообразная бытовая техника:</b>
+        <li>Крупная бытовая техника: холодильники, микроволновые печи, стиральные машины.</li>
+        <li>Техника для дома: пылесосы, мультиварки, грили, кофемашины, чайники, блендеры, миксеры, обогреватели,
+          кухонные весы, утюги.</li>
+        <li>Техника для красоты и здоровья: электрические зубные щётки, напольные весы, фены, машинка для стрижки
+          волос.</li>
+        <li>Электроника: Экшн-камеры, мобильные телефоны, внешние аккумуляторы, сумки и рюкзаки для ноутбуков</li>
+        И многое другое!
+      </ul>
+    </section>
+  </article>
 {% endblock %}
 <!-- text info end -->
 <!-- links&subscription -->
 <div class="links-subscription-block justify-content-center justify-content-lg-between col-11">
   <div class="links-block my-2 my-md-0">
-    <div class="links-item links-item_fb">
+    <figure class="links-item links-item_fb">
       <a class="stretched-link" href="//www.facebook.com/"></a>
-    </div>
-    <div class="links-item links-item_vk">
+    </figure>
+    <figure class="links-item links-item_vk">
       <a class="stretched-link" href="//vk.com/"></a>
-    </div>
-    <div class="links-item links-item_in">
+    </figure>
+    <figure class="links-item links-item_in">
       <a class="stretched-link" href="//www.instagram.com/"></a>
-    </div>
-    <div class="links-item links-item_tw">
+    </figure>
+    <figure class="links-item links-item_tw">
       <a class="stretched-link" href="//twitter.com/"></a>
-    </div>
-    <div class="links-item-long links-item_gp">
+    </figure>
+    <figure class="links-item-long links-item_gp">
       <a class="stretched-link" href="//play.google.com/store"></a>
-    </div>
-    <div class="links-item-long links-item_as">
+    </figure>
+    <figure class="links-item-long links-item_as">
       <a class="stretched-link" href="//www.apple.com/ru/ios/app-store/"></a>
-    </div>
+    </figure>
   </div>
   <div class="subscription-block">
     <label class="text-center">

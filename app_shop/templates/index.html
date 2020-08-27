@@ -23,7 +23,8 @@
 						<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
 							<ol class="carousel-indicators">
                 {% for promo in promotions_for_carousel %}
-								<li data-target="#carouselExampleCaptions" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active">{% endif %}</li>
+								<li data-target="#carouselExampleCaptions" data-slide-to="{{ forloop.counter0 }}"
+                    {% if forloop.first %}class="active">{% endif %}</li>
                 {% endfor %}
 							</ol>
 							<div class="carousel-inner">

@@ -868,11 +868,11 @@ span.ymaps-geolink {
     object-fit: contain;
 }
 
-.recomendations-similiar {
+.recomendations-container {
     display: flex;
 }
 
-.similiar-block__card {
+.recomendations-block__card {
     width: 20%;
 }
 

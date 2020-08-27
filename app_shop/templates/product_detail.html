@@ -33,12 +33,17 @@
           <p>{{ object.price }} &#8381; / шт</p>
           <p>В наличии:</p>
           {% if cart_products_list_id %}
-          {% if object.id not in cart_products_list_id %}
-          <a class="top-block__buy-button btn btn-success" href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}">В корзину</a>
+            {% if object.id not in cart_products_list_id %}
+              <a class="top-block__buy-button btn btn-success"
+                 href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}">В корзину</a>
+            {% else %}
+              <a class="top-block__buy-button btn btn-danger"
+                 href="{% url 'app_shop:delete_product' object.id %}?next={{ request.path }}">Удалить из корзины</a>
+            {% endif %}
           {% else %}
-            <a class="top-block__buy-button btn btn-danger" href="{% url 'app_shop:delete_product' object.id %}?next={{ request.path }}">Удалить из корзины</a>
+            <a class="top-block__buy-button btn btn-success"
+               href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}">В корзину</a>
           {% endif %}
-        {% endif %}
         </div>
       </div>
       <div class="product-info__bottom-block">
@@ -68,9 +73,9 @@
   <div class="recomendations-block d-none d-sm-block col-12">
     {% if similiar_products %}
       <h2 class="recomendations-block__title">&laquo; Похожие товары &raquo;</h2>
-      <div class="recomendations-similiar similiar-block">
+      <div class="recomendations-container">
         {% for item in similiar_products %}
-          <div class="similiar-block__card card">
+          <div class="recomendations-block__card card">
             <img src="{{ item.images.url }}" class="card-img-top" alt="{{ item.name }}">
             <a class="stretched-link" href="{% url 'app_shop:product_detail' item.id %}"></a>
             <div class="card-body d-none d-md-block">
@@ -80,8 +85,20 @@
         {% endfor %}
       </div>
     {% endif %}
-    <h2 class="recomendations-block__title d-none d-md-block">&laquo; С этим товаром покупают &raquo;</h2>
-    <div class="recomendations-also-buy"></div>
+    {% if also_buy_products %}
+      <h2 class="recomendations-block__title">&laquo; С этим товаром покупают &raquo;</h2>
+      <div class="recomendations-container">
+        {% for item in also_buy_products %}
+          <div class="recomendations-block__card card">
+            <img src="{{ item.images.url }}" class="card-img-top" alt="{{ item.name }}">
+            <a class="stretched-link" href="{% url 'app_shop:product_detail' item.id %}"></a>
+            <div class="card-body d-none d-md-block">
+              <p class="card-text">{{ item.name }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
     {% if promotions_for_detail_page %}
       <h2 class="recomendations-block__title d-none d-md-block">&laquo; Акции &raquo;</h2>
       <div class="recomendations-promotions d-none d-md-flex">
