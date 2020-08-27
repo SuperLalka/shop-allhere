@@ -82,12 +82,15 @@ class ProductDetailView(generic.DetailView):
     slug_url_kwarg = 'id'
 
     def get_context_data(self, **kwargs):
+        also_buy_products = Product.objects.filter(
+            for_order__product_list=self.object.id).exclude(id=self.object.id).distinct().order_by('?')[:5]
         if self.request.session.get('cart', None):
             cart_products = self.request.session["cart"]
             cart_products_list_id = [int(x) for x in cart_products.keys()]
         else:
             cart_products_list_id = None
         context = {
+            'also_buy_products': also_buy_products,
             'similiar_products': Product.objects.filter(
                 classification=self.object.classification).exclude(id=self.object.id).order_by('?')[:5],
             'promotions_for_detail_page': Promotions.objects.filter(
