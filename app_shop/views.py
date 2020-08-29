@@ -1,18 +1,19 @@
 from app_shop import constants
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.views import generic
 
 from .forms import OrderForm, SearchForm, SubscriptionForm
-from .models import News, OrderList, Promotions, Product, ProductClassification, Shops, \
-    SubPagesArticle, SubscriptionEmails
+from .models import News, OrderList, Promotions, Product, ProductClassification, ProductListForOrder, \
+    Shops, SubPagesArticle, SubscriptionEmails
 
 
 def main_sub_pages(request, **kwargs):
     if kwargs:
         template_name = 'main_subpages/%s.html' % kwargs['page']
-        promotions_ordinary = list(Promotions.objects.filter(for_category=None, for_carousel=False).order_by('?')[:5])
+        promotions_ordinary = list(Promotions.objects.filter(
+            for_category=None, for_carousel=False).order_by('?')[:5])
         return render(
             request,
             template_name,
@@ -24,6 +25,7 @@ def main_sub_pages(request, **kwargs):
     promotions_carousel = Promotions.objects.filter(for_carousel=True)
     promotions_ordinary = list(Promotions.objects.filter(for_category=None, for_carousel=False).order_by('?')[:5])
     highest_categories = ProductClassification.objects.filter(highest_category=True)
+
     return render(
         request,
         template_name,
@@ -82,20 +84,32 @@ class ProductDetailView(generic.DetailView):
     slug_url_kwarg = 'id'
 
     def get_context_data(self, **kwargs):
-        also_buy_products = Product.objects.filter(
-            for_order__product_list=self.object.id).exclude(id=self.object.id).distinct().order_by('?')[:5]
+        list_orders_id = ProductListForOrder.objects.filter(
+            product_id=self.object.id).values_list('orderlist_id', flat=True)
+        most_often_buy = ProductListForOrder.objects.filter(
+            orderlist_id__in=list_orders_id).exclude(product_id=self.object.id).values('product_id').annotate(
+            count=Count("id")).order_by('-count')[:5]
+        most_often_buy = most_often_buy.values_list('product_id', flat=True)
+        also_buy_products = ProductListForOrder.objects.filter(
+            product_id__in=most_often_buy).distinct('product_id')
+
         if self.request.session.get('cart', None):
             cart_products = self.request.session["cart"]
             cart_products_list_id = [int(x) for x in cart_products.keys()]
         else:
             cart_products_list_id = None
+
+        similiar_products = Product.objects.filter(
+            classification=self.object.classification).exclude(
+            id=self.object.id).order_by('?')[:5]
+        promotions_for_detail_page = Promotions.objects.filter(
+            Q(for_category=self.object.classification_id) |
+            Q(for_category=None, for_carousel=False)).order_by('?')[:5]
+
         context = {
             'also_buy_products': also_buy_products,
-            'similiar_products': Product.objects.filter(
-                classification=self.object.classification).exclude(id=self.object.id).order_by('?')[:5],
-            'promotions_for_detail_page': Promotions.objects.filter(
-                Q(for_category=self.object.classification_id) |
-                Q(for_category=None, for_carousel=False)).order_by('?')[:5],
+            'similiar_products': similiar_products,
+            'promotions_for_detail_page': promotions_for_detail_page,
             'cart_products_list_id': cart_products_list_id,
             **kwargs
         }
@@ -133,6 +147,8 @@ class CategoryListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         category = ProductClassification.objects.get(id=self.kwargs['category_id'])
+        category_list_id = self.queryset.values_list('classification_id', flat=True)
+        category_list = ProductClassification.objects.filter(id__in=category_list_id)
         id_list = set()
 
         def recursive_get(item):
@@ -140,22 +156,25 @@ class CategoryListView(generic.ListView):
                 parent = ProductClassification.objects.get(id=item.category_id)
                 id_list.add(parent.id)
                 recursive_get(item.category)
-            else:
-                return id_list
 
         id_list.add(self.kwargs['category_id'])
         recursive_get(category)
+
         if self.request.session.get('cart', None):
             cart_products = self.request.session["cart"]
             cart_products_list_id = [int(x) for x in cart_products.keys()]
         else:
             cart_products_list_id = None
+
+        promotions_for_category_page = Promotions.objects.filter(
+            Q(for_category__in=id_list) |
+            Q(for_category=None, for_carousel=False)).order_by('?')[:5]
+
         context = {
             'category': category,
+            'category_list': category_list,
             'cart_products_list_id': cart_products_list_id,
-            'promotions_for_category_page': Promotions.objects.filter(
-                Q(for_category__in=[obj for obj in id_list]) |
-                Q(for_category=None, for_carousel=False)).order_by('?')[:5],
+            'promotions_for_category_page': promotions_for_category_page,
             **kwargs,
         }
         return super().get_context_data(**context)
@@ -165,14 +184,18 @@ def search(request):
     form = SearchForm(request.POST)
     if not form.is_valid():
         return HttpResponseRedirect(request)
+
     key = form.cleaned_data.get("search_key")
     object_list = Product.objects.filter(Q(name__icontains=key) | Q(description__icontains=key))
+    category_list_id = object_list.values_list('classification_id', flat=True)
+    category_list = ProductClassification.objects.filter(id__in=category_list_id)
     return render(
         request,
         'search_results.html',
         context={
             'object_list': object_list,
             'key': key,
+            'category_list': category_list
             }
     )
 
@@ -181,6 +204,7 @@ def subscription(request):
     form = SubscriptionForm(request.POST)
     if not form.is_valid():
         return redirect(request.GET['next'])
+
     user_mail = form.cleaned_data.get("user_mail")
     SubscriptionEmails.objects.get_or_create(email=user_mail)
     return redirect(request.GET['next'])
@@ -236,6 +260,7 @@ def cart(request):
 
     list_amounts = [(sum(cost_list.values())), int(constants.MINIMUM_ORDER_AMOUNT - sum(cost_list.values()))]
     order_form = OrderForm()
+
     return render(
         request,
         'cart.html',
@@ -254,20 +279,20 @@ def send_order(request):
     form = OrderForm(request.POST)
     if not form.is_valid():
         return HttpResponseRedirect(request)
+
     form_data = {}
     for key, value in form.cleaned_data.items():
-        if value and value != '+7':
+        if value:
             form_data[key] = value
-    cost = int(request.GET['cost'])
-    id_list = list(request.session["cart"].keys())
-    obj = OrderList.objects.create(cost=cost, address=form_data['address'])
-    if 'customer' in form_data.keys():
-        obj.customer = form_data['customer']
-    if 'customer_phone' in form_data.keys():
-        obj.customer_phone = form_data['customer_phone']
-    for x in id_list:
-        obj.product_list.add(x)
-    obj.save()
-    if OrderList.objects.get(id=obj.id):
-        del request.session["cart"]
+
+    obj = OrderList.objects.create(
+        cost=int(request.GET['cost']),
+        address=form_data['address'],
+        customer=form_data.get('customer'),
+        customer_phone=form_data.get('customer_phone')
+    )
+    for name, count in request.session["cart"].items():
+        ProductListForOrder.objects.create(orderlist_id=obj.id, product_id=name, count=count)
+    del request.session["cart"]
+
     return redirect('/allhere.ru/cart')
