@@ -140,8 +140,8 @@ class OrderForm(forms.Form):
     customer = forms.CharField(
         label="Заказчик", max_length=50, help_text="необязательное для заполнения поле", required=False)
     customer_phone = forms.CharField(
-        label="Номер телефона", max_length=20,
-        initial="+7", help_text="необязательное для заполнения поле", required=False)
+        label="Номер телефона", max_length=20,help_text="необязательное для заполнения поле", required=False,
+        widget=forms.TextInput(attrs={'placeholder': '+7'}))
     address = forms.CharField(
         label="Укажите адрес для доставки (формат 'Город, улица, дом')",
         max_length=100,
