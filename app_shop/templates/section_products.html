@@ -22,40 +22,51 @@
     </nav>
     <hr>
     <div class="category-block__list">
-      {% for object in object_list %}
-        <div class="category-block__list-items list-items card">
-          <div class="list-items__image-block">
-            <img src="{{ object.images.url }}" class="list-items__image card-img-top" alt="{{ object.name }}">
-          </div>
-          <div class="list-items__text-block">
-            <ul class="list-items__group">
-              <li class="list-items__group-item">
-                <a href="{% url 'app_shop:product_detail' object.id %}">{{ object.name }}</a></li>
-              {% if object.id in cart_products_list_id %}
-                <li class="list-items__group-item">
-                  <div class="list-items__item-container item-in-cart">
-                    <a class="list-items__link stretched-link"
-                       href="{% url 'app_shop:delete_product' object.id %}?next={{ request.path }}"></a>
-                    <p class="list-items__price">{{ object.price }} &#8381;</p>
-                    <span>
+      {% if category_list %}
+        {% for category in category_list %}
+          <h3 class="category-block__section-title">
+            <a href="{% url 'app_shop:section_products' category.id %}">{{ category.name }}</a>
+          </h3>
+          <div class="category-block__list-section">
+            {% for object in object_list %}
+              {% if object.classification_id == category.id %}
+                <div class="category-block__list-items list-items card">
+                  <div class="list-items__image-block">
+                    <img src="{{ object.images.url }}" class="list-items__image card-img-top" alt="{{ object.name }}">
+                  </div>
+                  <div class="list-items__text-block">
+                    <ul class="list-items__group">
+                      <li class="list-items__group-item">
+                        <a href="{% url 'app_shop:product_detail' object.id %}">{{ object.name }}</a></li>
+                      {% if object.id in cart_products_list_id %}
+                        <li class="list-items__group-item">
+                          <div class="list-items__item-container item-in-cart">
+                            <a class="list-items__link stretched-link"
+                               href="{% url 'app_shop:delete_product' object.id %}?next={{ request.path }}"></a>
+                            <p class="list-items__price">{{ object.price }} &#8381;</p>
+                            <span>
                     удалить
                   <img class="list-items__trash-image" src="{% static 'imgs/trash.png' %}" alt="trash">
                     </span>
+                          </div>
+                        </li>
+                      {% else %}
+                        <li class="list-items__group-item">
+                          <div class="list-items__item-container">
+                            <a class="list-items__link stretched-link"
+                               href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}"></a>
+                            <p class="list-items__price">{{ object.price }} &#8381;</p>
+                            <div class="list-items__item-container">
+                        </li>
+                      {% endif %}
+                    </ul>
                   </div>
-                </li>
-              {% else %}
-                <li class="list-items__group-item">
-                  <div class="list-items__item-container">
-                    <a class="list-items__link stretched-link"
-                       href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}"></a>
-                    <p class="list-items__price">{{ object.price }} &#8381;</p>
-                    <div class="list-items__item-container">
-                </li>
+                </div>
               {% endif %}
-            </ul>
+            {% endfor %}
           </div>
-        </div>
-      {% endfor %}
+        {% endfor %}
+      {% endif %}
     </div>
   </div>
 {% endblock %}

@@ -548,6 +548,15 @@ span.ymaps-geolink {
 }
 
 .category-block__list {
+
+}
+
+.category-block__section-title {
+    background: ghostwhite;
+    padding: 10px;
+}
+
+.category-block__list-section {
     display: flex;
     flex-wrap: wrap;
 }
@@ -870,6 +879,7 @@ span.ymaps-geolink {
 
 .recomendations-container {
     display: flex;
+    justify-content: center;
 }
 
 .recomendations-block__card {

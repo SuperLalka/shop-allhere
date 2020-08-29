@@ -4,64 +4,63 @@
 {% load static %}
 
 {% block content %}
-	<div class="content-block col-11">
-		<nav class="content-block__navigation navbar navbar-expand-md navbar-light p-0">
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
-			        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>КАТЕГОРИИ ТОВАРОВ
-			</button>
-			<div class="content-block__collapse-block collapse navbar-collapse row" id="navbarText">
-				<div class="products-block__categories list-group col-4 col-lg-3" id="list-tab" role="tablist">
-					{% for obj in highest_categories %}
-						<a class="products-block__categories-link list-group-item list-group-item-action"
-						   id="list-{{ obj.slug }}-list" data-toggle="list"
-						   href="#list-{{ obj.slug }}" role="tab" aria-controls="{{ obj.slug }}">{{ obj.name }}</a>
-					{% endfor %}
-				</div>
-				<div class="products-block__sections tab-content col-8 col-lg-9" id="nav-tabContent">
-					<div class="products-block__carousel tab-pane fade show active" role="tabpanel">
-						<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-							<ol class="carousel-indicators">
+  <div class="content-block col-11">
+    <nav class="content-block__navigation navbar navbar-expand-md navbar-light p-0">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+              aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>КАТЕГОРИИ ТОВАРОВ
+      </button>
+      <div class="content-block__collapse-block collapse navbar-collapse row" id="navbarText">
+        <div class="products-block__categories list-group col-4 col-lg-3" id="list-tab" role="tablist">
+          {% for obj in highest_categories %}
+            <a class="products-block__categories-link list-group-item list-group-item-action"
+               id="list-{{ obj.slug }}-list" data-toggle="list"
+               href="#list-{{ obj.slug }}" role="tab" aria-controls="{{ obj.slug }}">{{ obj.name }}</a>
+          {% endfor %}
+        </div>
+        <div class="products-block__sections tab-content col-8 col-lg-9" id="nav-tabContent">
+          <div class="products-block__carousel tab-pane fade show active" role="tabpanel">
+            <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
                 {% for promo in promotions_for_carousel %}
-								<li data-target="#carouselExampleCaptions" data-slide-to="{{ forloop.counter0 }}"
-                    {% if forloop.first %}class="active">{% endif %}</li>
+                  <li data-target="#carouselExampleCaptions" data-slide-to="{{ forloop.counter0 }}"
+                      {% if forloop.first %}class="active">{% endif %}</li>
                 {% endfor %}
-							</ol>
-							<div class="carousel-inner">
-								{% for promo in promotions_for_carousel %}
-									<div class="carousel-item {% if forloop.first %}active{% endif %}">
-									<img src="{{ promo.images.url }}" class="d-block w-100" alt="{{ promo.name }}">
-								</div>
-							{% endfor %}
-							</div>
-							<a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-								<span class="sr-only">Previous</span>
-							</a>
-							<a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-								<span class="sr-only">Next</span>
-							</a>
-						</div>
-					</div>
-					{% for obj in highest_categories %}
-						<div class="products-block__content tab-pane fade {% if forloop.parentloop.first %}show active{% endif %}"
-						     id="list-{{ obj.slug }}" role="tabpanel"
-						     aria-labelledby="list-{{ obj.slug }}-list">
-							<ol>
-								{% for item in obj.get_child %}
-									<li><a href="{% url 'app_shop:section_products' item.id %}">{{ item.name }}</a></li>
-									<ul>
-										{% for child in item.get_child %}
-											<li><a href="{% url 'app_shop:section_products' child.id %}">{{ child.name }}</a></li>
-										{% endfor %}
-									</ul>
-								{% endfor %}
-							</ol>
-						</div>
-					{% endfor %}
-				</div>
-			</div>
-		</nav>
-	</div>
+              </ol>
+              <div class="carousel-inner">
+                {% for promo in promotions_for_carousel %}
+                  <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <img src="{{ promo.images.url }}" class="d-block w-100" alt="{{ promo.name }}">
+                  </div>
+                {% endfor %}
+              </div>
+              <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+          </div>
+          {% for obj in highest_categories %}
+            <div class="products-block__content tab-pane fade {% if forloop.parentloop.first %}show active{% endif %}"
+                 id="list-{{ obj.slug }}" role="tabpanel" aria-labelledby="list-{{ obj.slug }}-list">
+              <ol>
+                {% for item in obj.get_child %}
+                  <li><a href="{% url 'app_shop:section_products' item.id %}">{{ item.name }}</a></li>
+                  <ul>
+                    {% for child in item.get_child %}
+                      <li><a href="{% url 'app_shop:section_products' child.id %}">{{ child.name }}</a></li>
+                    {% endfor %}
+                  </ul>
+                {% endfor %}
+              </ol>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </nav>
+  </div>
 {% endblock %}

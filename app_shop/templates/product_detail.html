@@ -90,10 +90,10 @@
       <div class="recomendations-container">
         {% for item in also_buy_products %}
           <div class="recomendations-block__card card">
-            <img src="{{ item.images.url }}" class="card-img-top" alt="{{ item.name }}">
-            <a class="stretched-link" href="{% url 'app_shop:product_detail' item.id %}"></a>
+            <img src="{{ item.product.images.url }}" class="card-img-top" alt="{{ item.product.name }}">
+            <a class="stretched-link" href="{% url 'app_shop:product_detail' item.product.id %}"></a>
             <div class="card-body d-none d-md-block">
-              <p class="card-text">{{ item.name }}</p>
+              <p class="card-text">{{ item.product.name }}</p>
             </div>
           </div>
         {% endfor %}
