@@ -212,7 +212,7 @@ class Promotions(models.Model):
 
 
 class OrderList(models.Model):
-    product_list = models.ManyToManyField('Product', related_name='for_order')
+    product_list = models.ManyToManyField('Product', through='ProductListForOrder')
     cost = models.PositiveSmallIntegerField()
     customer = models.CharField(max_length=20, help_text="Customer", null=True, blank=True)
     customer_phone = models.CharField(max_length=20, help_text="Customer phone", null=True, blank=True)
@@ -221,3 +221,12 @@ class OrderList(models.Model):
 
     def __str__(self):
         return '{0} / {1}'.format(self.address, self.cost)
+
+
+class ProductListForOrder(models.Model):
+    orderlist = models.ForeignKey(OrderList, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    count = models.PositiveSmallIntegerField(null=True, blank=True)
+
+    class Meta:
+        db_table = "app_shop_productlistfororder"
