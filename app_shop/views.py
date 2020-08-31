@@ -1,10 +1,12 @@
 from app_shop import constants
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.db.models import Q, Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.views import generic
 
-from .forms import OrderForm, SearchForm, SubscriptionForm
+from .forms import AuthorizationForm, OrderForm, RegistrationForm, SearchForm, SubscriptionForm
 from .models import News, OrderList, Promotions, Product, ProductClassification, ProductListForOrder, \
     Shops, SubPagesArticle, SubscriptionEmails
 
@@ -222,14 +224,14 @@ def add_product_to_cart(request, product_id):
         return HttpResponseRedirect(request.GET['next'])
 
 
-def del_product_from_cart(request, product_id):
+def remove_product_from_cart(request, product_id):
     product = request.session["cart"]
     del product[product_id]
     request.session['cart'] = product
     return HttpResponseRedirect(request.GET['next'])
 
 
-def del_one_copy(request, product_id):
+def remove_one_copy(request, product_id):
     request.session['cart'][product_id] -= 1
     return HttpResponseRedirect(request.GET['next'])
 
@@ -246,6 +248,7 @@ def cart(request):
                 'list_amounts': list_amounts,
             }
         )
+    order_form = OrderForm()
     id_list = request.session["cart"]
     products_in_cart = Product.objects.filter(id__in=[int(obj) for obj in id_list.keys()])
 
@@ -259,18 +262,17 @@ def cart(request):
         warning_min_amount = True
 
     list_amounts = [(sum(cost_list.values())), int(constants.MINIMUM_ORDER_AMOUNT - sum(cost_list.values()))]
-    order_form = OrderForm()
 
     return render(
         request,
         'cart.html',
         context={
+            'order_form': order_form,
             'id_list': id_list,
             'products_in_cart': products_in_cart,
             'cost_list': cost_list,
             'warning_min_amount': warning_min_amount,
             'list_amounts': list_amounts,
-            'order_form': order_form,
         }
     )
 
@@ -291,8 +293,69 @@ def send_order(request):
         customer=form_data.get('customer'),
         customer_phone=form_data.get('customer_phone')
     )
+
+    if request.user.is_authenticated:
+        obj.customer_id = request.user.id
+        obj.save()
+
     for name, count in request.session["cart"].items():
-        ProductListForOrder.objects.create(orderlist_id=obj.id, product_id=name, count=count)
+        ProductListForOrder.objects.create(orderlist_id=obj.id,
+                                           product_id=name,
+                                           count=count)
     del request.session["cart"]
 
     return redirect('/allhere.ru/cart')
+
+
+def authentication(request):
+    if request.method == 'POST':
+        form = AuthorizationForm(request.POST)
+        if not form.is_valid():
+            return print("ERROR")
+
+        user = authenticate(request,
+                            username=form.cleaned_data['user_name'],
+                            password=form.cleaned_data['user_password'])
+        if user is not None:
+            login(request, user)
+            return redirect('app_shop:user_account')
+        else:
+            render(request, 'authentication.html', context={'authorization': True})
+    else:
+        authorization_form = AuthorizationForm()
+        registration_form = RegistrationForm()
+        return render(
+            request,
+            'authentication.html',
+            context={
+                'authorization_form': authorization_form,
+                'registration_form': registration_form,
+            }
+        )
+
+
+def logout_from_profile(request):
+    logout(request)
+    return redirect('app_shop:user_account')
+
+
+def registration(request):
+    form = RegistrationForm(request.POST)
+    if not form.is_valid():
+        return HttpResponseRedirect(request)
+
+    User.objects.create_user(form.cleaned_data['user_name'],
+                             form.cleaned_data['user_email'],
+                             form.cleaned_data['user_password'])
+    return render(request, 'authentication.html', context={'authorization': True})
+
+
+def user_account(request, **kwargs):
+    shopping_list = OrderList.objects.filter(customer_id=request.user.id)
+    return render(
+        request,
+        'user_account.html',
+        context={
+            'shopping_list': shopping_list
+        }
+    )
