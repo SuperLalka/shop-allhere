@@ -38,7 +38,7 @@
                  href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}">В корзину</a>
             {% else %}
               <a class="top-block__buy-button btn btn-danger"
-                 href="{% url 'app_shop:delete_product' object.id %}?next={{ request.path }}">Удалить из корзины</a>
+                 href="{% url 'app_shop:remove_product' object.id %}?next={{ request.path }}">Удалить из корзины</a>
             {% endif %}
           {% else %}
             <a class="top-block__buy-button btn btn-success"

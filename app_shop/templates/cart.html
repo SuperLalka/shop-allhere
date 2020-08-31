@@ -32,10 +32,10 @@
                         <p class="cart-item__numbers-value">{{ value }}</p>
                         {% if value > 1 %}
                           <a class="cart-item__numbers-button btn"
-                             href="{% url 'app_shop:delete_one_copy' object.id %}?next={{ request.path }}">-</a>
+                             href="{% url 'app_shop:remove_one_copy' object.id %}?next={{ request.path }}">-</a>
                         {% else %}
                           <a class="cart-item__numbers-button btn"
-                             href="{% url 'app_shop:delete_product' object.id %}?next={{ request.path }}">-</a>
+                             href="{% url 'app_shop:remove_product' object.id %}?next={{ request.path }}">-</a>
                         {% endif %}
                       {% endif %}
                     {% endfor %}
@@ -51,7 +51,7 @@
                 </div>
                 <div class="cart-item__delete">
                   <a class="stretched-link"
-                     href="{% url 'app_shop:delete_product' object.id %}?next={{ request.path }}"></a>
+                     href="{% url 'app_shop:remove_product' object.id %}?next={{ request.path }}"></a>
                   <div class="cart-item__delete-image"></div>
                 </div>
               </article>
@@ -105,8 +105,8 @@
           </div>
           <div class="modal-body">
             <form action="{% url 'app_shop:send_order' %}?cost={{ list_amounts|first }}" method="post">
-            {% csrf_token %}
-	          {{ order_form|crispy }}
+              {% csrf_token %}
+              {{ order_form|crispy }}
               <button type="button" class="btn btn-lg btn-secondary" data-dismiss="modal">Отмена</button>
               <button type="submit" class="btn btn-lg btn-primary">Отправить заявку</button>
             </form>
@@ -114,6 +114,7 @@
         </div>
       </div>
     </div>
+    <!-- Modal end -->
   </div>
 {% endblock %}
 

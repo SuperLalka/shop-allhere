@@ -1,0 +1,49 @@
+{% extends "base_generic.html" %}
+
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class="authentication col-11 col-lg-7 col-xl-5">
+    <nav class="authentication__nav-tabs nav nav-tabs" id="nav-tab" role="tablist">
+      <a class="authentication__tabs-item nav-link {% if not authorization %}active{% endif %}"
+         id="nav-registration-tab" data-toggle="tab" href="#nav-registration" role="tab"
+         aria-controls="nav-home" aria-selected="true">РЕГИСТРАЦИЯ</a>
+      <a class="authentication__tabs-item nav-link {% if authorization %}active{% endif %}"
+         id="nav-profile-tab" data-toggle="tab" href="#nav-authorization" role="tab"
+         aria-controls="nav-profile" aria-selected="false">АВТОРИЗАЦИЯ</a>
+    </nav>
+    <div class="authentication__content-block tab-content" id="nav-tabContent">
+      <div class="authentication__tabpanel tab-pane fade {% if not authorization %}show active{% endif %}"
+           id="nav-registration" role="tabpanel" aria-labelledby="nav-registration-tab">
+        <form class="authentication__form" action="{% url 'app_shop:registration' %}" method="post">
+          <div class="authentication__form-content">
+            {% csrf_token %}
+            {{ registration_form|crispy }}
+            <button type="submit" class="authentication__button">Зарегистрироваться</button>
+          </div>
+        </form>
+      </div>
+      <div class="authentication__content-block tab-pane fade {% if authorization %}show active{% endif %}"
+           id="nav-authorization" role="tabpanel" aria-labelledby="nav-authorization-tab">
+        <form class="authentication__form" action="{% url 'app_shop:authentication' %}" method="post">
+          <div class="authentication__form-content">
+            {% csrf_token %}
+            {{ authorization_form|crispy }}
+            <button type="submit" class="authentication__button">Авторизироваться</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block promo %}
+{% endblock %}
+
+{% block text-info %}
+{% endblock %}
+
+{% block links-subscription %}
+{% endblock %}

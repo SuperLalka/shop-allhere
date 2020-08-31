@@ -86,7 +86,8 @@
         <div class="auth-block">
           <ul class="auth-block__list-group">
             <li class="auth-block__group-item">
-              <a class="nav-link p-0" href="#">
+              {% if not user.is_authenticated %}
+              <a class="nav-link p-0" href="{% url 'app_shop:authentication' %}">
                 <figure class="auth-block__list-item">
                   <i class="auth-block__icon i-log-in"></i>
                   <div class="auth-block__text d-none d-md-block">
@@ -94,6 +95,19 @@
                   </div>
                 </figure>
               </a>
+              {% else %}
+                <a class="nav-link p-0" href="{% url 'app_shop:user_account' %}">
+                <figure class="auth-block__list-item">
+                  <i class="auth-block__icon i-log-in"></i>
+                  <div class="auth-block__text d-none d-md-block">
+                    <p>Вы вошли как <br>{{ user.username }}</p>
+                  </div>
+                  <div class="auth-block__text d-md-none">
+                    <p>{{ user.username }}</p>
+                  </div>
+                </figure>
+              </a>
+              {% endif %}
             </li>
             <li class="auth-block__group-item d-none d-lg-block">
               <a class="nav-link p-0" href="{% url 'app_shop:main_sub_pages' 'faq_page' %}">
@@ -259,6 +273,7 @@
 {% endblock %}
 <!-- text info end -->
 <!-- links&subscription -->
+{% block links-subscription %}
 <div class="links-subscription-block justify-content-center justify-content-lg-between col-11">
   <div class="links-block my-2 my-md-0">
     <figure class="links-item links-item_fb">
@@ -295,6 +310,7 @@
     </form>
   </div>
 </div>
+{% endblock %}
 <!-- links&subscription end -->
 <!-- footer -->
 <footer class="footer mt-auto bg-light">

@@ -774,6 +774,78 @@ span.ymaps-geolink {
     width: 100%;
 }
 
+.authentication {
+    background: lightblue;
+    border-radius: 25px;
+    margin: 50px auto;
+    padding: 2vw;
+}
+
+.authentication__nav-tabs {
+    font: normal calc(26px + 10 * (100vw / 1920)) Vollkorn;
+    text-align: center;
+}
+
+.authentication__tabs-item {
+    background: aliceblue;
+    width: 50%;
+}
+
+.authentication__content-block {
+    margin: 20px 0;
+}
+
+.authentication__tabpanel {
+
+}
+
+.authentication__form-content {
+
+}
+
+.authentication__form-content label {
+    font-size: 25px;
+}
+
+.authentication__form {
+
+}
+
+.authentication__button {
+    background: khaki;
+    border: 1px solid black;
+    font-size: calc(30px + 10 * (100vw / 1920));
+    transition: 1.2s;
+    width: 100%;
+}
+
+.authentication__button:hover {
+    background: gold;
+    border-radius: 25px;
+    letter-spacing: 5px;
+}
+
+.account {
+    background: ghostwhite;
+    margin: 50px auto;
+    padding: 2vw;
+}
+
+.account__page-links,
+.account__page-tabs {
+    font-size: calc(15px + 15 * (100vw / 1920));
+}
+
+.account__unauthorized-block {
+    margin: auto;
+    padding: 50px;
+}
+
+.account__unauthorized-title {
+    font-size: calc(40px + 10 * (100vw / 1920));
+    text-align: center;
+}
+
 .promo-block {
     background-color: #dee2e6;
     border-radius: 25px;

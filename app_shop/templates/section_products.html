@@ -42,7 +42,7 @@
                         <li class="list-items__group-item">
                           <div class="list-items__item-container item-in-cart">
                             <a class="list-items__link stretched-link"
-                               href="{% url 'app_shop:delete_product' object.id %}?next={{ request.path }}"></a>
+                               href="{% url 'app_shop:remove_product' object.id %}?next={{ request.path }}"></a>
                             <p class="list-items__price">{{ object.price }} &#8381;</p>
                             <span>
                     удалить

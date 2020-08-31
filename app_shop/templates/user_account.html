@@ -1,0 +1,64 @@
+{% extends "base_generic.html" %}
+
+
+{% load static %}
+
+{% block content %}
+  <div class="account row col-12 col-lg-9">
+    {% if user.is_authenticated %}
+      <div class="account__page-links col-4">
+        <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+          <a class="nav-link active" id="information-tab" data-toggle="pill" href="#information" role="tab"
+             aria-controls="v-pills-home" aria-selected="true">Информация</a>
+          <a class="nav-link" id="change-info-tab" data-toggle="pill" href="#change-info" role="tab"
+             aria-controls="v-pills-profile" aria-selected="false">Изменить информацию</a>
+          <a class="nav-link" id="purchase-history-tab" data-toggle="pill" href="#purchase-history" role="tab"
+             aria-controls="v-pills-messages" aria-selected="false">История покупок</a>
+          <a class="nav-link btn-outline-danger" href="{% url 'app_shop:logout_from_profile' %}" aria-selected="false">Выйти
+            из профиля</a>
+        </div>
+      </div>
+      <div class="account__page-tabs tab-content col-8">
+        <div class="tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="information-tab">
+          <div class="alert alert-primary" role="alert">
+            <p>Имя пользователя - {{ user.username }}</p>
+            <p>Персональный ID пользователя - {{ user.id }}</p>
+            <p>Электронная почта пользователя - {{ user.email }}</p>
+            <p>Зарегистрирован - {{ user.date_joined }}</p>
+            <p>Время последней авторизации - {{ user.last_login }}</p>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="change-info" role="tabpanel" aria-labelledby="change-info-tab">...
+        </div>
+        <div class="tab-pane fade" id="purchase-history" role="tabpanel" aria-labelledby="purchase-history-tab">
+          {% for orderlist in shopping_list %}
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title">Заказ № {{ orderlist.id }} от {{ orderlist.order_creation_date }} на
+                  сумму {{ orderlist.cost }}</h5>
+                {% if orderlist.address %}<p>Указанный для доставки адресс: {{ orderlist.address }}</p>{% endif %}
+              </div>
+              <div class="card-body">
+                <ul>
+                  {% for order in orderlist.get_products_in_list %}
+                    <li class="ml-3">{{ order.product.name }} (количество - {{ order.count }})</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% else %}
+      <div class="account__unauthorized-block">
+        <h2 class="account__unauthorized-title">Вы не авторизованы</h2>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block promo %}
+{% endblock %}
+
+{% block text-info %}
+{% endblock %}
