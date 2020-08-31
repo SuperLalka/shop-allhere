@@ -1,5 +1,8 @@
 from crispy_forms.helper import FormHelper
 from django import forms
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 
 
 class SearchForm(forms.Form):
@@ -147,3 +150,20 @@ class OrderForm(forms.Form):
         max_length=100,
         help_text="Текст не более 100 символов",
         widget=forms.Textarea(attrs={'rows': 1}))
+
+
+class AuthorizationForm(forms.Form):
+    user_name = forms.CharField(label="Представьтесь", max_length=60)
+    user_password = forms.CharField(label="Введите пароль", max_length=30)
+
+
+class RegistrationForm(forms.Form):
+    user_name = forms.CharField(label="Представьтесь", max_length=60)
+    user_email = forms.EmailField(label="Ввведите ваш E-mail", max_length=30)
+    user_password = forms.CharField(label="Введите пароль", max_length=30)
+    user_password_check = forms.CharField(label="Пожалуйста, повторите ваш пароль", max_length=30)
+
+    def clean_user_password_check(self):
+        if self.cleaned_data['user_password'] != self.cleaned_data['user_password_check']:
+            raise forms.ValidationError('Введённые пароли не совпадают')
+        return self
