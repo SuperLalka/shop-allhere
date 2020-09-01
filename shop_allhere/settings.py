@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app_shop',
+    'allhere_in_russia',
     'crispy_forms',
     'tinymce',
 ]
@@ -59,7 +60,7 @@ ROOT_URLCONF = 'shop_allhere.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, '../allhere_in_russia/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,6 +69,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'app_shop.context_processors.request',
+                'allhere_in_russia.context_processors.request',
             ],
         },
     },

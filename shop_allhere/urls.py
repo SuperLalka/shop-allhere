@@ -8,6 +8,7 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('allhere.ru/', include('app_shop.urls')),
+    path('allhere_in_russia/', include('allhere_in_russia.urls')),
     path('', RedirectView.as_view(url='/allhere.ru/', permanent=True)),
 ]
 
