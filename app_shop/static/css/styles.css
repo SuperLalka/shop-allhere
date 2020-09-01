@@ -673,11 +673,13 @@ span.ymaps-geolink {
 }
 
 .cart-item__image:hover {
-    border: 1px double black;
-    display: flex;
-    height: 30vw;
-    position: absolute;
+    border: 3px double black;
+    box-shadow: 10px 10px 50px 0 rgba(0,0,0,0.75);
+    height: 40%;
+    position: fixed;
     left: 0;
+    top: 0;
+    z-index: 1;
 }
 
 
