@@ -6,13 +6,6 @@ from tinymce.models import HTMLField
 from shop_allhere.utils import transliterate
 
 
-DELIVERY_TERMS = (
-        ('a', 'Мелкогабаритный товар'),
-        ('b', 'Среднегабаритный товар'),
-        ('c', 'Крупногабаритный товар'),
-    )
-
-
 class Product(models.Model):
     name = models.CharField(max_length=100, help_text="Enter product name")
     price = models.PositiveIntegerField(help_text="Enter product price")
@@ -37,6 +30,7 @@ class Product(models.Model):
         return super(Product, self).save()
 
     class Meta:
+        app_label = 'app_shop'
         ordering = ('name',)
 
 
@@ -72,6 +66,7 @@ class ProductClassification(models.Model):
         return list(reversed(path))
 
     class Meta:
+        app_label = 'app_shop'
         ordering = ('name', 'highest_category')
 
 
@@ -90,6 +85,9 @@ class OrderList(models.Model):
     def get_products_in_list(self):
         return ProductListForOrder.objects.filter(orderlist_id=self.id)
 
+    class Meta:
+        app_label = 'app_shop'
+
 
 class ProductListForOrder(models.Model):
     orderlist = models.ForeignKey(OrderList, on_delete=models.CASCADE)
@@ -97,40 +95,5 @@ class ProductListForOrder(models.Model):
     count = models.PositiveSmallIntegerField(null=True, blank=True)
 
     class Meta:
+        app_label = 'app_shop'
         db_table = "app_shop_productlistfororder"
-
-
-class Promotions(models.Model):
-    name = models.CharField(max_length=100, help_text="Enter product name")
-    description = HTMLField(help_text="Enter a store description", null=True, blank=True)
-    images = models.ImageField(upload_to="promotions")
-    start_time = models.DateField(
-        help_text="Use an interactive calendar image or enter a date in the format 'YYYY-MM-DD'", null=True, blank=True)
-    end_time = models.DateField(
-        help_text="Use an interactive calendar image or enter a date in the format 'YYYY-MM-DD'", null=True, blank=True)
-    for_carousel = models.BooleanField(
-        help_text="Check, if promotion should be used for the main carousel", default=False)
-    for_category = models.ManyToManyField(
-        'ProductClassification', related_name='promo_class')
-
-    def __str__(self):
-        return '{0} ({1} - {2})'.format(self.name, self.start_time, self.end_time)
-
-    def list_categories(self):
-        return self.objects.for_category
-
-    class Meta:
-        ordering = ('-end_time',)
-        verbose_name = 'Promotion'
-        verbose_name_plural = 'Promotions'
-
-
-class SubscriptionEmails(models.Model):
-    email = models.EmailField(max_length=40, help_text="Enter email for mailing", unique=True)
-
-    def __str__(self):
-        return self.email
-
-    class Meta:
-        verbose_name = 'Mailing address'
-        verbose_name_plural = 'Postal addresses'
