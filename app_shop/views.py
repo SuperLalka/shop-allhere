@@ -16,13 +16,8 @@ def main_sub_pages(request, **kwargs):
         template_name = 'main_subpages/%s.html' % kwargs['page']
         promotions_ordinary = list(Promotions.objects.filter(
             for_category=None, for_carousel=False).order_by('?')[:5])
-        return render(
-            request,
-            template_name,
-            context={
-                'promotions_ordinary': promotions_ordinary,
-            }
-        )
+        return render(request, template_name, context={'promotions_ordinary': promotions_ordinary})
+
     template_name = 'index.html'
     promotions_carousel = Promotions.objects.filter(for_carousel=True)
     promotions_ordinary = list(Promotions.objects.filter(for_category=None, for_carousel=False).order_by('?')[:5])
@@ -261,7 +256,8 @@ def cart(request):
     else:
         warning_min_amount = True
 
-    list_amounts = [(sum(cost_list.values())), int(constants.MINIMUM_ORDER_AMOUNT - sum(cost_list.values()))]
+    list_amounts = [(sum(cost_list.values())),
+                    int(constants.MINIMUM_ORDER_AMOUNT - sum(cost_list.values()))]
 
     return render(
         request,
@@ -311,7 +307,14 @@ def authentication(request):
     if request.method == 'POST':
         form = AuthorizationForm(request.POST)
         if not form.is_valid():
-            return print("ERROR")
+            return render(
+                request,
+                'authentication.html',
+                context={
+                    'authorization': True,
+                    'error': True
+                }
+            )
 
         user = authenticate(request,
                             username=form.cleaned_data['user_name'],
@@ -320,18 +323,16 @@ def authentication(request):
             login(request, user)
             return redirect('app_shop:user_account')
         else:
-            render(request, 'authentication.html', context={'authorization': True})
+            return render(
+                request,
+                'authentication.html',
+                context={
+                    'authorization': True,
+                    'error': True
+                }
+            )
     else:
-        authorization_form = AuthorizationForm()
-        registration_form = RegistrationForm()
-        return render(
-            request,
-            'authentication.html',
-            context={
-                'authorization_form': authorization_form,
-                'registration_form': registration_form,
-            }
-        )
+        return render(request, 'authentication.html')
 
 
 def logout_from_profile(request):
@@ -342,7 +343,7 @@ def logout_from_profile(request):
 def registration(request):
     form = RegistrationForm(request.POST)
     if not form.is_valid():
-        return HttpResponseRedirect(request)
+        return render(request, 'authentication.html', context={'error': True})
 
     User.objects.create_user(form.cleaned_data['user_name'],
                              form.cleaned_data['user_email'],
@@ -352,10 +353,4 @@ def registration(request):
 
 def user_account(request, **kwargs):
     shopping_list = OrderList.objects.filter(customer_id=request.user.id)
-    return render(
-        request,
-        'user_account.html',
-        context={
-            'shopping_list': shopping_list
-        }
-    )
+    return render(request, 'user_account.html', context={'shopping_list': shopping_list})
