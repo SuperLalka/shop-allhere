@@ -43,7 +43,7 @@
               <a class="nav-link p-0" href="{% url 'app_shop:main_sub_pages' 'service' %}">Оплата</a>
             </li>
             <li class="nav-item d-flex align-items-center h-100 mr-3">
-              <a class="nav-link p-0" href="{% url 'app_shop:subpage_allhere_in_russia' 'tenants_and_landlords' %}">Аренда</a>
+              <a class="nav-link p-0" href="{% url 'allhere_in_russia:subpages' 'tenants_and_landlords' %}">Аренда</a>
             </li>
           </ul>
         </div>
@@ -68,19 +68,19 @@
           </li>
           <li class="nav-item flex-fill active">
             <div class="navigation-block__item position-relative">
-              <a class="stretched-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'all_shops' %}"></a>
+              <a class="stretched-link" href="{% url 'allhere_in_russia:subpages' 'all_shops' %}"></a>
               <p class="text-center">Ваш магазин</p>
             </div>
           </li>
           <li class="nav-item flex-fill">
             <div class="navigation-block__item position-relative">
-              <a class="stretched-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'allhere_in_russia' %}"></a>
+              <a class="stretched-link" href="{% url 'allhere_in_russia:subpages' 'allhere_in_russia' %}"></a>
               <p class="text-center">Об AllHere</p>
             </div>
           </li>
           <li class="nav-item flex-fill">
             <div class="navigation-block__item position-relative">
-              <a class="stretched-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'advantages' %}"></a>
+              <a class="stretched-link" href="{% url 'allhere_in_russia:subpages' 'advantages' %}"></a>
               <p class="text-center">Работа в AllHere</p>
             </div>
           </li>
@@ -140,12 +140,12 @@
       <nav class="footer-block__nav navbar py-0">
         <ul class="navbar-nav flex-row align-items-center text-center w-50">
           <li class="nav-item flex-fill">
-            <a class="nav-link p-0" href="{% url 'app_shop:subpage_allhere_in_russia' 'feedback' %}">
+            <a class="nav-link p-0" href="{% url 'allhere_in_russia:subpages' 'feedback' %}">
               Обратная связь
             </a>
           </li>
           <li class="nav-item flex-fill">
-            <a class="nav-link p-0" href="{% url 'app_shop:news' %}">
+            <a class="nav-link p-0" href="{% url 'allhere_in_russia:news' %}">
               Новости
             </a>
           </li>

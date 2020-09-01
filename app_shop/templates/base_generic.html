@@ -44,13 +44,13 @@
         <div class="navbar navbar-expand ml-auto d-none d-md-block p-0" id="navbarSupportedContent">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'app_shop:subpage_index' %}">
+              <a class="nav-link" href="{% url 'allhere_in_russia:subpage_index' %}">
                 <i class="header__primary-nav-item-icon mr-lg-2 i-about-co"></i>
                 <p class="header__primary-nav-item-text d-none d-lg-block">О компании</p>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'all_shops' %}">
+              <a class="nav-link" href="{% url 'allhere_in_russia:subpages' 'all_shops' %}">
                 <i class="header__primary-nav-item-icon mr-lg-2 i-ours-shops"></i>
                 <p class="header__primary-nav-item-text d-none d-lg-block">Наши магазины</p>
               </a>
@@ -362,7 +362,7 @@
               <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'faq_page' %}">Вопросы и ответы</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'feedback' %}">Обратная связь</a>
+              <a class="nav-link" href="{% url 'allhere_in_russia:subpages' 'feedback' %}">Обратная связь</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'allpay_app' %}">Мобильное приложение</a>
@@ -388,11 +388,11 @@
         <div class="collapse navbar-collapse" id="navbarAllHereForU">
           <ul class="navbar-nav flex-column mr-auto">
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'allhere_in_russia' %}">О
+              <a class="nav-link" href="{% url 'allhere_in_russia:subpages' 'allhere_in_russia' %}">О
                 компании</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'app_shop:news' %}">Новости</a>
+              <a class="nav-link" href="{% url 'allhere_in_russia:news' %}">Новости</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Доставка продуктов</a>
@@ -407,7 +407,7 @@
               <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'credit_card' %}">Кредитная карта</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'allhere_garden' %}">Новые проекты
+              <a class="nav-link" href="{% url 'allhere_in_russia:subpages' 'allhere_garden' %}">Новые проекты
                 AllHere</a>
             </li>
             <li class="nav-item">
@@ -439,7 +439,7 @@
         <div class="collapse navbar-collapse" id="navbarForPartners">
           <ul class="navbar-nav flex-column mr-auto">
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'app_shop:subpage_allhere_in_russia' 'advantages' %}">Работа в
+              <a class="nav-link" href="{% url 'allhere_in_russia:subpages' 'advantages' %}">Работа в
                 AllHere</a>
             </li>
             <li class="nav-item">
@@ -447,7 +447,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link"
-                 href="{% url 'app_shop:subpage_allhere_in_russia' 'tenants_and_landlords' %}">Аренда</a>
+                 href="{% url 'allhere_in_russia:subpages' 'tenants_and_landlords' %}">Аренда</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'app_shop:main_sub_pages' 'for_wholesalers' %}">Оптовикам</a>

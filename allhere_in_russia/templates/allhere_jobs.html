@@ -1,0 +1,43 @@
+{% extends "allhere_in_russia.html" %}
+
+
+{% block title %}
+<title>Работа в AllHere | {{ object.title }}</title>
+{% endblock %}
+
+{% block sub-navigation %}
+<ul class="navbar-nav flex-row align-items-center w-75">
+  <li class="nav-item flex-fill">
+    <div class="dropdown text-center">
+      <a class="dropdown-toggle p-0" type="button" id="dropdownMenuJobs" data-toggle="dropdown"
+         aria-haspopup="true" aria-expanded="false">
+        Работа в AllHere
+      </a>
+      <div class="dropdown-menu position-absolute" aria-labelledby="dropdownMenuJob">
+        <a class="dropdown-item" href="{% url 'allhere_in_russia:subpages' 'advantages' %}">Преимущества
+          AllHere</a>
+        <a class="dropdown-item" href="{% url 'allhere_in_russia:subpages' 'our_values' %}">Наши ценности</a>
+        <a class="dropdown-item" href="{% url 'allhere_in_russia:subpages' 'young_specialist' %}">Молодому
+          специалисту</a>
+        <a class="dropdown-item" href="{% url 'allhere_in_russia:subpages' 'internship_program' %}">Международная
+          программа стажировки</a>
+      </div>
+    </div>
+  </li>
+  <li class="nav-item flex-fill">
+    <a class="dropdown-item" href="{% url 'allhere_in_russia:subpages' 'contacts' %}">Контакты</a>
+  </li>
+  <li class="nav-item flex-fill">
+    <a class="dropdown-item" href="{% url 'allhere_in_russia:subpages' 'vacancies' %}">Вакансии</a>
+  </li>
+  <li class="nav-item flex-fill">
+    <a class="dropdown-item" href="{% url 'allhere_in_russia:subpages' 'send_resume' %}">Отправить резюме</a>
+  </li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<div class="content-block__text-block">
+  {{ object.body|safe }}
+</div>
+{% endblock %}

@@ -1,4 +1,4 @@
-{% extends "subpage_allhere_in_russia/allhere_in_russia.html" %}
+{% extends "allhere_in_russia.html" %}
 
 
 {% block title %}
@@ -15,7 +15,7 @@
   <div class="news-block__news-list col-4">
     <div class="list-group">
       {% for news in news_list %}
-      <a href="{% url 'app_shop:news' news.id %}"
+      <a href="{% url 'allhere_in_russia:news' news.id %}"
          class="list-group-item list-group-item-action {% if news.title == object.title %}active{% endif %}">
         {{ news.title }} <small>({{ news.datetime }})</small>
       </a>

@@ -1,4 +1,4 @@
-{% extends "subpage_allhere_in_russia/allhere_in_russia.html" %}
+{% extends "allhere_in_russia.html" %}
 
 
 {% block title %}
@@ -15,9 +15,9 @@
   <div class="d-flex justify-content-center py-2">
     <div class="btn-group w-100" role="group" aria-label="Basic example">
       <a class="rent-button btn btn-warning" role="button"
-         href="{% url 'app_shop:subpage_allhere_in_russia' 'for_leaseholders' %}">Анкета для арендатора</a>
+         href="{% url 'allhere_in_russia:subpages' 'for_leaseholders' %}">Анкета для арендатора</a>
       <a class="rent-button btn btn-warning" role="button"
-         href="{% url 'app_shop:subpage_allhere_in_russia' 'for_landlords' %}">Анкета для арендодатора</a>
+         href="{% url 'allhere_in_russia:subpages' 'for_landlords' %}">Анкета для арендодатора</a>
     </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-{% extends "subpage_allhere_in_russia/allhere_in_russia.html" %}
+{% extends "allhere_in_russia.html" %}
 
 
 {% block title %}
@@ -19,7 +19,8 @@
       <div class="dropdown-menu position-absolute" aria-labelledby="dropdownMenuShopsAllHere">
         {% for item in shops_list %}
         {% if item.type.title == 'AllHere' %}
-        <a class="dropdown-item" href="{% url 'app_shop:shop_detail' item.id %}">{{ item.city }} / {{ item.name }}</a>
+        <a class="dropdown-item"
+           href="{% url 'allhere_in_russia:shop_detail' item.id %}">{{ item.city }} / {{ item.name }}</a>
         {% endif %}
         {% endfor %}
       </div>
@@ -34,7 +35,8 @@
       <div class="dropdown-menu position-absolute" aria-labelledby="dropdownMenuShopsAllHereGarden">
         {% for item in shops_list %}
         {% if item.type.title == 'AllHere Сад' %}
-        <a class="dropdown-item" href="{% url 'app_shop:shop_detail' item.id %}">{{ item.city }} / {{ item.name }}</a>
+        <a class="dropdown-item"
+           href="{% url 'allhere_in_russia:shop_detail' item.id %}">{{ item.city }} / {{ item.name }}</a>
         {% endif %}
         {% endfor %}
       </div>
@@ -49,7 +51,8 @@
       <div class="dropdown-menu position-absolute" aria-labelledby="dropdownMenuShopsAllHereCity">
         {% for item in shops_list %}
         {% if item.type.title == 'AllHere Сити' %}
-        <a class="dropdown-item" href="{% url 'app_shop:shop_detail' item.id %}">{{ item.city }} / {{ item.name }}</a>
+        <a class="dropdown-item"
+           href="{% url 'allhere_in_russia:shop_detail' item.id %}">{{ item.city }} / {{ item.name }}</a>
         {% endif %}
         {% endfor %}
       </div>
