@@ -1,30 +1,16 @@
-from .forms import ApplicationForOrderingForm, AuthorizationForm, CardApplicationForm, ForLandlordsForm, \
-    ForLeaseHoldersForm, RegistrationForm, SearchForm, SubscriptionForm
-from .models import Shops
+from .forms import AuthorizationForm, RegistrationForm, SearchForm, SubscriptionForm
 from shop_allhere import settings
 
 
 def request(request):
     authorization_form = AuthorizationForm()
     registration_form = RegistrationForm()
-    application_for_ordering_form = ApplicationForOrderingForm()
-    card_application_form = CardApplicationForm()
-    for_landlords_form = ForLandlordsForm()
-    for_lease_holders_form = ForLeaseHoldersForm()
     search_form = SearchForm()
     user_mail_form = SubscriptionForm()
-    shops_list = Shops.objects.all()
-    city_list = sorted(set([item.city for item in Shops.objects.all()]))
     return {
         'authorization_form': authorization_form,
         'registration_form': registration_form,
-        'application_for_ordering_form': application_for_ordering_form,
-        'card_application_form': card_application_form,
-        'for_landlords_form': for_landlords_form,
-        'for_lease_holders_form': for_lease_holders_form,
         'search_form': search_form,
         'user_mail_form': user_mail_form,
-        'shops_list': shops_list,
         'API_KEY_YANDEX_GEOCODER': settings.API_KEY_YANDEX_GEOCODER,
-        'city_list': city_list,
     }

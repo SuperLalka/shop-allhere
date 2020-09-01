@@ -3,8 +3,8 @@ from django.db import models
 from django import forms
 from django.forms import TextInput
 
-from .models import News, OrderList, Promotions, Product, ProductClassification, Shops, ShopType, \
-    SubPagesArticle, SubPagesSection
+from .models import OrderList, Promotions, Product, ProductClassification
+from allhere_in_russia.models import News, Shops, ShopType, SubPagesArticle, SubPagesSection
 
 
 @admin.register(SubPagesArticle)
@@ -87,5 +87,5 @@ class PromotionsAdmin(admin.ModelAdmin):
 class OrderListAdmin(admin.ModelAdmin):
     date_hierarchy = 'order_creation_date'
     formfield_overrides = {models.CharField: {'widget': TextInput(attrs={'size': '100'})}}
-    list_display = ('order_creation_date', 'address', 'cost')
+    list_display = ('id', 'order_creation_date', 'address', 'cost')
     search_fields = ('address',)
