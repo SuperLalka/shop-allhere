@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^$', views.main_sub_pages, name='index'),
     url(r'^cart$', views.cart, name='cart'),
     url(r'^search$', views.search, name='search'),
+    url(r'^filtration/(?P<category_id>\S+)$', views.filtration, name='filtration'),
     url(r'^cart/send_order$', views.send_order, name='send_order'),
     url(r'^subscription$', views.subscription, name='subscription'),
     url(r'^auth/', include(authentication)),

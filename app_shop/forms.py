@@ -50,3 +50,7 @@ class RegistrationForm(forms.Form):
         if self.cleaned_data['user_password'] != self.cleaned_data['user_password_check']:
             raise forms.ValidationError('Введённые пароли не совпадают')
         return self
+
+
+class PriceForm(forms.Form):
+    price = forms.IntegerField(label="", min_value=1)
