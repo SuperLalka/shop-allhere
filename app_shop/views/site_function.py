@@ -2,7 +2,7 @@ from django.db.models import Q, Min, Max
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
-from app_shop.forms import PriceForm, SearchForm, SubscriptionForm
+from app_shop.forms import BrandsForm, PriceForm, SearchForm, SubscriptionForm
 from app_shop.models import Product, ProductClassification, SubscriptionEmails
 
 
@@ -27,11 +27,17 @@ def search(request):
 
 
 def filtration(request, category_id):
+    query_dictionary = {}
+
     price_form = PriceForm(request.GET)
     if not price_form.is_valid():
         return HttpResponseRedirect(request)
 
-    price = price_form.cleaned_data.get("price")
+    if price_form.cleaned_data.get("price"):
+        query_dictionary['price__lte'] = price_form.cleaned_data.get("price")
+
+    if request.GET.getlist('brand'):
+        query_dictionary['specifications__Бренд__in'] = request.GET.getlist('brand')
 
     category = ProductClassification.objects.get(id=category_id)
     subcategories_qs = ProductClassification.objects.filter(category_id=category_id)
@@ -47,15 +53,20 @@ def filtration(request, category_id):
             id_list.add(obj.id)
             get_childs(obj)
 
-        object_list = Product.objects.filter(classification_id__in=id_list, price__lte=price)
+        query_dictionary['classification_id__in'] = id_list
     else:
-        object_list = Product.objects.filter(classification_id=category_id, price__lte=price)
+        query_dictionary['classification_id'] = category_id
 
+    object_list = Product.objects.filter(**query_dictionary)
     category_list_id = object_list.values_list('classification_id', flat=True)
     category_list = ProductClassification.objects.filter(id__in=category_list_id)
 
-    price_form = PriceForm()
+    specifications = object_list.values_list('specifications', flat=True)
+    brands_names = set([x['Бренд'] if 'Бренд' in x.keys() else 'Не указано' for x in specifications])
+    brands_form = BrandsForm(choices=brands_names)
+
     price_values = object_list.aggregate(Min('price'), Max('price'))
+    price_form = PriceForm()
 
     return render(
         request,
@@ -64,6 +75,8 @@ def filtration(request, category_id):
             'object_list': object_list,
             'category': category,
             'category_list': category_list,
+            'brands_form': brands_form,
+            'brands_names': brands_names,
             'price_form': price_form,
             'price_values': price_values,
         }

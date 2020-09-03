@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views import generic
 
 from app_shop.models import Promotions, Product, ProductClassification, ProductListForOrder
-from app_shop.forms import PriceForm
+from app_shop.forms import BrandsForm, PriceForm
 
 
 def main_sub_pages(request, **kwargs):
@@ -122,9 +122,11 @@ class CategoryListView(generic.ListView):
             Q(for_category__in=id_list) |
             Q(for_category=None, for_carousel=False)).order_by('?')[:5]
 
-        price_values = self.queryset.aggregate(Min('price'), Max('price'))
         specifications = self.queryset.values_list('specifications', flat=True)
+        brands_names = set([x['Бренд'] if 'Бренд' in x.keys() else 'Не указано' for x in specifications])
+        brands_form = BrandsForm(choices=brands_names)
 
+        price_values = self.queryset.aggregate(Min('price'), Max('price'))
         price_form = PriceForm()
 
         context = {
@@ -133,7 +135,8 @@ class CategoryListView(generic.ListView):
             'cart_products_list_id': cart_products_list_id,
             'promotions_for_category_page': promotions_for_category_page,
             'price_values': price_values,
-            'specifications': specifications,
+            'brands_names': brands_names,
+            'brands_form': brands_form,
             'price_form': price_form,
             **kwargs,
         }
