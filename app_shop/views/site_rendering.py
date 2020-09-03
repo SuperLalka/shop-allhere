@@ -127,7 +127,7 @@ class CategoryListView(generic.ListView):
         brands_form = BrandsForm(choices=brands_names)
 
         price_values = self.queryset.aggregate(Min('price'), Max('price'))
-        price_form = PriceForm()
+        price_form = PriceForm(min_value=price_values['price__min'])
 
         context = {
             'category': category,

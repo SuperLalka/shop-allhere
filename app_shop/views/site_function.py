@@ -54,19 +54,23 @@ def filtration(request, category_id):
             get_childs(obj)
 
         query_dictionary['classification_id__in'] = id_list
+        objects_in_category = Product.objects.filter(classification_id__in=id_list)
+        specifications = objects_in_category.values_list('specifications', flat=True)
+        price_values = objects_in_category.aggregate(Min('price'), Max('price'))
     else:
         query_dictionary['classification_id'] = category_id
+        objects_in_category = Product.objects.filter(classification_id=category_id)
+        specifications = objects_in_category.values_list('specifications', flat=True)
+        price_values = objects_in_category.aggregate(Min('price'), Max('price'))
 
     object_list = Product.objects.filter(**query_dictionary)
     category_list_id = object_list.values_list('classification_id', flat=True)
     category_list = ProductClassification.objects.filter(id__in=category_list_id)
 
-    specifications = object_list.values_list('specifications', flat=True)
     brands_names = set([x['Бренд'] if 'Бренд' in x.keys() else 'Не указано' for x in specifications])
-    brands_form = BrandsForm(choices=brands_names)
+    brands_form = BrandsForm(request.GET, choices=brands_names)
 
-    price_values = object_list.aggregate(Min('price'), Max('price'))
-    price_form = PriceForm()
+    price_form = PriceForm(request.GET, min_value=price_values['price__min'])
 
     return render(
         request,

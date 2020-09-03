@@ -58,15 +58,24 @@ class RegistrationForm(forms.Form):
 class PriceForm(forms.Form):
     price = forms.IntegerField(label="", min_value=1, required=False)
 
+    def __init__(self, *args, min_value, **kwargs):
+        super(PriceForm, self).__init__(*args, **kwargs)
+        self.fields['price'] = forms.IntegerField(
+                label="",
+                min_value=min_value,
+                required=False
+            )
+
 
 class BrandsForm(forms.Form):
     brand = forms.BooleanField(label="", required=False, widget=forms.CheckboxSelectMultiple)
 
-    def __init__(self, choices, *args, **kwargs):
+    def __init__(self, *args, choices, **kwargs):
         super(BrandsForm, self).__init__(*args, **kwargs)
         choices = ((c, c) for c in list(choices))
         self.fields['brand'] = forms.MultipleChoiceField(
+                label="",
                 choices=choices,
+                required=False,
                 widget=forms.CheckboxSelectMultiple,
-                label=""
             )
