@@ -1,8 +1,9 @@
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Max, Min
 from django.shortcuts import render
 from django.views import generic
 
 from app_shop.models import Promotions, Product, ProductClassification, ProductListForOrder
+from app_shop.forms import PriceForm
 
 
 def main_sub_pages(request, **kwargs):
@@ -100,7 +101,6 @@ class CategoryListView(generic.ListView):
         category = ProductClassification.objects.get(id=self.kwargs['category_id'])
         category_list_id = self.queryset.values_list('classification_id', flat=True)
         category_list = ProductClassification.objects.filter(id__in=category_list_id)
-        id_list = set()
 
         def recursive_get(item):
             if item.category_id:
@@ -108,6 +108,7 @@ class CategoryListView(generic.ListView):
                 id_list.add(parent.id)
                 recursive_get(item.category)
 
+        id_list = set()
         id_list.add(self.kwargs['category_id'])
         recursive_get(category)
 
@@ -121,11 +122,19 @@ class CategoryListView(generic.ListView):
             Q(for_category__in=id_list) |
             Q(for_category=None, for_carousel=False)).order_by('?')[:5]
 
+        price_values = self.queryset.aggregate(Min('price'), Max('price'))
+        specifications = self.queryset.values_list('specifications', flat=True)
+
+        price_form = PriceForm()
+
         context = {
             'category': category,
             'category_list': category_list,
             'cart_products_list_id': cart_products_list_id,
             'promotions_for_category_page': promotions_for_category_page,
+            'price_values': price_values,
+            'specifications': specifications,
+            'price_form': price_form,
             **kwargs,
         }
         return super().get_context_data(**context)
