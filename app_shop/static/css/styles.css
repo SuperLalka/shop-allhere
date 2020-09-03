@@ -555,6 +555,10 @@ span.ymaps-geolink {
     border: 2px solid rgba(0,123,255,.25);
 }
 
+.filter__form .form-check {
+    text-align: left;
+}
+
 .section-block__header {
     position: relative;
 }

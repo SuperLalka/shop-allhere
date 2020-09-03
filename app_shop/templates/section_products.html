@@ -25,6 +25,7 @@
     <div class="row">
       <div class="category-block__filter filter col-3">
         <form class="filter__form" action="{% url 'app_shop:filtration' category.id %}" method="get">
+          <!-- Subcategories list -->
           {% if category.get_child %}
             <div class="filter__section-block section-block card">
               <div class="section-block__header card-header">
@@ -42,6 +43,8 @@
               </div>
             </div>
           {% endif %}
+          <!-- Subcategories list end -->
+          <!-- Price filter -->
           {% if price_values.price__min != price_values.price__max %}
             <div class="filter__section-block section-block card">
               <div class="section-block__header card-header">
@@ -62,17 +65,23 @@
               </div>
             </div>
           {% endif %}
-          <div class="filter__section-block section-block card">
-            <div class="section-block__header card-header">
-              <a class="stretched-link" data-toggle="collapse" href="#collapse2" role="button"
-                 aria-expanded="true" aria-controls="collapse2">
-                Бренды
-              </a>
+          <!-- Price filter end -->
+          <!-- Brands filter -->
+          {% if brands_names %}
+            <div class="filter__section-block section-block card">
+              <div class="section-block__header card-header">
+                <a class="stretched-link" data-toggle="collapse" href="#collapse2" role="button"
+                   aria-expanded="true" aria-controls="collapse2">
+                  Бренды
+                </a>
+              </div>
+              <div class="section-block__body card-body collapse show" id="collapse2">
+                {% csrf_token %}
+                {{ brands_form|crispy }}
+              </div>
             </div>
-            <div class="section-block__body card-body collapse show" id="collapse2">
-
-            </div>
-          </div>
+          {% endif %}
+          <!-- Brands filter end -->
           <button class="btn" type="submit">Отфильтровать</button>
         </form>
       </div>
