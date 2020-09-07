@@ -10,7 +10,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100, help_text="Enter product name")
     price = models.PositiveIntegerField(help_text="Enter product price")
     description = HTMLField(help_text="Enter a store description", null=True, blank=True)
-    images = models.ImageField(upload_to="")
+    images = models.ImageField(upload_to="products")
     discount = models.PositiveSmallIntegerField(
         default=None, help_text="If need, enter amount of discount", null=True, blank=True)
     classification = models.ForeignKey(
@@ -43,11 +43,6 @@ class ProductClassification(models.Model):
     def __str__(self):
         category = str(self.category).replace("/None", "")
         return '{0} /{1}'.format(self.name, category)
-
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        if not self.slug:
-            self.slug = transliterate(self.name)
-        return super(ProductClassification, self).save()
 
     def get_child(self):
         return ProductClassification.objects.filter(category_id=self.id)

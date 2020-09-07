@@ -43,9 +43,9 @@ class ProductCharacteristicsForm(forms.ModelForm):
     article = forms.IntegerField(label="Артикул товара", required=False)
     the_brand = forms.CharField(label="Бренд", max_length=50, required=False, widget=TextInput(attrs={'size': '50'}))
     calorie_content = forms.IntegerField(label="Калорийность", required=False)
-    proteins = forms.FloatField(label="Белки на 100 г.", required=False)
-    fats = forms.FloatField(label="Жиры на 100 г.", required=False)
-    carbohydrates = forms.FloatField(label="Углеводы на 100 г.", required=False)
+    proteins = forms.FloatField(label="Белки на 100 г, г", required=False)
+    fats = forms.FloatField(label="Жиры на 100 г, г", required=False)
+    carbohydrates = forms.FloatField(label="Углеводы на 100 г, г", required=False)
     net_weight = forms.FloatField(label="Масса нетто, кг", required=False)
     gross_weight = forms.FloatField(label="Масса брутто, кг", required=False)
     ingredients = forms.CharField(
