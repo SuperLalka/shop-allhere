@@ -567,15 +567,15 @@ span.ymaps-geolink {
     list-style: none;
 }
 
-.section-block__body-price {
+.section-block__values {
     align-items: center;
     display: flex;
     height: 50px;
     justify-content: space-between;
 }
 
-.section-block__body-min-price,
-.section-block__body-max-price {
+.section-block__min-value,
+.section-block__max-value {
     padding: 5px;
     border-radius: 50%;
     cursor: default;
@@ -584,17 +584,17 @@ span.ymaps-geolink {
     width: 40%;
 }
 
-.section-block__body-min-price:hover,
-.section-block__body-max-price:hover {
+.section-block__min-value:hover,
+.section-block__max-value:hover {
     border: 1px solid #3989c9;
     border-radius: 0;
 }
 
-.section-block__body-price > [data-tooltip] {
+.section-block__values > [data-tooltip] {
     position: relative;
 }
 
-.section-block__body-price > [data-tooltip]::after {
+.section-block__values > [data-tooltip]::after {
     content: attr(data-tooltip);
     position: absolute;
     width: 300px;
@@ -609,7 +609,7 @@ span.ymaps-geolink {
     z-index: 1;
 }
 
-.section-block__body-price > [data-tooltip]:hover::after {
+.section-block__values > [data-tooltip]:hover::after {
     opacity: 1;
     top: 2em;
 }

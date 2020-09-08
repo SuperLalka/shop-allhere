@@ -34,7 +34,7 @@
                   Подкатегории
                 </a>
               </div>
-              <div class="section-block__body card-body collapse show" id="collapseSubcategories">
+              <div class="section-block__body card-body collapse" id="collapseSubcategories">
                 <ul class="section-block__body-subcategories">
                   {% for item in category.get_child %}
                     <li><a href="{% url 'app_shop:section_products' item.id %}">{{ item.name }}</a></li>
@@ -45,43 +45,76 @@
           {% endif %}
           <!-- Subcategories list end -->
           <!-- Price filter -->
-          {% if price_values.price__min != price_values.price__max %}
-            <div class="filter__section-block section-block card">
-              <div class="section-block__header card-header">
-                <a class="stretched-link" data-toggle="collapse" href="#collapsePrice" role="button"
-                   aria-expanded="true" aria-controls="collapsePrice">
-                  <label for="PriceRange">Укажите максимальную границу цены</label>
-                </a>
-              </div>
-              <div class="section-block__body card-body collapse show" id="collapsePrice">
-                {% csrf_token %}
-                {{ price_form|crispy }}
-                <div class="section-block__body-price">
-                  <span class="section-block__body-min-price"
-                        data-tooltip="Минимальная цена среди выведенных товаров">{{ price_values.price__min }} &#8381;</span>
-                  <span class="section-block__body-min-price"
-                        data-tooltip="Максимальная цена среди выведенных товаров">{{ price_values.price__max }} &#8381;</span>
-                </div>
+          <div class="filter__section-block section-block card">
+            <div class="section-block__header card-header">
+              <a class="stretched-link" data-toggle="collapse" href="#collapsePrice" role="button"
+                 aria-expanded="true" aria-controls="collapsePrice">
+                <label for="PriceRange">Укажите максимальную границу цены</label>
+              </a>
+            </div>
+            <div class="section-block__body card-body collapse show" id="collapsePrice">
+              {{ price_form|crispy }}
+              <div class="section-block__values">
+                <span class="section-block__min-value"
+                      data-tooltip="Минимальная цена среди товаров данной категории">{{ price_values.price__min }}
+                  &#8381;</span>
+                <span class="section-block__max-value"
+                      data-tooltip="Максимальная цена среди товаров данной категории">{{ price_values.price__max }}
+                  &#8381;</span>
               </div>
             </div>
-          {% endif %}
+          </div>
           <!-- Price filter end -->
           <!-- Brands filter -->
-          {% if brands_names %}
             <div class="filter__section-block section-block card">
               <div class="section-block__header card-header">
-                <a class="stretched-link" data-toggle="collapse" href="#collapse2" role="button"
-                   aria-expanded="true" aria-controls="collapse2">
+                <a class="stretched-link" data-toggle="collapse" href="#collapseBrands" role="button"
+                   aria-expanded="true" aria-controls="collapseBrands">
                   Бренды
                 </a>
               </div>
-              <div class="section-block__body card-body collapse show" id="collapse2">
-                {% csrf_token %}
+              <div class="section-block__body card-body collapse" id="collapseBrands">
                 {{ brands_form|crispy }}
               </div>
             </div>
-          {% endif %}
           <!-- Brands filter end -->
+          <!-- Country filter -->
+            <div class="filter__section-block section-block card">
+              <div class="section-block__header card-header">
+                <a class="stretched-link" data-toggle="collapse" href="#collapseCountry" role="button"
+                   aria-expanded="true" aria-controls="collapseCountry">
+                  Страна производства
+                </a>
+              </div>
+              <div class="section-block__body card-body collapse show" id="collapseCountry">
+                {{ country_manufactured_form|crispy }}
+              </div>
+            </div>
+          <!-- Country filter end -->
+          <!-- Variable filters -->
+          {% for field in variable_filters_form %}
+            <div class="filter__section-block section-block card">
+              <div class="section-block__header card-header">
+                <a class="stretched-link" data-toggle="collapse" href="#collapse{{ field.field.slug|capfirst }}"
+                   role="button"
+                   aria-expanded="true" aria-controls="collapse{{ field.field.slug|capfirst }}">
+                  {{ field.field.label }}
+                </a>
+              </div>
+              <div class="section-block__body card-body collapse" id="collapse{{ field.field.slug|capfirst }}">
+                {{ field|as_crispy_field }}
+                {% if field.field.type == "INT" %}
+                  <div class="section-block__values">
+                    <span class="section-block__min-value"
+                          data-tooltip="Минимальное значение среди товаров данной категории">{{ field.field.min_value }}</span>
+                    <span class="section-block__max-value"
+                          data-tooltip="Максимальное значение среди товаров данной категории">{{ field.field.max_value }}</span>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+          <!-- Variable filters end -->
           <button class="btn" type="submit">Отфильтровать</button>
         </form>
       </div>
@@ -115,8 +148,8 @@
                                    href="{% url 'app_shop:remove_product' object.id %}?next={{ request.path }}"></a>
                                 <p class="list-items__price">{{ object.price }} &#8381;</p>
                                 <span>удалить
-                  <img class="list-items__trash-image" src="{% static 'imgs/trash.png' %}" alt="trash">
-                    </span>
+                                  <img class="list-items__trash-image" src="{% static 'imgs/trash.png' %}" alt="trash">
+                                </span>
                               </div>
                             </li>
                           {% else %}
