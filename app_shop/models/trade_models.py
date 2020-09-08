@@ -39,10 +39,14 @@ class ProductClassification(models.Model):
     name = models.CharField(max_length=100, help_text="Enter а product category")
     highest_category = models.BooleanField(default=False)
     slug = models.CharField(max_length=120, editable=False, null=True, blank=True)
+    filter = models.ManyToManyField('FiltersForClassifications', through='ClassificationFilters')
 
     def __str__(self):
         category = str(self.category).replace("/None", "")
         return '{0} /{1}'.format(self.name, category)
+
+    def get_absolute_url(self):
+        return reverse('app_shop:section_products', args=[self.id])
 
     def get_child(self):
         return ProductClassification.objects.filter(category_id=self.id)
@@ -62,7 +66,40 @@ class ProductClassification(models.Model):
 
     class Meta:
         app_label = 'app_shop'
-        ordering = ('name', 'highest_category')
+        ordering = ('id', 'highest_category')
+
+
+FILTER_TYPE = [
+    ("TXT", "Фильтр по буквенному значению"),
+    ("INT", "Фильтр по числовому значению (MIN и MAX)"),
+    ("CSM", "Фильтр по чекбоксам из всех возможных значений поля"),
+]
+
+
+class FiltersForClassifications(models.Model):
+    name = models.CharField(max_length=30, help_text="Enter а product category")
+    type = models.CharField(max_length=3, choices=FILTER_TYPE, help_text="Enter а filter type")
+    slug = models.CharField(max_length=40, editable=False, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.slug:
+            self.slug = transliterate(self.name)
+        return super(FiltersForClassifications, self).save()
+
+    class Meta:
+        app_label = 'app_shop'
+
+
+class ClassificationFilters(models.Model):
+    classification = models.ForeignKey(ProductClassification, on_delete=models.CASCADE)
+    filter = models.ForeignKey(FiltersForClassifications, on_delete=models.CASCADE)
+
+    class Meta:
+        app_label = 'app_shop'
+        db_table = "app_shop_classificationfilters"
 
 
 class OrderList(models.Model):
