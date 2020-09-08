@@ -2,8 +2,8 @@ from django.db.models import Q, Count, Max, Min
 from django.shortcuts import render
 from django.views import generic
 
-from app_shop.models import Promotions, Product, ProductClassification, ProductListForOrder
-from app_shop.forms import BrandsForm, PriceForm
+from app_shop.models import ClassificationFilters, Promotions, Product, ProductClassification, ProductListForOrder
+from app_shop.forms import BrandsForm, ManufacturerCountryForm, PriceForm, VariableFiltersForm
 
 
 def main_sub_pages(request, **kwargs):
@@ -98,7 +98,13 @@ class CategoryListView(generic.ListView):
             return self.queryset
 
     def get_context_data(self, **kwargs):
+        form_dictionary = {}
+        form_filters = []
+
         category = ProductClassification.objects.get(id=self.kwargs['category_id'])
+        filter_list = ClassificationFilters.objects.filter(
+            classification_id=category.id).values('filter__name', 'filter__type')
+
         category_list_id = self.queryset.values_list('classification_id', flat=True)
         category_list = ProductClassification.objects.filter(id__in=category_list_id)
 
@@ -125,9 +131,27 @@ class CategoryListView(generic.ListView):
         specifications = self.queryset.values_list('specifications', flat=True)
         brands_names = set([x['Бренд'] if 'Бренд' in x.keys() else 'Не указано' for x in specifications])
         brands_form = BrandsForm(choices=brands_names)
+        form_dictionary['brands_form'] = brands_form
 
         price_values = self.queryset.aggregate(Min('price'), Max('price'))
         price_form = PriceForm(min_value=price_values['price__min'])
+        form_dictionary['price_form'] = price_form
+
+        country_values = set([x['Страна производства'] if 'Страна производства' in x.keys() else 'Не указано' for x in specifications])
+        country_manufactured_form = ManufacturerCountryForm(choices=country_values)
+        form_dictionary['country_manufactured_form'] = country_manufactured_form
+
+        for obj in filter_list:
+            if obj['filter__type'] != 'TXT':
+                value = self.queryset.values_list('specifications__' + obj['filter__name'], flat=True)
+                if obj['filter__type'] == 'INT':
+                    obj['filter__values'] = [min(value), max(value)]
+                elif obj['filter__type'] == 'CSM':
+                    obj['filter__values'] = value
+            form_filters.append(obj)
+
+        variable_filters_form = VariableFiltersForm(filters=form_filters)
+        form_dictionary['variable_filters_form'] = variable_filters_form
 
         context = {
             'category': category,
@@ -135,9 +159,7 @@ class CategoryListView(generic.ListView):
             'cart_products_list_id': cart_products_list_id,
             'promotions_for_category_page': promotions_for_category_page,
             'price_values': price_values,
-            'brands_names': brands_names,
-            'brands_form': brands_form,
-            'price_form': price_form,
+            **form_dictionary,
             **kwargs,
         }
         return super().get_context_data(**context)
