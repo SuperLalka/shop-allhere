@@ -20,8 +20,15 @@ class Command(BaseCommand):
                 product_soup = BeautifulSoup(product_resp.text, 'html.parser')
                 product_slug = product_address.split('/')[-2]
 
-                image = product_soup.find('div', {"class": "product-carousel"}).find('img')
-                image = image.get('src') if image else 'products/1_DEFAULT_IMAGE.jpg'
+                product_name = product_soup.find('h1', {"id": "productName"})
+                if not product_name:
+                    continue
+                product_name = product_name.text
+                product_price = float(product_soup.find('div', {"class": "fullPricePDP"}).next_element.replace(' ', ''))
+                product_description = product_soup.find('div', {"class": "css-ivaahx"}).text
+
+                image = product_soup.find('div', {"class": "product-carousel"})
+                image = image.find('img').get('src') if image else 'products/1_DEFAULT_IMAGE.jpg'
 
                 image_name = '{}.jpg'.format(product_slug)[:85]
                 image_address = 'products/{}'.format(image_name)
@@ -32,14 +39,17 @@ class Command(BaseCommand):
                 file.write(image_url.content)
                 file.close()
 
-                product_name = product_soup.find('h1', {"id": "productName"}).text
-                product_price = float(product_soup.find('div', {"class": "fullPricePDP"}).next_element.replace(' ', ''))
-                product_description = product_soup.find('div', {"class": "css-ivaahx"}).text
-
                 product_specifications = product_soup.find('tbody')
                 prod_spec_dict = {}
                 for table_row in product_specifications.find_all('tr'):
-                    prod_spec_dict[table_row.find('th').text] = table_row.find('td').text
+                    if table_row.find('td').text.isdigit():
+                        prod_spec_dict[table_row.find('th').text] = int(table_row.find('td').text)
+                    else:
+                        try:
+                            float(table_row.find('td').text)
+                            prod_spec_dict[table_row.find('th').text] = float(table_row.find('td').text)
+                        except ValueError:
+                            prod_spec_dict[table_row.find('th').text] = table_row.find('td').text
 
                 models.Product.objects.create(name=product_name,
                                               price=product_price,
