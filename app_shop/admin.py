@@ -3,7 +3,8 @@ from django.db import models
 from django import forms
 from django.forms import TextInput
 
-from .models import OrderList, Promotions, Product, ProductClassification
+from .models import ClassificationFilters, FiltersForClassifications, OrderList, Promotions, Product, \
+    ProductClassification
 from allhere_in_russia.models import News, Shops, ShopType, SubPagesArticle, SubPagesSection
 
 
@@ -71,10 +72,20 @@ class ProductAdmin(admin.ModelAdmin):
     form = ProductCharacteristicsForm
 
 
+class ClassificationFiltersInline(admin.StackedInline):
+    model = ClassificationFilters
+
+
 @admin.register(ProductClassification)
 class ProductClassificationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category')
+    list_display = ('name', 'id', 'category', 'highest_category')
     search_fields = ('name',)
+    inlines = [ClassificationFiltersInline]
+
+
+@admin.register(FiltersForClassifications)
+class FiltersForClassificationsAdmin(admin.ModelAdmin):
+    list_display = ('name', 'type')
 
 
 @admin.register(Promotions)

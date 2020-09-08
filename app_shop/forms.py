@@ -1,6 +1,8 @@
 from crispy_forms.helper import FormHelper
 from django import forms
 
+from shop_allhere.utils import transliterate
+
 
 class SearchForm(forms.Form):
     search_key = forms.CharField(label='Search', max_length=30)
@@ -79,3 +81,56 @@ class BrandsForm(forms.Form):
                 required=False,
                 widget=forms.CheckboxSelectMultiple,
             )
+
+
+class ManufacturerCountryForm(forms.Form):
+    country = forms.BooleanField(label="", required=False, widget=forms.CheckboxSelectMultiple)
+
+    def __init__(self, *args, choices, **kwargs):
+        super(ManufacturerCountryForm, self).__init__(*args, **kwargs)
+        choices = ((c, c) for c in list(choices))
+        self.fields['country'] = forms.MultipleChoiceField(
+                label="",
+                choices=choices,
+                required=False,
+                widget=forms.CheckboxSelectMultiple,
+            )
+
+
+class VariableFiltersForm(forms.Form):
+    pass
+
+    def __init__(self, *args, filters, **kwargs):
+        super(VariableFiltersForm, self).__init__(*args, **kwargs)
+        for item in filters:
+            if item['filter__type'] == "TXT":
+                self.fields[item['filter__name']] = forms.CharField(
+                    label=item['filter__name'],
+                    max_length=50,
+                    required=False
+                )
+                self.fields[item['filter__name']].type = item['filter__type']
+                self.fields[item['filter__name']].slug = transliterate(item['filter__name'])
+            elif item['filter__type'] == "INT":
+                self.fields[item['filter__name']] = forms.FloatField(
+                    label=item['filter__name'],
+                    min_value=min(item['filter__values']),
+                    max_value=max(item['filter__values']),
+                    required=False,
+                )
+                self.fields[item['filter__name']].type = item['filter__type']
+                self.fields[item['filter__name']].slug = transliterate(item['filter__name'])
+            elif item['filter__type'] == "CSM":
+                choices = ((c, c) for c in set(item['filter__values']))
+                self.fields[item['filter__name']] = forms.MultipleChoiceField(
+                    label=item['filter__name'],
+                    choices=choices,
+                    required=False,
+                    widget=forms.CheckboxSelectMultiple,
+                )
+                self.fields[item['filter__name']].type = item['filter__type']
+                self.fields[item['filter__name']].slug = transliterate(item['filter__name'])
+
+            self.helper = FormHelper()
+            self.helper.form_show_labels = False
+            self.helper.field_class = 'text-left'
