@@ -45,6 +45,11 @@ class ProductClassification(models.Model):
         category = str(self.category).replace("/None", "")
         return '{0} /{1}'.format(self.name, category)
 
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.slug:
+            self.slug = transliterate(self.name)
+        return super(ProductClassification, self).save()
+
     def get_absolute_url(self):
         return reverse('app_shop:section_products', args=[self.id])
 
@@ -79,18 +84,14 @@ FILTER_TYPE = [
 class FiltersForClassifications(models.Model):
     name = models.CharField(max_length=30, help_text="Enter а product category")
     type = models.CharField(max_length=3, choices=FILTER_TYPE, help_text="Enter а filter type")
-    slug = models.CharField(max_length=40, editable=False, null=True, blank=True)
+    priority = models.SmallIntegerField(default=0)
 
     def __str__(self):
         return self.name
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        if not self.slug:
-            self.slug = transliterate(self.name)
-        return super(FiltersForClassifications, self).save()
-
     class Meta:
         app_label = 'app_shop'
+        ordering = ['priority']
 
 
 class ClassificationFilters(models.Model):
