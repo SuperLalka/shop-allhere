@@ -10,14 +10,7 @@ def authentication(request):
     if request.method == 'POST':
         form = AuthorizationForm(request.POST)
         if not form.is_valid():
-            return render(
-                request,
-                'authentication.html',
-                context={
-                    'authorization': True,
-                    'error': True
-                }
-            )
+            return render(request, 'authentication.html', context={'authorization': True, 'form': form})
 
         user = authenticate(request,
                             username=form.cleaned_data['user_name'],
@@ -26,14 +19,7 @@ def authentication(request):
             login(request, user)
             return redirect('app_shop:user_account')
         else:
-            return render(
-                request,
-                'authentication.html',
-                context={
-                    'authorization': True,
-                    'error': True
-                }
-            )
+            return render(request, 'authentication.html', context={'authorization': True, 'form': form})
     else:
         return render(request, 'authentication.html')
 
@@ -46,7 +32,7 @@ def logout_from_profile(request):
 def registration(request):
     form = RegistrationForm(request.POST)
     if not form.is_valid():
-        return render(request, 'authentication.html', context={'error': True})
+        return render(request, 'authentication.html', context={'form': form})
 
     User.objects.create_user(form.cleaned_data['user_name'],
                              form.cleaned_data['user_email'],
@@ -54,6 +40,6 @@ def registration(request):
     return render(request, 'authentication.html', context={'authorization': True})
 
 
-def user_account(request, **kwargs):
+def user_account(request):
     shopping_list = OrderList.objects.filter(customer_id=request.user.id)
     return render(request, 'user_account.html', context={'shopping_list': shopping_list})

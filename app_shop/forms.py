@@ -1,5 +1,6 @@
 from crispy_forms.helper import FormHelper
 from django import forms
+from django.contrib.auth.models import User
 from operator import itemgetter
 
 from shop_allhere.utils import transliterate
@@ -43,6 +44,20 @@ class AuthorizationForm(forms.Form):
     user_password = forms.CharField(label="Введите пароль",
                                     max_length=30, widget=forms.PasswordInput)
 
+    def clean_user_name(self):
+        data = self.cleaned_data['user_name']
+        if not User.objects.filter(username=data).exists():
+            raise forms.ValidationError('Пользователь не существует')
+        return data
+
+    def clean_user_password(self):
+        if self.cleaned_data.get('user_name', None):
+            if not User.objects.filter(
+                    username=self.cleaned_data['user_name'],
+                    password=self.cleaned_data['user_password']).exists():
+                raise forms.ValidationError('Неверный пароль')
+        return self.cleaned_data['user_password']
+
 
 class RegistrationForm(forms.Form):
     user_name = forms.CharField(label="Представьтесь", max_length=60)
@@ -52,10 +67,22 @@ class RegistrationForm(forms.Form):
     user_password_check = forms.CharField(label="Пожалуйста, повторите ваш пароль",
                                           max_length=30, widget=forms.PasswordInput)
 
+    def clean_user_name(self):
+        data = self.cleaned_data['user_name']
+        if User.objects.filter(username=data).exists():
+            raise forms.ValidationError('Пользователь с данным именем уже существует')
+        return data
+
+    def clean_user_email(self):
+        data = self.cleaned_data['user_email']
+        if User.objects.filter(email=data).exists():
+            raise forms.ValidationError('Введённый email уже используется')
+        return data
+
     def clean_user_password_check(self):
         if self.cleaned_data['user_password'] != self.cleaned_data['user_password_check']:
             raise forms.ValidationError('Введённые пароли не совпадают')
-        return self
+        return self.cleaned_data['user_password']
 
 
 class PriceForm(forms.Form):
