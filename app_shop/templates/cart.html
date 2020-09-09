@@ -106,7 +106,11 @@
           <div class="modal-body">
             <form action="{% url 'app_shop:send_order' %}?cost={{ list_amounts|first }}" method="post">
               {% csrf_token %}
-              {{ order_form|crispy }}
+              {% if user.is_authenticated and products_in_cart %}
+                {{ order_form.address|as_crispy_field }}
+              {% else %}
+                {{ order_form|crispy }}
+              {% endif %}
               <button type="button" class="btn btn-lg btn-secondary" data-dismiss="modal">Отмена</button>
               <button type="submit" class="btn btn-lg btn-primary">Отправить заявку</button>
             </form>

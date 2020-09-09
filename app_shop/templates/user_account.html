@@ -35,8 +35,10 @@
             <div class="card">
               <div class="card-header">
                 <h5 class="card-title">Заказ № {{ orderlist.id }} от {{ orderlist.order_creation_date }} на
-                  сумму {{ orderlist.cost }}</h5>
-                {% if orderlist.address %}<p>Указанный для доставки адресс: {{ orderlist.address }}</p>{% endif %}
+                  сумму {{ orderlist.cost }} &#8381;</h5>
+                {% if orderlist.address %}<p>Указанный для доставки адрес: {{ orderlist.address }}</p>{% endif %}
+                {% if orderlist.customer %}<p>Заказ на имя: {{ orderlist.customer }}</p>{% endif %}
+                {% if orderlist.customer_phone %}<p>Указанный телефон: {{ orderlist.customer_phone }}</p>{% endif %}
               </div>
               <div class="card-body">
                 <ul>

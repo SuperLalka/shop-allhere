@@ -50,14 +50,6 @@ class AuthorizationForm(forms.Form):
             raise forms.ValidationError('Пользователь не существует')
         return data
 
-    def clean_user_password(self):
-        if self.cleaned_data.get('user_name', None):
-            if not User.objects.filter(
-                    username=self.cleaned_data['user_name'],
-                    password=self.cleaned_data['user_password']).exists():
-                raise forms.ValidationError('Неверный пароль')
-        return self.cleaned_data['user_password']
-
 
 class RegistrationForm(forms.Form):
     user_name = forms.CharField(label="Представьтесь", max_length=60)
