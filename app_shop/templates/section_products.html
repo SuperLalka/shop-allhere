@@ -7,7 +7,7 @@
 {% block title %}<title>AllHere интернет-магазин | {{ category.name }}</title>{% endblock %}
 
 {% block content %}
-  <div class="category-block col-11">
+  <div class="category-block col-12">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb bg-white my-0">
         <li class="breadcrumb-item"><a href="{% url 'app_shop:index' %}">Главная страница</a></li>
@@ -19,22 +19,39 @@
             <li class="breadcrumb-item active" aria-current="page">{{ item.name }}</li>
           {% endif %}
         {% endfor %}
+        {% if request.resolver_match.url_name == 'section_products' %}
+          <li class="ml-auto">
+            <div class="btn-group">
+              <button type="button" class="sorted-button btn btn-danger dropdown-toggle" data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false">Отсортировать по цене
+              </button>
+              <div class="sorted-button__item-block dropdown-menu">
+                <a class="sorted-button__item dropdown-item"
+                   href="{% url 'app_shop:section_products' category.id %}?sorted=cheaper">Сначало дешевле</a>
+                <div class="dropdown-divider"></div>
+                <a class="sorted-button__item dropdown-item"
+                   href="{% url 'app_shop:section_products' category.id %}?sorted=expensive">Сначало дороже</a>
+              </div>
+            </div>
+          </li>
+        {% endif %}
       </ol>
     </nav>
     <hr>
     <div class="row">
-      <div class="category-block__filter filter col-3">
+      <div class="category-block__filter filter col-12 col-md-4 col-lg-3">
         <form class="filter__form" action="{% url 'app_shop:filtration' category.id %}" method="get">
           <!-- Subcategories list -->
           {% if category.get_child %}
             <div class="filter__section-block section-block card">
-              <div class="section-block__header card-header">
+              <div class="section-block__header">
                 <a class="stretched-link" data-toggle="collapse" href="#collapseSubcategories" role="button"
                    aria-expanded="true" aria-controls="collapseSubcategories">
                   Подкатегории
                 </a>
               </div>
-              <div class="section-block__body card-body collapse" id="collapseSubcategories">
+              <div class="section-block__body collapse" id="collapseSubcategories">
                 <ul class="section-block__body-subcategories">
                   {% for item in category.get_child %}
                     <li><a href="{% url 'app_shop:section_products' item.id %}">{{ item.name }}</a></li>
@@ -46,13 +63,13 @@
           <!-- Subcategories list end -->
           <!-- Price filter -->
           <div class="filter__section-block section-block card">
-            <div class="section-block__header card-header">
+            <div class="section-block__header">
               <a class="stretched-link" data-toggle="collapse" href="#collapsePrice" role="button"
                  aria-expanded="true" aria-controls="collapsePrice">
                 <label for="PriceRange">Укажите максимальную границу цены</label>
               </a>
             </div>
-            <div class="section-block__body card-body collapse show" id="collapsePrice">
+            <div class="section-block__body collapse show" id="collapsePrice">
               {{ price_form|crispy }}
               <div class="section-block__values">
                 <span class="section-block__min-value"
@@ -65,60 +82,35 @@
             </div>
           </div>
           <!-- Price filter end -->
-          <!-- Brands filter -->
-            <div class="filter__section-block section-block card">
-              <div class="section-block__header card-header">
-                <a class="stretched-link" data-toggle="collapse" href="#collapseBrands" role="button"
-                   aria-expanded="true" aria-controls="collapseBrands">
-                  Бренды
-                </a>
-              </div>
-              <div class="section-block__body card-body collapse" id="collapseBrands">
-                {{ brands_form|crispy }}
-              </div>
-            </div>
-          <!-- Brands filter end -->
-          <!-- Country filter -->
-            <div class="filter__section-block section-block card">
-              <div class="section-block__header card-header">
-                <a class="stretched-link" data-toggle="collapse" href="#collapseCountry" role="button"
-                   aria-expanded="true" aria-controls="collapseCountry">
-                  Страна производства
-                </a>
-              </div>
-              <div class="section-block__body card-body collapse show" id="collapseCountry">
-                {{ country_manufactured_form|crispy }}
-              </div>
-            </div>
-          <!-- Country filter end -->
           <!-- Variable filters -->
-          {% for field in variable_filters_form %}
+          {% for item in variable_filters_form %}
             <div class="filter__section-block section-block card">
-              <div class="section-block__header card-header">
-                <a class="stretched-link" data-toggle="collapse" href="#collapse{{ field.field.slug|capfirst }}"
+              <div class="section-block__header">
+                <a class="stretched-link" data-toggle="collapse" href="#collapse{{ item.field.slug|capfirst }}"
                    role="button"
-                   aria-expanded="true" aria-controls="collapse{{ field.field.slug|capfirst }}">
-                  {{ field.field.label }}
+                   aria-expanded="true" aria-controls="collapse{{ item.field.slug|capfirst }}">
+                  {{ item.field.label }}
                 </a>
               </div>
-              <div class="section-block__body card-body collapse" id="collapse{{ field.field.slug|capfirst }}">
-                {{ field|as_crispy_field }}
-                {% if field.field.type == "INT" %}
+              <div class="section-block__body collapse {% if item.label in variable_filters_form.changed_data %}show{% endif %}"
+                   id="collapse{{ item.field.slug|capfirst }}">
+                {{ item|as_crispy_field }}
+                {% if item.field.type == "INT" %}
                   <div class="section-block__values">
                     <span class="section-block__min-value"
-                          data-tooltip="Минимальное значение среди товаров данной категории">{{ field.field.min_value }}</span>
+                          data-tooltip="Минимальное значение среди товаров данной категории">{{ item.field.min_value }}</span>
                     <span class="section-block__max-value"
-                          data-tooltip="Максимальное значение среди товаров данной категории">{{ field.field.max_value }}</span>
+                          data-tooltip="Максимальное значение среди товаров данной категории">{{ item.field.max_value }}</span>
                   </div>
                 {% endif %}
               </div>
             </div>
           {% endfor %}
           <!-- Variable filters end -->
-          <button class="btn" type="submit">Отфильтровать</button>
+          <button class="filter__submit-button" type="submit">Отфильтровать</button>
         </form>
       </div>
-      <div class="category-block__list col-9">
+      <div class="category-block__list col-12 col-md-8 col-lg-9">
         {% if category_list %}
           {% for category in category_list %}
             <div class="category-block__section-title">
