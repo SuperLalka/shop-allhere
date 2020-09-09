@@ -8,7 +8,7 @@ from shop_allhere.utils import transliterate
 
 class Product(models.Model):
     name = models.CharField(max_length=100, help_text="Enter product name")
-    price = models.PositiveIntegerField(help_text="Enter product price")
+    price = models.FloatField(help_text="Enter product price")
     description = HTMLField(help_text="Enter a store description", null=True, blank=True)
     images = models.ImageField(upload_to="products")
     discount = models.PositiveSmallIntegerField(

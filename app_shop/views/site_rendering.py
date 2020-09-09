@@ -32,8 +32,8 @@ def main_sub_pages(request, **kwargs):
 class ProductDetailView(generic.DetailView):
     model = Product
     template_name = 'product_detail.html'
-    slug_field = 'id'
-    slug_url_kwarg = 'id'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
 
     def get_context_data(self, **kwargs):
         list_orders_id = ProductListForOrder.objects.filter(
@@ -69,10 +69,10 @@ class ProductDetailView(generic.DetailView):
 
 
 class CategoryListView(generic.ListView):
-    model = Product
+    model = ProductClassification
     template_name = 'section_products.html'
-    slug_field = 'classification_id'
-    slug_url_kwarg = 'classification_id'
+    slug_field = 'id'
+    slug_url_kwarg = 'id'
 
     def get_queryset(self):
         if self.request.GET.get('sorted', None):

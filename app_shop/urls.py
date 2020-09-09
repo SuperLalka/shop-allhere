@@ -12,11 +12,11 @@ authentication = [
 ]
 
 shopping = [
-    url(r'^(?P<id>\w+)$', views.ProductDetailView.as_view(), name='product_detail'),
     url(r'^category/(?P<category_id>\S+)$', views.CategoryListView.as_view(), name='section_products'),
     url(r'^buy/(?P<product_id>\w+)$', views.add_product_to_cart, name='buy_product'),
     url(r'^remove_from_cart/(?P<product_id>\w+)$', views.remove_product_from_cart, name='remove_product'),
     url(r'^remove_one_copy/(?P<product_id>\w+)$', views.remove_one_copy, name='remove_one_copy'),
+    url(r'^(?P<slug>\S+)$', views.ProductDetailView.as_view(), name='product_detail'),
 ]
 
 app_name = 'app_shop'
