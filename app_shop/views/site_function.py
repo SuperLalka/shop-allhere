@@ -2,8 +2,9 @@ from django.db.models import Q, Min, Max
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
-from app_shop.forms import BrandsForm, PriceForm, SearchForm, SubscriptionForm
-from app_shop.models import Product, ProductClassification, SubscriptionEmails
+from app_shop.forms import PriceForm, SearchForm, SubscriptionForm, VariableFiltersForm
+from app_shop.models import ClassificationFilters, FiltersForClassifications, Product, ProductClassification, \
+    Promotions, SubscriptionEmails
 
 
 def search(request):
@@ -27,19 +28,32 @@ def search(request):
 
 
 def filtration(request, category_id):
+    form_dictionary = {}
+    form_filters = []
     query_dictionary = {}
 
-    price_form = PriceForm(request.GET)
-    if not price_form.is_valid():
+    variable_filters_form = VariableFiltersForm(request.GET)
+    if not variable_filters_form.is_valid():
         return HttpResponseRedirect(request)
 
-    if price_form.cleaned_data.get("price"):
-        query_dictionary['price__lte'] = price_form.cleaned_data.get("price")
-
-    if request.GET.getlist('brand'):
-        query_dictionary['specifications__Бренд__in'] = request.GET.getlist('brand')
+    for item, value in variable_filters_form.data.items():
+        if item != 'price' and value:
+            item_type = (FiltersForClassifications.objects.get(name=item)).type
+            if item_type == "INT":
+                if value.isdigit():
+                    query_dictionary['specifications__' + item + '__lte'] = int(value)
+                else:
+                    query_dictionary['specifications__' + item + '__lte'] = float(value)
+            elif item_type == "CSM":
+                query_dictionary['specifications__' + item + '__in'] = request.GET.getlist(item)
+        else:
+            if value:
+                query_dictionary['price__lte'] = value
 
     category = ProductClassification.objects.get(id=category_id)
+    filter_list = ClassificationFilters.objects.filter(
+        classification_id=category.id).values('filter__name', 'filter__type')
+
     subcategories_qs = ProductClassification.objects.filter(category_id=category_id)
     if subcategories_qs:
 
@@ -55,34 +69,47 @@ def filtration(request, category_id):
 
         query_dictionary['classification_id__in'] = id_list
         objects_in_category = Product.objects.filter(classification_id__in=id_list)
-        specifications = objects_in_category.values_list('specifications', flat=True)
-        price_values = objects_in_category.aggregate(Min('price'), Max('price'))
+        promotions_for_category_page = Promotions.objects.filter(
+            Q(for_category__in=id_list) |
+            Q(for_category=None, for_carousel=False)).order_by('?')[:5]
     else:
         query_dictionary['classification_id'] = category_id
         objects_in_category = Product.objects.filter(classification_id=category_id)
-        specifications = objects_in_category.values_list('specifications', flat=True)
-        price_values = objects_in_category.aggregate(Min('price'), Max('price'))
+        promotions_for_category_page = Promotions.objects.filter(
+            Q(for_category=category_id) |
+            Q(for_category=None, for_carousel=False)).order_by('?')[:5]
 
     object_list = Product.objects.filter(**query_dictionary)
     category_list_id = object_list.values_list('classification_id', flat=True)
     category_list = ProductClassification.objects.filter(id__in=category_list_id)
 
-    brands_names = set([x['Бренд'] if 'Бренд' in x.keys() else 'Не указано' for x in specifications])
-    brands_form = BrandsForm(request.GET, choices=brands_names)
-
+    price_values = objects_in_category.aggregate(Min('price'), Max('price'))
     price_form = PriceForm(request.GET, min_value=price_values['price__min'])
+    form_dictionary['price_form'] = price_form
+
+    for obj in filter_list:
+        if obj['filter__type'] != 'TXT':
+            value = objects_in_category.values_list('specifications__' + obj['filter__name'], flat=True)
+            value = [value for value in value if value]
+            if obj['filter__type'] == 'INT':
+                obj['filter__values'] = [min(value), max(value)]
+            elif obj['filter__type'] == 'CSM':
+                obj['filter__values'] = value
+        form_filters.append(obj)
+
+    variable_filters_form = VariableFiltersForm(request.GET, filters=form_filters)
+    form_dictionary['variable_filters_form'] = variable_filters_form
 
     return render(
         request,
-        'filter_results.html',
+        'section_products.html',
         context={
             'object_list': object_list,
             'category': category,
             'category_list': category_list,
-            'brands_form': brands_form,
-            'brands_names': brands_names,
-            'price_form': price_form,
+            'promotions_for_category_page': promotions_for_category_page,
             'price_values': price_values,
+            **form_dictionary
         }
     )
 

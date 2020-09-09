@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views import generic
 
 from app_shop.models import ClassificationFilters, Promotions, Product, ProductClassification, ProductListForOrder
-from app_shop.forms import BrandsForm, ManufacturerCountryForm, PriceForm, VariableFiltersForm
+from app_shop.forms import PriceForm, VariableFiltersForm
 
 
 def main_sub_pages(request, **kwargs):
@@ -75,6 +75,11 @@ class CategoryListView(generic.ListView):
     slug_url_kwarg = 'classification_id'
 
     def get_queryset(self):
+        if self.request.GET.get('sorted', None):
+            order = 'price' if self.request.GET['sorted'] == 'cheaper' else '-price'
+        else:
+            order = 'name'
+
         subcategories_qs = ProductClassification.objects.filter(category_id=self.kwargs['category_id'])
         if subcategories_qs:
             id_list = set()
@@ -91,10 +96,10 @@ class CategoryListView(generic.ListView):
             for obj in subcategories_qs:
                 id_list.add(obj.id)
                 recursive_get(obj)
-            self.queryset = Product.objects.filter(classification_id__in=[obj for obj in id_list])
+            self.queryset = Product.objects.filter(classification_id__in=[obj for obj in id_list]).order_by(order)
             return self.queryset
         else:
-            self.queryset = Product.objects.filter(classification_id=self.kwargs['category_id'])
+            self.queryset = Product.objects.filter(classification_id=self.kwargs['category_id']).order_by(order)
             return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -128,18 +133,9 @@ class CategoryListView(generic.ListView):
             Q(for_category__in=id_list) |
             Q(for_category=None, for_carousel=False)).order_by('?')[:5]
 
-        specifications = self.queryset.values_list('specifications', flat=True)
-        brands_names = set([x['Бренд'] if 'Бренд' in x.keys() else 'Не указано' for x in specifications])
-        brands_form = BrandsForm(choices=brands_names)
-        form_dictionary['brands_form'] = brands_form
-
         price_values = self.queryset.aggregate(Min('price'), Max('price'))
         price_form = PriceForm(min_value=price_values['price__min'])
         form_dictionary['price_form'] = price_form
-
-        country_values = set([x['Страна производства'] if 'Страна производства' in x.keys() else 'Не указано' for x in specifications])
-        country_manufactured_form = ManufacturerCountryForm(choices=country_values)
-        form_dictionary['country_manufactured_form'] = country_manufactured_form
 
         for obj in filter_list:
             if obj['filter__type'] != 'TXT':
