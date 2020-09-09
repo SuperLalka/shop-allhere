@@ -108,7 +108,7 @@ class CategoryListView(generic.ListView):
 
         category = ProductClassification.objects.get(id=self.kwargs['category_id'])
         filter_list = ClassificationFilters.objects.filter(
-            classification_id=category.id).values('filter__name', 'filter__type')
+            classification_id=category.id).values('filter__name', 'filter__type', 'filter__priority')
 
         category_list_id = self.queryset.values_list('classification_id', flat=True)
         category_list = ProductClassification.objects.filter(id__in=category_list_id)

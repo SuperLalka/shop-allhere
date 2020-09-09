@@ -52,7 +52,7 @@ def filtration(request, category_id):
 
     category = ProductClassification.objects.get(id=category_id)
     filter_list = ClassificationFilters.objects.filter(
-        classification_id=category.id).values('filter__name', 'filter__type')
+        classification_id=category.id).values('filter__name', 'filter__type', 'filter__priority')
 
     subcategories_qs = ProductClassification.objects.filter(category_id=category_id)
     if subcategories_qs:

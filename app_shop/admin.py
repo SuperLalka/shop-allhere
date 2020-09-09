@@ -85,7 +85,7 @@ class ProductClassificationAdmin(admin.ModelAdmin):
 
 @admin.register(FiltersForClassifications)
 class FiltersForClassificationsAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type')
+    list_display = ('name', 'type', 'priority')
 
 
 @admin.register(Promotions)
