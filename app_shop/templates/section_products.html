@@ -132,7 +132,7 @@
                       <div class="list-items__text-block">
                         <ul class="list-items__group">
                           <li class="list-items__group-item">
-                            <a href="{% url 'app_shop:product_detail' object.id %}">{{ object.name }}</a></li>
+                            <a href="{% url 'app_shop:product_detail' object.slug %}">{{ object.name }}</a></li>
                           {% if object.id in cart_products_list_id %}
                             <li class="list-items__group-item">
                               <div class="list-items__item-container item-in-cart">

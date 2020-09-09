@@ -21,7 +21,7 @@
                   <img class="cart-item__image" src="{{ object.images.url }}" alt="{{ object.name }}">
                 </div>
                 <div class="cart-item__name">
-                  <a href="{% url 'app_shop:product_detail' object.id %}">{{ object.name }}</a>
+                  <a href="{% url 'app_shop:product_detail' object.slug %}">{{ object.name }}</a>
                 </div>
                 <div class="cart-item__numbers">
                   <div class="btn-group" role="group" aria-label="Basic example">
