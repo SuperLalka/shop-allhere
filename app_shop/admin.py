@@ -1,11 +1,13 @@
-from django.contrib import admin
-from django.db import models
 from django import forms
+from django.contrib import admin
+from django.contrib.postgres.fields import JSONField
+from django.db import models
 from django.forms import TextInput
 
 from .models import ClassificationFilters, FiltersForClassifications, OrderList, Promotions, Product, \
-    ProductClassification
+    ProductClassification, PromotionsForCategory
 from allhere_in_russia.models import News, Shops, ShopType, SubPagesArticle, SubPagesSection
+from shop_allhere.utils import ReadableJSONFormField
 
 
 @admin.register(SubPagesArticle)
@@ -57,7 +59,7 @@ class ProductCharacteristicsForm(forms.ModelForm):
     country_of_origin = forms.CharField(label="Страна производства", max_length=20, required=False)
 
     def save(self, *args, **kwargs):
-        specifications = {}
+        specifications = self.instance.specifications
         for key, value in self.cleaned_data.items():
             if key in self.declared_fields.keys() and value:
                 specifications[self.fields[key].label] = value
@@ -70,6 +72,9 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'classification')
     list_per_page = 50
     form = ProductCharacteristicsForm
+    formfield_overrides = {
+        JSONField: {'form_class': ReadableJSONFormField},
+    }
 
 
 class ClassificationFiltersInline(admin.StackedInline):
@@ -88,10 +93,15 @@ class FiltersForClassificationsAdmin(admin.ModelAdmin):
     list_display = ('name', 'type', 'priority')
 
 
+class PromotionsForCategoryInline(admin.StackedInline):
+    model = PromotionsForCategory
+
+
 @admin.register(Promotions)
 class PromotionsAdmin(admin.ModelAdmin):
     list_display = ('name', 'start_time', 'end_time', 'for_carousel', )
     search_fields = ('name',)
+    inlines = [PromotionsForCategoryInline]
 
 
 @admin.register(OrderList)

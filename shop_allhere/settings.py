@@ -60,7 +60,7 @@ ROOT_URLCONF = 'shop_allhere.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, '../allhere_in_russia/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'allhere_in_russia/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
