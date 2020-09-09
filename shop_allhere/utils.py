@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import json
+from django.contrib.postgres.forms.jsonb import InvalidJSONInput, JSONField
 
 
 def transliterate(name):
@@ -21,3 +23,10 @@ def transliterate(name):
     for key in slovar:
         name = name.replace(key, slovar[key])
     return name.lower()
+
+
+class ReadableJSONFormField(JSONField):
+    def prepare_value(self, value):
+        if isinstance(value, InvalidJSONInput):
+            return value
+        return json.dumps(value, ensure_ascii=False, indent=2)
