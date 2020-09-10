@@ -24,7 +24,7 @@ def cart(request):
 
     cost_list = {}
     for item in products_in_cart:
-        cost_list[str(item.id)] = (item.price * id_list[str(item.id)])
+        cost_list[str(item.id)] = (float(item.get_current_prices()) * id_list[str(item.id)])
 
     if sum(cost_list.values()) >= constants.MINIMUM_ORDER_AMOUNT:
         warning_min_amount = False
@@ -83,7 +83,7 @@ def send_order(request):
             form_data[key] = value
 
     obj = OrderList.objects.create(
-        cost=int(request.GET['cost']),
+        cost=float(request.GET['cost']),
         address=form_data['address'],
         customer=form_data.get('customer'),
         customer_phone=form_data.get('customer_phone')

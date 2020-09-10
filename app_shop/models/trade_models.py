@@ -12,7 +12,8 @@ class Product(models.Model):
     description = HTMLField(help_text="Enter a store description", null=True, blank=True)
     images = models.ImageField(upload_to="products")
     discount = models.PositiveSmallIntegerField(
-        default=None, help_text="If need, enter amount of discount", null=True, blank=True)
+        default=None, help_text="Enter the discount percentage for this product", null=True, blank=True)
+    discount_fixed_price = models.FloatField(help_text="Enter the price of the fixed discount", null=True, blank=True)
     classification = models.ForeignKey(
         'ProductClassification', on_delete=models.CASCADE, related_name='class_content', null=True, blank=True)
     specifications = JSONField(encoder={}, null=True, blank=True)
@@ -23,6 +24,27 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('app_shop:product_detail', args=[self.slug])
+
+    def get_current_prices(self):
+        if self.discount_fixed_price:
+            return self.discount_fixed_price
+        elif self.discount:
+            return round(self.price - (self.price / self.discount), 2)
+        elif PromotionsForCategory.objects.filter(category_id=self.classification_id).exists():
+            discount = (PromotionsForCategory.objects.get(category_id=self.classification_id)).discount
+            return round(self.price - (self.price / discount), 2)
+        else:
+            return self.price
+
+    def get_current_discount(self):
+        if self.discount_fixed_price:
+            return 'старая цена - {0}'.format(self.price)
+        elif self.discount:
+            return str(self.discount) + "%"
+        elif PromotionsForCategory.objects.filter(category_id=self.classification_id).exists():
+            return str((PromotionsForCategory.objects.get(category_id=self.classification_id)).discount) + "%"
+        else:
+            return None
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.slug:
@@ -55,6 +77,10 @@ class ProductClassification(models.Model):
 
     def get_child(self):
         return ProductClassification.objects.filter(category_id=self.id)
+
+    def get_current_discount(self):
+        if PromotionsForCategory.objects.filter(category_id=self.id).exists():
+            return str((PromotionsForCategory.objects.get(category_id=self.id)).discount) + "%"
 
     def get_parent(self):
         path = [self]
@@ -103,9 +129,71 @@ class ClassificationFilters(models.Model):
         db_table = "app_shop_classificationfilters"
 
 
+class Promotions(models.Model):
+    name = models.CharField(max_length=100, help_text="Enter product name")
+    description = HTMLField(help_text="Enter a store description", null=True, blank=True)
+    images = models.ImageField(upload_to="promotions")
+    start_time = models.DateField(
+        help_text="Use an interactive calendar image or enter a date in the format 'YYYY-MM-DD'", null=True, blank=True)
+    end_time = models.DateField(
+        help_text="Use an interactive calendar image or enter a date in the format 'YYYY-MM-DD'", null=True, blank=True)
+    for_carousel = models.BooleanField(
+        help_text="Check, if promotion should be used for the main carousel", default=False)
+    for_category = models.ManyToManyField('ProductClassification', through='PromotionsForCategory')
+
+    def __str__(self):
+        return '{0} ({1} - {2})'.format(self.name, self.start_time, self.end_time)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        super(Promotions, self).save()
+        category_list = PromotionsForCategory.objects.filter(promotion_id=self.id)
+        for item in category_list:
+            subcategories_qs = ProductClassification.objects.filter(category_id=item.category.id)
+            if subcategories_qs:
+
+                def recursive_get(item):
+                    if item.category:
+                        child_list = ProductClassification.objects.filter(category_id=item.id)
+                        for child in child_list:
+                            id_list.add(child.id)
+                            recursive_get(item.category)
+                    else:
+                        return id_list
+
+                for obj in subcategories_qs:
+                    id_list = {obj.id}
+                    recursive_get(obj)
+
+                    for num in id_list:
+                        PromotionsForCategory.objects.get_or_create(promotion_id=self.id,
+                                                                    category_id=num,
+                                                                    discount=item.discount)
+
+        return super(Promotions, self).save()
+
+    def list_categories(self):
+        return self.objects.for_category
+
+    class Meta:
+        app_label = 'app_shop'
+        ordering = ('-end_time',)
+        verbose_name = 'Promotion'
+        verbose_name_plural = 'Promotions'
+
+
+class PromotionsForCategory(models.Model):
+    promotion = models.ForeignKey('Promotions', on_delete=models.CASCADE)
+    category = models.ForeignKey('ProductClassification', on_delete=models.CASCADE)
+    discount = models.PositiveSmallIntegerField()
+
+    class Meta:
+        app_label = 'app_shop'
+        db_table = "app_shop_promotionsforcategory"
+
+
 class OrderList(models.Model):
     product_list = models.ManyToManyField('Product', through='ProductListForOrder')
-    cost = models.PositiveSmallIntegerField()
+    cost = models.FloatField()
     customer = models.CharField(max_length=20, help_text="Customer", null=True, blank=True)
     customer_id = models.PositiveSmallIntegerField(null=True, blank=True)
     customer_phone = models.CharField(max_length=20, help_text="Customer phone", null=True, blank=True)
