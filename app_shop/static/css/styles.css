@@ -480,11 +480,32 @@ span.ymaps-geolink {
 .top-block__price-container {
     align-self: center;
     border: 1px solid black;
+    border-radius: 25px;
     display: flex;
     flex-flow: column;
     margin: 1vw;
-    padding: 5%;
     text-align: center;
+}
+
+.top-block__discount {
+    background-color: red;
+    border-radius: 25px 25px 0 0;
+    padding: 1vw;
+}
+
+.top-block__discount-text {
+    color: white;
+    font: bold calc(26px + 10 * (100vw / 1920)) serif;
+}
+
+.top-block__price {
+    background: ghostwhite;
+    border-radius: 25px;
+}
+
+.top-block__price-text {
+    font: bold calc(20px + 10 * (100vw / 1920)) serif;
+    padding: 10px 0;
 }
 
 .item-in-cart {
@@ -497,6 +518,7 @@ span.ymaps-geolink {
     font-size: calc(22px + 10 * (100vw / 1920));
     padding: 5px 15px;
     white-space: nowrap;
+    width: 100%;
 }
 
 .product-info__bottom-block {
@@ -684,6 +706,27 @@ span.ymaps-geolink {
     background-size: 50%;
 }
 
+.category-block__title-discount {
+    background-image: url(../imgs/discount_cupon.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 50px;
+    right: 0;
+    position: absolute;
+    width: 30%;
+}
+
+.title-discount__text {
+    align-items: center;
+    color: white;
+    display: flex;
+    font-size: calc(18px + 10 * (100vw / 1920));
+    height: 100%;
+    line-height: normal;
+    padding-left: 50px;
+    justify-content: center;
+}
+
 .category-block__list-section {
     display: flex;
     flex-wrap: wrap;
@@ -693,7 +736,7 @@ span.ymaps-geolink {
 .category-block__list-items {
     margin: 10px 1px;
     max-width: 250px;
-    min-height: 400px;
+    min-height: 350px;
     width: 33%;
 }
 

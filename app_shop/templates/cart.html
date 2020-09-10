@@ -40,7 +40,7 @@
                       {% endif %}
                     {% endfor %}
                   </div>
-                  <p>{{ object.price }} &#8381; / шт</p>
+                  <p>{{ object.get_current_prices }} &#8381; / шт</p>
                 </div>
                 <div class="cart-item__cost">
                   {% for key, value in cost_list.items %}

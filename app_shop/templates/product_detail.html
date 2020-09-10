@@ -30,20 +30,28 @@
           <h2 class="top-block__title">{{ object.name }}</h2>
         </div>
         <div class="top-block__price-container">
-          <p>{{ object.price }} &#8381; / шт</p>
-          <p>В наличии:</p>
-          {% if cart_products_list_id %}
-            {% if object.id not in cart_products_list_id %}
+          {% if object.get_current_discount %}
+            <div class="top-block__discount">
+              <p class="top-block__discount-text">На товар действует скидка!</p>
+              <p class="top-block__discount-text">{{ object.get_current_discount }}</p>
+            </div>
+          {% endif %}
+          <div class="top-block__price">
+            <p class="top-block__price-text">{{ object.get_current_prices }} &#8381; / шт</p>
+            <p class="top-block__price-text">В наличии:</p>
+            {% if cart_products_list_id %}
+              {% if object.id not in cart_products_list_id %}
+                <a class="top-block__buy-button btn btn-success"
+                   href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}">В корзину</a>
+              {% else %}
+                <a class="top-block__buy-button btn btn-danger"
+                   href="{% url 'app_shop:remove_product' object.id %}?next={{ request.path }}">Удалить из корзины</a>
+              {% endif %}
+            {% else %}
               <a class="top-block__buy-button btn btn-success"
                  href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}">В корзину</a>
-            {% else %}
-              <a class="top-block__buy-button btn btn-danger"
-                 href="{% url 'app_shop:remove_product' object.id %}?next={{ request.path }}">Удалить из корзины</a>
             {% endif %}
-          {% else %}
-            <a class="top-block__buy-button btn btn-success"
-               href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}">В корзину</a>
-          {% endif %}
+          </div>
         </div>
       </div>
       <div class="product-info__bottom-block">

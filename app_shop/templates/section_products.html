@@ -92,8 +92,9 @@
                   {{ item.field.label }}
                 </a>
               </div>
-              <div class="section-block__body collapse {% if item.label in variable_filters_form.changed_data %}show{% endif %}"
-                   id="collapse{{ item.field.slug|capfirst }}">
+              <div
+                  class="section-block__body collapse {% if item.label in variable_filters_form.changed_data %}show{% endif %}"
+                  id="collapse{{ item.field.slug|capfirst }}">
                 {{ item|as_crispy_field }}
                 {% if item.field.type == "INT" %}
                   <div class="section-block__values">
@@ -113,12 +114,16 @@
       <div class="category-block__list col-12 col-md-8 col-lg-9">
         {% if category_list %}
           {% for category in category_list %}
-            <div class="category-block__section-title">
+            <div class="category-block__section-title {% if category.get_current_discount %}bg-success{% endif %}">
               <a class="category-block__title-show" data-toggle="collapse" href="#collapse{{ category.id }}"
                  aria-expanded="true" aria-controls="collapse{{ category.id }}">
-                <span></span>
               </a>
-              <a href="{% url 'app_shop:section_products' category.id %}">{{ category.name }}</a>
+              <a {% if category.get_current_discount %}class="text-white"{% endif %} href="{% url 'app_shop:section_products' category.id %}">{{ category.name }}</a>
+              {% if category.get_current_discount %}
+                <div class="category-block__title-discount title-discount">
+                  <p class="title-discount__text">Скидка - {{ category.get_current_discount }}</p>
+                </div>
+              {% endif %}
             </div>
             <div class="collapse show" id="collapse{{ category.id }}">
               <div class="category-block__list-section">
@@ -138,7 +143,7 @@
                               <div class="list-items__item-container item-in-cart">
                                 <a class="list-items__link stretched-link"
                                    href="{% url 'app_shop:remove_product' object.id %}?next={{ request.path }}"></a>
-                                <p class="list-items__price">{{ object.price }} &#8381;</p>
+                                <p class="list-items__price">{{ object.get_current_prices }} &#8381;</p>
                                 <span>удалить
                                   <img class="list-items__trash-image" src="{% static 'imgs/trash.png' %}" alt="trash">
                                 </span>
@@ -149,7 +154,7 @@
                               <div class="list-items__item-container">
                                 <a class="list-items__link stretched-link"
                                    href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}"></a>
-                                <p class="list-items__price">{{ object.price }} &#8381;</p>
+                                <p class="list-items__price">{{ object.get_current_prices }} &#8381;</p>
                                 <div class="list-items__item-container">
                             </li>
                           {% endif %}
