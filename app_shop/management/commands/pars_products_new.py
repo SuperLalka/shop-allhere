@@ -2,6 +2,7 @@
 import requests
 import os
 from bs4 import BeautifulSoup
+from contextlib import suppress
 from django.core.management.base import BaseCommand
 
 from app_shop import models
@@ -15,49 +16,50 @@ class Command(BaseCommand):
         def create_product_objects(soup_obj, category):
             products_list = soup_obj.find_all(attrs={"class": "linkToPDP"})
             for product in products_list:
-                product_address = product['href']
-                product_resp = requests.get("https://www.auchan.ru" + product_address)
-                product_soup = BeautifulSoup(product_resp.text, 'html.parser')
-                product_slug = product_address.split('/')[-2]
+                with suppress(Exception):
+                    product_address = product['href']
+                    product_resp = requests.get("https://www.auchan.ru" + product_address)
+                    product_soup = BeautifulSoup(product_resp.text, 'html.parser')
+                    product_slug = product_address.split('/')[-2]
 
-                product_name = product_soup.find('h1', {"id": "productName"})
-                if not product_name:
-                    continue
-                product_name = product_name.text
-                product_price = float(product_soup.find('div', {"class": "fullPricePDP"}).next_element.replace(' ', ''))
-                product_description = product_soup.find('div', {"class": "css-ivaahx"}).text
+                    product_name = product_soup.find('h1', {"id": "productName"})
+                    if not product_name:
+                        continue
+                    product_name = product_name.text
+                    product_price = float(product_soup.find('div', {"class": "fullPricePDP"}).next_element.replace(' ', ''))
+                    product_description = product_soup.find('div', {"class": "css-ivaahx"}).text
 
-                image = product_soup.find('div', {"class": "product-carousel"})
-                image = image.find('img').get('src') if image else 'products/1_DEFAULT_IMAGE.jpg'
+                    image = product_soup.find('div', {"class": "product-carousel"})
+                    image = image.find('img').get('src') if image else 'products/1_DEFAULT_IMAGE.jpg'
 
-                image_name = '{}.jpg'.format(product_slug)[:85]
-                image_address = 'products/{}'.format(image_name)
-                image_url = requests.get(host + image)
+                    image_name = '{}.jpg'.format(product_slug)[:85]
+                    image_address = 'products/{}'.format(image_name)
+                    image_url = requests.get(host + image)
 
-                file_address = os.path.join(settings.MEDIA_ROOT, 'products/{}'.format(image_name))
-                file = open(file_address, 'wb')
-                file.write(image_url.content)
-                file.close()
+                    file_address = os.path.join(settings.MEDIA_ROOT, 'products/{}'.format(image_name))
+                    file = open(file_address, 'wb')
+                    file.write(image_url.content)
+                    file.close()
 
-                product_specifications = product_soup.find('tbody')
-                prod_spec_dict = {}
-                for table_row in product_specifications.find_all('tr'):
-                    if table_row.find('td').text.isdigit():
-                        prod_spec_dict[table_row.find('th').text] = int(table_row.find('td').text)
-                    else:
-                        try:
-                            float(table_row.find('td').text)
-                            prod_spec_dict[table_row.find('th').text] = float(table_row.find('td').text)
-                        except ValueError:
-                            prod_spec_dict[table_row.find('th').text] = table_row.find('td').text
+                    product_specifications = product_soup.find('tbody')
+                    prod_spec_dict = {}
+                    for table_row in product_specifications.find_all('tr'):
+                        if table_row.find('td').text.isdigit():
+                            prod_spec_dict[table_row.find('th').text] = int(table_row.find('td').text)
+                        else:
+                            try:
+                                float(table_row.find('td').text)
+                                prod_spec_dict[table_row.find('th').text] = float(table_row.find('td').text)
+                            except ValueError:
+                                prod_spec_dict[table_row.find('th').text] = table_row.find('td').text
 
-                models.Product.objects.create(name=product_name,
-                                              price=product_price,
-                                              description=product_description,
-                                              images=image_address,
-                                              classification=category,
-                                              specifications=prod_spec_dict,
-                                              slug=product_slug)
+                    models.Product.objects.create(name=product_name,
+                                                  price=product_price,
+                                                  description=product_description,
+                                                  images=image_address,
+                                                  classification=category,
+                                                  specifications=prod_spec_dict,
+                                                  slug=product_slug)
 
         host = "https://www.auchan.ru/"
         resp = requests.get(host)
