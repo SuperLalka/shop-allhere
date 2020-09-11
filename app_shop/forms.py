@@ -27,22 +27,20 @@ class SubscriptionForm(forms.Form):
 
 
 class OrderForm(forms.Form):
-    customer = forms.CharField(
-        label="Заказчик", max_length=50, help_text="необязательное для заполнения поле", required=False)
-    customer_phone = forms.CharField(
-        label="Номер телефона", max_length=20, help_text="необязательное для заполнения поле", required=False,
-        widget=forms.TextInput(attrs={'placeholder': '+7'}))
-    address = forms.CharField(
-        label="Укажите адрес для доставки (формат 'Город, улица, дом')",
-        max_length=100,
-        help_text="Текст не более 100 символов",
-        widget=forms.Textarea(attrs={'rows': 1}))
+    customer = forms.CharField(label="Заказчик", max_length=50,
+                               help_text="необязательное для заполнения поле", required=False)
+    customer_phone = forms.CharField(label="Номер телефона", max_length=20,
+                                     help_text="необязательное для заполнения поле", required=False,
+                                     widget=forms.TextInput(attrs={'placeholder': '+7'}))
+    address = forms.CharField(label="Укажите адрес для доставки (формат 'Город, улица, дом')",
+                              max_length=100,
+                              help_text="Текст не более 100 символов",
+                              widget=forms.Textarea(attrs={'rows': 1}))
 
 
 class AuthorizationForm(forms.Form):
-    user_name = forms.CharField(label="Представьтесь", max_length=60)
-    user_password = forms.CharField(label="Введите пароль",
-                                    max_length=30, widget=forms.PasswordInput)
+    username = forms.CharField(label="Представьтесь", max_length=60)
+    password = forms.CharField(label="Введите пароль", max_length=30, widget=forms.PasswordInput)
 
     def clean_user_name(self):
         data = self.cleaned_data['user_name']
@@ -51,30 +49,33 @@ class AuthorizationForm(forms.Form):
         return data
 
 
-class RegistrationForm(forms.Form):
-    user_name = forms.CharField(label="Представьтесь", max_length=60)
-    user_email = forms.EmailField(label="Ввведите ваш E-mail", max_length=30)
-    user_password = forms.CharField(label="Введите пароль",
-                                    max_length=30, widget=forms.PasswordInput)
-    user_password_check = forms.CharField(label="Пожалуйста, повторите ваш пароль",
-                                          max_length=30, widget=forms.PasswordInput)
+class RegistrationForm(forms.ModelForm):
+    username = forms.CharField(label="Представьтесь", max_length=60)
+    email = forms.EmailField(label="Ввведите ваш E-mail", max_length=30)
+    password = forms.CharField(label="Введите пароль", max_length=30, widget=forms.PasswordInput)
+    password_check = forms.CharField(label="Пожалуйста, повторите ваш пароль", max_length=30,
+                                     widget=forms.PasswordInput)
 
-    def clean_user_name(self):
-        data = self.cleaned_data['user_name']
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password']
+
+    def clean_username(self):
+        data = self.cleaned_data['username']
         if User.objects.filter(username=data).exists():
             raise forms.ValidationError('Пользователь с данным именем уже существует')
         return data
 
-    def clean_user_email(self):
-        data = self.cleaned_data['user_email']
+    def clean_email(self):
+        data = self.cleaned_data['email']
         if User.objects.filter(email=data).exists():
             raise forms.ValidationError('Введённый email уже используется')
         return data
 
-    def clean_user_password_check(self):
-        if self.cleaned_data['user_password'] != self.cleaned_data['user_password_check']:
+    def clean_password_check(self):
+        if self.cleaned_data['password'] != self.cleaned_data['password_check']:
             raise forms.ValidationError('Введённые пароли не совпадают')
-        return self.cleaned_data['user_password']
+        return self.cleaned_data['password']
 
 
 class PriceForm(forms.Form):
@@ -103,8 +104,6 @@ class VariableFiltersForm(forms.Form):
                         max_length=50,
                         required=False
                     )
-                    self.fields[item['filter__name']].type = item['filter__type']
-                    self.fields[item['filter__name']].slug = transliterate(item['filter__name'])
                 elif item['filter__type'] == "INT":
                     self.fields[item['filter__name']] = forms.FloatField(
                         label=item['filter__name'],
@@ -112,8 +111,6 @@ class VariableFiltersForm(forms.Form):
                         max_value=max(item['filter__values']),
                         required=False,
                     )
-                    self.fields[item['filter__name']].type = item['filter__type']
-                    self.fields[item['filter__name']].slug = transliterate(item['filter__name'])
                 elif item['filter__type'] == "CSM":
                     choices = ((c, c) for c in set(item['filter__values']))
                     self.fields[item['filter__name']] = forms.MultipleChoiceField(
@@ -122,8 +119,9 @@ class VariableFiltersForm(forms.Form):
                         required=False,
                         widget=forms.CheckboxSelectMultiple,
                     )
-                    self.fields[item['filter__name']].type = item['filter__type']
-                    self.fields[item['filter__name']].slug = transliterate(item['filter__name'])
+
+                self.fields[item['filter__name']].type = item['filter__type']
+                self.fields[item['filter__name']].slug = transliterate(item['filter__name'])
 
             self.helper = FormHelper()
             self.helper.form_show_labels = False

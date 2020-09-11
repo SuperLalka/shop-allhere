@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout as auth_logout
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 
@@ -7,25 +7,23 @@ from app_shop.models import OrderList
 
 
 def authentication(request):
-    if request.method == 'POST':
-        form = AuthorizationForm(request.POST)
-        if not form.is_valid():
-            return render(request, 'authentication.html', context={'authorization': True, 'form': form})
-
-        user = authenticate(request,
-                            username=form.cleaned_data['user_name'],
-                            password=form.cleaned_data['user_password'])
-        if user is not None:
-            login(request, user)
-            return redirect('app_shop:user_account')
-        else:
-            return render(request, 'authentication.html', context={'authorization': True, 'form': form})
-    else:
+    if request.method != 'POST':
         return render(request, 'authentication.html')
 
+    form = AuthorizationForm(request.POST)
+    if not form.is_valid():
+        return render(request, 'authentication.html', context={'authorization': True, 'form': form})
 
-def logout_from_profile(request):
-    logout(request)
+    user = authenticate(request, **form.cleaned_data)
+    if user is None:
+        return render(request, 'authentication.html', context={'authorization': True, 'form': form})
+    login(request, user)
+
+    return redirect('app_shop:user_account')
+
+
+def logout(request):
+    auth_logout(request)
     return redirect('app_shop:user_account')
 
 
@@ -34,9 +32,8 @@ def registration(request):
     if not form.is_valid():
         return render(request, 'authentication.html', context={'form': form})
 
-    User.objects.create_user(form.cleaned_data['user_name'],
-                             form.cleaned_data['user_email'],
-                             form.cleaned_data['user_password'])
+    form.cleaned_data.pop('password_check')
+    User.objects.create_user(**form.cleaned_data)
     return render(request, 'authentication.html', context={'authorization': True})
 
 

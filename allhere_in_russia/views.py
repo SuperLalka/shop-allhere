@@ -1,3 +1,5 @@
+from contextlib import suppress
+
 from django.views import generic
 
 from .models import News, Shops, SubPagesArticle
@@ -27,17 +29,13 @@ class NewsDetailView(generic.DetailView):
     slug_field = 'id'
     slug_url_kwarg = 'id'
 
-    def get(self, request, *args, **kwargs):
-        try:
-            return super().get(request, *args, **kwargs)
-        except AttributeError:
-            self.object = News.objects.all().first()
-            context = self.get_context_data(object=self.object)
-            return self.render_to_response(context)
+    def get_object(self, queryset=None):
+        with suppress(AttributeError):
+            return super().get_object()
+        return News.objects.all().first()
 
     def get_context_data(self, **kwargs):
-        context = {
+        return {
             'news_list': News.objects.all(),
-            **kwargs,
+            **super().get_context_data()
         }
-        return super().get_context_data(**context)

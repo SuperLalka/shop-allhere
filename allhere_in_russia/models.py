@@ -7,15 +7,22 @@ from shop_allhere import settings
 from shop_allhere.utils import transliterate
 
 
+SUBPAGESARTICLE_ADDRESS = "Enter a url address for article, otherwise the address will be set automatically"
+SUBPAGESARTICLE_UNIQ_TEMPLATE = "check if the page will use a unique HTML template"
+SHOPS_CITY = "Enter the city where the store is located"
+SHOPS_ADDRESS = "Enter address of shop in the format City, street, house number"
+SHOPS_LATITUDE = "indicates the latitude of the location on the world map"
+SHOPS_LONGITUDE = "indicates the longitude of the location on the world map"
+
+
 class SubPagesArticle(models.Model):
     title = models.CharField(max_length=40, help_text="Enter a titles article")
-    address = models.CharField(
-        max_length=40, help_text="Enter a url address for article, otherwise the address will be set automatically",
-        null=True, blank=True)
-    section = models.ForeignKey(
-        'SubPagesSection', on_delete=models.SET_NULL, related_name='content', null=True, blank=True)
+    address = models.CharField(max_length=40, help_text=SUBPAGESARTICLE_ADDRESS,
+                               null=True, blank=True)
+    section = models.ForeignKey('SubPagesSection', on_delete=models.SET_NULL,
+                                related_name='content', null=True, blank=True)
     body = HTMLField(help_text="Enter a text article", null=True, blank=True)
-    uniq_template = models.BooleanField(default=False, help_text="check if the page will use a unique HTML template")
+    uniq_template = models.BooleanField(default=False, help_text=SUBPAGESARTICLE_UNIQ_TEMPLATE)
 
     def __str__(self):
         return self.address
@@ -47,15 +54,15 @@ class SubPagesSection(models.Model):
 
 class Shops(models.Model):
     name = models.CharField(max_length=40, help_text="Enter store name")
-    city = models.CharField(max_length=20, help_text="Enter the city where the store is located")
-    address = models.CharField(
-        max_length=100, help_text="Enter address of shop in the format City, street, house number")
-    type = models.ForeignKey('ShopType', on_delete=models.SET_NULL, related_name='content', null=True, blank=True)
+    city = models.CharField(max_length=20, help_text=SHOPS_CITY)
+    address = models.CharField(max_length=100, help_text=SHOPS_ADDRESS)
+    type = models.ForeignKey('ShopType', on_delete=models.SET_NULL, related_name='content',
+                             null=True, blank=True)
     description = HTMLField(help_text="Enter a store description", null=True, blank=True)
-    latitude = models.DecimalField(help_text="indicates the latitude of the location on the world map",
-                                   max_digits=10, decimal_places=7, editable=False, null=True, blank=True)
-    longitude = models.DecimalField(help_text="indicates the longitude of the location on the world map",
-                                    max_digits=10, decimal_places=7, editable=False, null=True, blank=True)
+    latitude = models.DecimalField(help_text=SHOPS_LATITUDE, max_digits=10, decimal_places=7,
+                                   editable=False, null=True, blank=True)
+    longitude = models.DecimalField(help_text=SHOPS_LONGITUDE, max_digits=10, decimal_places=7,
+                                    editable=False, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -97,16 +104,9 @@ class News(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('app_shop:news', args=[self.id])
+        return reverse('allhere_in_russia:news', args=[self.id])
 
     class Meta:
         ordering = ['datetime', 'title']
         verbose_name = 'News'
         verbose_name_plural = 'News'
-
-
-DELIVERY_TERMS = (
-        ('a', 'Мелкогабаритный товар'),
-        ('b', 'Среднегабаритный товар'),
-        ('c', 'Крупногабаритный товар'),
-    )

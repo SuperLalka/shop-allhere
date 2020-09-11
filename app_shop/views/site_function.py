@@ -119,6 +119,5 @@ def subscription(request):
     if not form.is_valid():
         return redirect(request.GET['next'])
 
-    user_mail = form.cleaned_data.get("user_mail")
-    SubscriptionEmails.objects.get_or_create(email=user_mail)
+    SubscriptionEmails.objects.get_or_create(**form.cleaned_data)
     return redirect(request.GET['next'])
