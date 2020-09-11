@@ -69,7 +69,7 @@ class ProductCharacteristicsForm(forms.ModelForm):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'classification')
+    list_display = ('name', 'price', 'the_final_price', 'classification')
     list_per_page = 50
     form = ProductCharacteristicsForm
     formfield_overrides = {
