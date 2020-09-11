@@ -490,7 +490,6 @@ span.ymaps-geolink {
 .top-block__discount {
     background-color: red;
     border-radius: 25px 25px 0 0;
-    padding: 1vw;
 }
 
 .top-block__discount-text {
@@ -501,6 +500,7 @@ span.ymaps-geolink {
 .top-block__price {
     background: ghostwhite;
     border-radius: 25px;
+    padding: 20px;
 }
 
 .top-block__price-text {
@@ -1026,7 +1026,6 @@ span.ymaps-geolink {
 }
 
 .promo-block {
-    background-color: #dee2e6;
     border-radius: 25px;
     padding: 0;
 }
@@ -1039,7 +1038,7 @@ span.ymaps-geolink {
 
 .promo-block__big-cell {
     border: 0;
-    height: 700px;
+    height: 600px;
     max-width: 50%;
     padding: 10px;
     vertical-align: middle;
@@ -1063,14 +1062,12 @@ span.ymaps-geolink {
     height: auto;
     margin-top: 10px;
     max-height: 180px;
-    padding: 0 20px;
     text-overflow: ellipsis;
 }
 
 .promo-block__small-cell {
     border: 0;
-    height: 350px;
-    padding: 10px;
+    height: 300px;
     vertical-align: middle;
     width: 25%;
 }
@@ -1079,9 +1076,8 @@ span.ymaps-geolink {
     border-radius: 25px;
     cursor: pointer;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
-    vertical-align: middle;
     width: 100%;
 }
 

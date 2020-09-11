@@ -26,17 +26,12 @@
                 <div class="cart-item__numbers">
                   <div class="btn-group" role="group" aria-label="Basic example">
                     <a class="cart-item__numbers-button btn"
-                       href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}">+</a>
-                    {% for key, value in id_list.items %}
+                       href="{% url 'app_shop:add_product' object.id %}?next={{ request.path }}">+</a>
+                    {% for key, value in products_id.items %}
                       {% if key == object.id|slugify %}
                         <p class="cart-item__numbers-value">{{ value }}</p>
-                        {% if value > 1 %}
                           <a class="cart-item__numbers-button btn"
                              href="{% url 'app_shop:remove_one_copy' object.id %}?next={{ request.path }}">-</a>
-                        {% else %}
-                          <a class="cart-item__numbers-button btn"
-                             href="{% url 'app_shop:remove_product' object.id %}?next={{ request.path }}">-</a>
-                        {% endif %}
                       {% endif %}
                     {% endfor %}
                   </div>
@@ -63,8 +58,8 @@
     <div class="cart-block__count col-12 col-lg-3 col-xl-4">
       <div class="cart-block__count-header">
         <h2>Итого</h2>
-        {% if warning_min_amount %}
-          <p class="cart-block__count-warning">До минимальной суммы заказа осталось {{ list_amounts|last }} &#8381;</p>
+        {% if disadvantage > 0 %}
+          <p class="cart-block__count-warning">До минимальной суммы заказа осталось {{ disadvantage }} &#8381;</p>
         {% endif %}
       </div>
       <hr>
@@ -72,7 +67,7 @@
         <table class="cart-block__count-table">
           <tr>
             <td>Товары({{ products_in_cart|length }})</td>
-            <td>{{ list_amounts|first }} &#8381;</td>
+            <td>{{ total_cost }} &#8381;</td>
           </tr>
           <tr>
             <td>Стоимость самовывоза</td>
@@ -80,7 +75,7 @@
           </tr>
           <tr>
             <td><b>Всего к оплате</b></td>
-            <td><b>{{ list_amounts|first }} &#8381;</b></td>
+            <td><b>{{ total_cost }} &#8381;</b></td>
           </tr>
         </table>
         {% if not warning_min_amount %}
@@ -104,7 +99,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="{% url 'app_shop:send_order' %}?cost={{ list_amounts|first }}" method="post">
+            <form action="{% url 'app_shop:send_order' %}?total_cost={{ total_cost }}" method="post">
               {% csrf_token %}
               {% if user.is_authenticated and products_in_cart %}
                 {{ order_form.address|as_crispy_field }}
