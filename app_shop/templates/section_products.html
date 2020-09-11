@@ -10,7 +10,7 @@
   <div class="category-block col-12">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb bg-white my-0">
-        <li class="breadcrumb-item"><a href="{% url 'app_shop:index' %}">Главная страница</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'app_shop:main_sub_pages' %}">Главная страница</a></li>
         {% for item in category.get_parent %}
           {% if not forloop.last %}
             <li class="breadcrumb-item" aria-current="page"><a
@@ -92,8 +92,7 @@
                   {{ item.field.label }}
                 </a>
               </div>
-              <div
-                  class="section-block__body collapse {% if item.label in variable_filters_form.changed_data %}show{% endif %}"
+              <div class="section-block__body collapse {% if item.label in variable_filters_form.changed_data %}show{% endif %}"
                   id="collapse{{ item.field.slug|capfirst }}">
                 {{ item|as_crispy_field }}
                 {% if item.field.type == "INT" %}
@@ -118,7 +117,8 @@
               <a class="category-block__title-show" data-toggle="collapse" href="#collapse{{ category.id }}"
                  aria-expanded="true" aria-controls="collapse{{ category.id }}">
               </a>
-              <a {% if category.get_current_discount %}class="text-white"{% endif %} href="{% url 'app_shop:section_products' category.id %}">{{ category.name }}</a>
+              <a {% if category.get_current_discount %}class="text-white"{% endif %}
+                 href="{% url 'app_shop:section_products' category.id %}">{{ category.name }}</a>
               {% if category.get_current_discount %}
                 <div class="category-block__title-discount title-discount">
                   <p class="title-discount__text">Скидка - {{ category.get_current_discount }}</p>
@@ -153,7 +153,7 @@
                             <li class="list-items__group-item">
                               <div class="list-items__item-container">
                                 <a class="list-items__link stretched-link"
-                                   href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}"></a>
+                                   href="{% url 'app_shop:add_product' object.id %}?next={{ request.path }}"></a>
                                 <p class="list-items__price">{{ object.get_current_prices }} &#8381;</p>
                                 <div class="list-items__item-container">
                             </li>

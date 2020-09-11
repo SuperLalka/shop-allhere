@@ -9,7 +9,7 @@
   <div class="product-block">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb bg-white my-0">
-        <li class="breadcrumb-item"><a href="{% url 'app_shop:index' %}">Главная страница</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'app_shop:main_sub_pages' %}">Главная страница</a></li>
         {% for item in object.classification.get_parent %}
           {% if not forloop.last %}
             <li class="breadcrumb-item" aria-current="page"><a
@@ -42,14 +42,14 @@
             {% if cart_products_list_id %}
               {% if object.id not in cart_products_list_id %}
                 <a class="top-block__buy-button btn btn-success"
-                   href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}">В корзину</a>
+                   href="{% url 'app_shop:add_product' object.id %}?next={{ request.path }}">В корзину</a>
               {% else %}
                 <a class="top-block__buy-button btn btn-danger"
                    href="{% url 'app_shop:remove_product' object.id %}?next={{ request.path }}">Удалить из корзины</a>
               {% endif %}
             {% else %}
               <a class="top-block__buy-button btn btn-success"
-                 href="{% url 'app_shop:buy_product' object.id %}?next={{ request.path }}">В корзину</a>
+                 href="{% url 'app_shop:add_product' object.id %}?next={{ request.path }}">В корзину</a>
             {% endif %}
           </div>
         </div>
