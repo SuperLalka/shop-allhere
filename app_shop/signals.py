@@ -18,23 +18,16 @@ def image_model_delete(instance, **kwargs):
 
 @receiver(post_save, sender=PromotionsForCategory)
 def cascading_category_assignment(instance, **kwargs):
-    subcategories_qs = ProductClassification.objects.filter(category_id=instance.category_id)
-    if subcategories_qs:
+    category = ProductClassification.objects.get(id=instance.category_id)
 
-        def recursive_get(x):
-            child_list = ProductClassification.objects.filter(category_id=x.id)
-            if child_list:
-                for child in child_list:
-                    category_id_list.append(child.id)
-                    recursive_get(x.category)
-            else:
-                return category_id_list
+    def recursive_get(x):
+        yield x.id
+        for child in ProductClassification.objects.filter(category_id=x.id):
+            yield from recursive_get(child)
 
-        for obj in subcategories_qs:
-            category_id_list = [obj.id]
-            recursive_get(obj)
+    category_id_list = list(recursive_get(category))
 
-            qs = Product.objects.filter(classification_id__in=category_id_list)
-            for item in qs:
-                item.the_final_price = item.get_current_prices()
-                item.save()
+    qs = Product.objects.filter(classification_id__in=category_id_list)
+    for item in qs:
+        item.the_final_price = item.get_current_prices()
+        item.save()
