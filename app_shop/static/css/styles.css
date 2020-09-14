@@ -1037,75 +1037,24 @@ span.ymaps-geolink {
 }
 
 .promo-block__big-cell {
-    border: 0;
     height: 600px;
     max-width: 50%;
     padding: 10px;
     vertical-align: middle;
 }
 
-.promo-block__big-cell:hover .promo-block__image {
-    height: auto;
-    max-height: 490px;
-    object-fit: cover;
-    object-position: center;
-}
-
-.promo-block__big-cell:hover div[class*='d-none'] {
-    display: block !important;
-    overflow: auto;
-}
-
-.promo-block__big-cell-text {
-    background: white;
-    border-radius: 25px;
-    height: auto;
-    margin-top: 10px;
-    max-height: 180px;
-    text-overflow: ellipsis;
-}
-
 .promo-block__small-cell {
-    border: 0;
     height: 300px;
     vertical-align: middle;
     width: 25%;
 }
 
 .promo-block__image {
-    border-radius: 25px;
     cursor: pointer;
     height: 100%;
     object-fit: contain;
     object-position: center;
     width: 100%;
-}
-
-.promo-block__small-cell:hover .promo-block__image {
-    animation-duration: 5s;
-    animation-iteration-count: infinite;
-    animation-name: animation_promo;
-    animation-timing-function: linear;
-}
-
-@keyframes animation_promo {
-
-    0% {
-        object-position: center;
-    }
-    25% {
-        object-position: top;
-    }
-    50% {
-        object-position: center;
-    }
-    75% {
-        object-position: bottom;
-    }
-    100% {
-        object-position: center;
-    }
-
 }
 
 .recomendations-block {

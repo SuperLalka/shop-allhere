@@ -87,26 +87,26 @@
           <ul class="auth-block__list-group">
             <li class="auth-block__group-item">
               {% if not user.is_authenticated %}
-              <a class="nav-link p-0" href="{% url 'app_shop:authentication' %}">
-                <figure class="auth-block__list-item">
-                  <i class="auth-block__icon i-log-in"></i>
-                  <div class="auth-block__text d-none d-md-block">
-                    <p>Войти /<br> регистрация</p>
-                  </div>
-                </figure>
-              </a>
+                <a class="nav-link p-0" href="{% url 'app_shop:authentication' %}">
+                  <figure class="auth-block__list-item">
+                    <i class="auth-block__icon i-log-in"></i>
+                    <div class="auth-block__text d-none d-md-block">
+                      <p>Войти /<br> регистрация</p>
+                    </div>
+                  </figure>
+                </a>
               {% else %}
                 <a class="nav-link p-0" href="{% url 'app_shop:user_account' %}">
-                <figure class="auth-block__list-item">
-                  <i class="auth-block__icon i-log-in"></i>
-                  <div class="auth-block__text d-none d-md-block">
-                    <p>Вы вошли как <br>{{ user.username }}</p>
-                  </div>
-                  <div class="auth-block__text d-md-none">
-                    <p>{{ user.username }}</p>
-                  </div>
-                </figure>
-              </a>
+                  <figure class="auth-block__list-item">
+                    <i class="auth-block__icon i-log-in"></i>
+                    <div class="auth-block__text d-none d-md-block">
+                      <p>Вы вошли как <br>{{ user.username }}</p>
+                    </div>
+                    <div class="auth-block__text d-md-none">
+                      <p>{{ user.username }}</p>
+                    </div>
+                  </figure>
+                </a>
               {% endif %}
             </li>
             <li class="auth-block__group-item d-none d-lg-block">
@@ -197,9 +197,6 @@
       <tr>
         <td class="promo-block__big-cell d-none d-lg-table-cell" rowspan="2" colspan="2">
           <img class="promo-block__image" src="{{ promotions_ordinary.0.images.url }}">
-          <div class="promo-block__big-cell-text d-none">
-            {{ promotions_ordinary.0.description|safe }}
-          </div>
         </td>
         <td class="promo-block__small-cell">
           <img class="promo-block__image" src="{{ promotions_ordinary.1.images.url }}">
@@ -274,42 +271,42 @@
 <!-- text info end -->
 <!-- links&subscription -->
 {% block links-subscription %}
-<div class="links-subscription-block justify-content-center justify-content-lg-between col-11">
-  <div class="links-block my-2 my-md-0">
-    <figure class="links-item links-item_fb">
-      <a class="stretched-link" href="//www.facebook.com/"></a>
-    </figure>
-    <figure class="links-item links-item_vk">
-      <a class="stretched-link" href="//vk.com/"></a>
-    </figure>
-    <figure class="links-item links-item_in">
-      <a class="stretched-link" href="//www.instagram.com/"></a>
-    </figure>
-    <figure class="links-item links-item_tw">
-      <a class="stretched-link" href="//twitter.com/"></a>
-    </figure>
-    <figure class="links-item-long links-item_gp">
-      <a class="stretched-link" href="//play.google.com/store"></a>
-    </figure>
-    <figure class="links-item-long links-item_as">
-      <a class="stretched-link" href="//www.apple.com/ru/ios/app-store/"></a>
-    </figure>
+  <div class="links-subscription-block justify-content-center justify-content-lg-between col-11">
+    <div class="links-block my-2 my-md-0">
+      <figure class="links-item links-item_fb">
+        <a class="stretched-link" href="//www.facebook.com/"></a>
+      </figure>
+      <figure class="links-item links-item_vk">
+        <a class="stretched-link" href="//vk.com/"></a>
+      </figure>
+      <figure class="links-item links-item_in">
+        <a class="stretched-link" href="//www.instagram.com/"></a>
+      </figure>
+      <figure class="links-item links-item_tw">
+        <a class="stretched-link" href="//twitter.com/"></a>
+      </figure>
+      <figure class="links-item-long links-item_gp">
+        <a class="stretched-link" href="//play.google.com/store"></a>
+      </figure>
+      <figure class="links-item-long links-item_as">
+        <a class="stretched-link" href="//www.apple.com/ru/ios/app-store/"></a>
+      </figure>
+    </div>
+    <div class="subscription-block">
+      <label class="text-center">
+        <span class="d-none d-lg-block text-center mr-2">Не упусти выгодное предложение!</span>
+        <span class="text-center mr-2">Подпишись на акции!</span>
+      </label>
+      <form class="subscription-block__form form-inline"
+            action="{% url 'app_shop:subscription' %}?next={{ request.path }}" method="post">
+        <div class="subscription-block__form-block d-flex">
+          {% csrf_token %}
+          {{ user_mail_form.user_mail|as_crispy_field }}
+          <button type="submit" class="subscription-button">ПОДПИСАТЬСЯ</button>
+        </div>
+      </form>
+    </div>
   </div>
-  <div class="subscription-block">
-    <label class="text-center">
-      <span class="d-none d-lg-block text-center mr-2">Не упусти выгодное предложение!</span>
-      <span class="text-center mr-2">Подпишись на акции!</span>
-    </label>
-    <form class="subscription-block__form form-inline"
-          action="{% url 'app_shop:subscription' %}?next={{ request.path }}" method="post">
-      <div class="subscription-block__form-block d-flex">
-        {% csrf_token %}
-        {{ user_mail_form.user_mail|as_crispy_field }}
-        <button type="submit" class="subscription-button">ПОДПИСАТЬСЯ</button>
-      </div>
-    </form>
-  </div>
-</div>
 {% endblock %}
 <!-- links&subscription end -->
 <!-- footer -->
