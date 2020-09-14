@@ -79,11 +79,11 @@ class RegistrationForm(forms.ModelForm):
 
 
 class PriceForm(forms.Form):
-    price = forms.IntegerField(label="", min_value=1, required=False)
+    price = forms.FloatField(label="", min_value=1, required=False)
 
     def __init__(self, *args, min_value, **kwargs):
         super(PriceForm, self).__init__(*args, **kwargs)
-        self.fields['price'] = forms.IntegerField(
+        self.fields['price'] = forms.FloatField(
             label="",
             min_value=min_value,
             required=False
