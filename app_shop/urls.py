@@ -20,10 +20,10 @@ shopping = [
 
 cart = [
     url(r'^$', views.cart, name='cart'),
-    url(r'^cart/add_product/(?P<product_id>\w+)$', views.add_product_to_cart, name='add_product'),
-    url(r'^cart/remove_from_cart/(?P<product_id>\w+)$', views.remove_product_from_cart, name='remove_product'),
-    url(r'^cart/remove_one_from_cart/(?P<product_id>\w+)$', views.remove_one_from_cart, name='remove_one_copy'),
-    url(r'^cart/send_order$', views.send_order, name='send_order'),
+    url(r'^add_product/(?P<product_id>\w+)$', views.add_product_to_cart, name='add_product'),
+    url(r'^remove_from_cart/(?P<product_id>\w+)$', views.remove_product_from_cart, name='remove_product'),
+    url(r'^remove_one_from_cart/(?P<product_id>\w+)$', views.remove_one_from_cart, name='remove_one_copy'),
+    url(r'^send_order$', views.send_order, name='send_order'),
 ]
 
 app_name = 'app_shop'
