@@ -14,4 +14,3 @@ class Command(BaseCommand):
             item.save()
 
         print('Total checked {} objects'.format(len(objects)))
-

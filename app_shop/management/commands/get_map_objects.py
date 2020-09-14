@@ -2,7 +2,7 @@
 import csv
 from django.core.management.base import BaseCommand
 
-from app_shop import models
+from allhere_in_russia import models
 
 
 class Command(BaseCommand):
