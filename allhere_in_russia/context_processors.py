@@ -4,18 +4,14 @@ from shop_allhere import settings
 
 
 def request(request):
-    application_for_ordering_form = ApplicationForOrderingForm()
-    card_application_form = CardApplicationForm()
-    for_landlords_form = ForLandlordsForm()
-    for_lease_holders_form = ForLeaseHoldersForm()
     shops_list = Shops.objects.all()
-    city_list = sorted(set([item.city for item in Shops.objects.all()]))
+    city_list = shops_list.values_list('city', flat=True).distinct().order_by('city')
     return {
-        'application_for_ordering_form': application_for_ordering_form,
-        'card_application_form': card_application_form,
-        'for_landlords_form': for_landlords_form,
-        'for_lease_holders_form': for_lease_holders_form,
-        'shops_list': shops_list,
         'API_KEY_YANDEX_GEOCODER': settings.API_KEY_YANDEX_GEOCODER,
+        'application_for_ordering_form': ApplicationForOrderingForm(),
+        'card_application_form': CardApplicationForm(),
+        'for_landlords_form': ForLandlordsForm(),
+        'for_lease_holders_form': ForLeaseHoldersForm(),
+        'shops_list': shops_list,
         'city_list': city_list,
     }
