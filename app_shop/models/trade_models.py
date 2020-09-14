@@ -38,21 +38,43 @@ class Product(models.Model):
             return self.discount_fixed_price
         elif self.discount:
             return round(self.price - (self.price / self.discount), 2)
-        elif PromotionsForCategory.objects.filter(category_id=self.classification_id).exists():
-            discount = (PromotionsForCategory.objects.get(category_id=self.classification_id)).discount
-            return round(self.price - (self.price / discount), 2)
         else:
-            return self.price
+            if not self.classification:
+                return self.price
+
+            def check_discount(item):
+                discount = (PromotionsForCategory.objects.filter(
+                    category_id=item.id)).values_list('discount', flat=True)
+                if discount:
+                    self.the_final_price = round(self.price - (self.price / discount.first()), 2)
+                    return self.the_final_price
+                elif item.category:
+                    return check_discount(item.category)
+                return self.price
+
+            return check_discount(self.classification)
 
     def get_current_discount(self):
         if self.discount_fixed_price:
             return 'старая цена - {0}'.format(self.price)
         elif self.discount:
             return str(self.discount) + "%"
-        elif PromotionsForCategory.objects.filter(category_id=self.classification_id).exists():
-            return str((PromotionsForCategory.objects.get(category_id=self.classification_id)).discount) + "%"
         else:
-            return None
+            if not self.classification:
+                return self.price
+
+            def check_discount(item):
+                the_final_price = None
+                discount = (PromotionsForCategory.objects.filter(
+                    category_id=item.id)).values_list('discount', flat=True)
+                if discount:
+                    the_final_price = str(discount.first()) + "%"
+                    return the_final_price
+                elif item.category:
+                    return check_discount(item.category)
+                return the_final_price
+
+            return check_discount(self.classification)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         self.the_final_price = self.get_current_prices()
@@ -92,17 +114,14 @@ class ProductClassification(models.Model):
             return str((PromotionsForCategory.objects.get(category_id=self.id)).discount) + "%"
 
     def get_parent(self):
-        path = [self]
 
         def recursive_get(item):
+            yield item
             if item.category:
-                path.append(item.category)
-                recursive_get(item.category)
-            else:
-                return path
+                yield from recursive_get(item.category)
 
-        recursive_get(self)
-        return list(reversed(path))
+        path = reversed(list(recursive_get(self)))
+        return path
 
     class Meta:
         app_label = 'app_shop'
@@ -149,9 +168,6 @@ class Promotions(models.Model):
 
     def __str__(self):
         return '{0} ({1} - {2})'.format(self.name, self.start_time, self.end_time)
-
-    def list_categories(self):
-        return self.objects.for_category
 
     class Meta:
         app_label = 'app_shop'
