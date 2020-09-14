@@ -75,68 +75,48 @@ class CategoryListView(generic.ListView):
     slug_url_kwarg = 'id'
 
     def get_queryset(self):
-        if self.request.GET.get('sorted', None):
-            order = 'price' if self.request.GET['sorted'] == 'cheaper' else '-price'
-        else:
+        order = self.request.GET.get('sorted', None)
+        if order not in ['price', '-price']:
             order = 'name'
 
-        subcategories_qs = ProductClassification.objects.filter(category_id=self.kwargs['category_id'])
-        if subcategories_qs:
-            id_list = set()
+        def recursive_get(item):
+            yield item.id
+            for child in item.get_child():
+                yield from recursive_get(child)
 
-            def recursive_get(item):
-                if item.category:
-                    child_list = ProductClassification.objects.filter(category_id=item.id)
-                    for child in child_list:
-                        id_list.add(child.id)
-                        recursive_get(item.category)
-                else:
-                    return id_list
+        category = ProductClassification.objects.get(id=self.kwargs['category_id'])
+        category_id_list = list(recursive_get(category))
 
-            for obj in subcategories_qs:
-                id_list.add(obj.id)
-                recursive_get(obj)
-            self.queryset = Product.objects.filter(classification_id__in=[obj for obj in id_list]).order_by(order)
-            return self.queryset
-        else:
-            self.queryset = Product.objects.filter(classification_id=self.kwargs['category_id']).order_by(order)
-            return self.queryset
+        self.queryset = Product.objects.filter(classification_id__in=category_id_list).order_by(order)
+        return self.queryset
 
     def get_context_data(self, **kwargs):
         form_dictionary = {}
-        form_filters = []
 
         category = ProductClassification.objects.get(id=self.kwargs['category_id'])
-        filter_list = ClassificationFilters.objects.filter(
-            classification_id=category.id).values('filter__name', 'filter__type', 'filter__priority')
-
         category_list_id = self.queryset.values_list('classification_id', flat=True)
         category_list = ProductClassification.objects.filter(id__in=category_list_id)
 
         def recursive_get(item):
-            if item.category_id:
-                parent = ProductClassification.objects.get(id=item.category_id)
-                id_list.add(parent.id)
-                recursive_get(item.category)
+            yield item
+            if item.category:
+                yield from recursive_get(item.category)
 
-        id_list = set()
-        id_list.add(self.kwargs['category_id'])
-        recursive_get(category)
-
-        if self.request.session.get('cart', None):
-            cart_products = self.request.session["cart"]
-            cart_products_list_id = [int(x) for x in cart_products.keys()]
-        else:
-            cart_products_list_id = None
+        category_id_list = recursive_get(category)
 
         promotions_for_category_page = Promotions.objects.filter(
-            Q(for_category__in=id_list) |
+            Q(for_category__in=category_id_list) |
             Q(for_category=None, for_carousel=False)).order_by('?')[:5]
 
-        price_values = self.queryset.aggregate(Min('price'), Max('price'))
-        price_form = PriceForm(min_value=price_values['price__min'])
+        price_values = self.queryset.aggregate(
+            min_price=Min('the_final_price'), max_price=Max('the_final_price'))
+        price_form = PriceForm(min_value=price_values['min_price'])
         form_dictionary['price_form'] = price_form
 
+        filter_list = ClassificationFilters.objects.filter(
+            classification_id=category.id).values('filter__name', 'filter__type', 'filter__priority')
+
+        form_filters = []
         for obj in filter_list:
             if obj['filter__type'] != 'TXT':
                 value = self.queryset.values_list('specifications__' + obj['filter__name'], flat=True)
@@ -152,7 +132,6 @@ class CategoryListView(generic.ListView):
         context = {
             'category': category,
             'category_list': category_list,
-            'cart_products_list_id': cart_products_list_id,
             'promotions_for_category_page': promotions_for_category_page,
             'price_values': price_values,
             **form_dictionary,

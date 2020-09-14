@@ -48,44 +48,34 @@ def filtration(request, category_id):
                 query_dictionary['specifications__' + item + '__in'] = request.GET.getlist(item)
         else:
             if value:
-                query_dictionary['price__lte'] = value
+                query_dictionary['price__lte'] = float(value)
 
     category = ProductClassification.objects.get(id=category_id)
-    filter_list = ClassificationFilters.objects.filter(
-        classification_id=category.id).values('filter__name', 'filter__type', 'filter__priority')
 
-    subcategories_qs = ProductClassification.objects.filter(category_id=category_id)
-    if subcategories_qs:
+    def get_childs(item):
+        yield item.id
+        for child in item.get_child():
+            yield from get_childs(child)
 
-        def get_childs(item):
-            childs = ProductClassification.objects.filter(category_id=item.id)
-            for child in childs:
-                id_list.add(child.id)
+    category_id_list = list(get_childs(category))
+    query_dictionary['classification_id__in'] = category_id_list
 
-        id_list = set()
-        for obj in subcategories_qs:
-            id_list.add(obj.id)
-            get_childs(obj)
-
-        query_dictionary['classification_id__in'] = id_list
-        objects_in_category = Product.objects.filter(classification_id__in=id_list)
-        promotions_for_category_page = Promotions.objects.filter(
-            Q(for_category__in=id_list) |
-            Q(for_category=None, for_carousel=False)).order_by('?')[:5]
-    else:
-        query_dictionary['classification_id'] = category_id
-        objects_in_category = Product.objects.filter(classification_id=category_id)
-        promotions_for_category_page = Promotions.objects.filter(
-            Q(for_category=category_id) |
-            Q(for_category=None, for_carousel=False)).order_by('?')[:5]
+    promotions_for_category_page = Promotions.objects.filter(
+        Q(for_category__in=category_id_list) |
+        Q(for_category=None, for_carousel=False)).order_by('?')[:5]
 
     object_list = Product.objects.filter(**query_dictionary)
     category_list_id = object_list.values_list('classification_id', flat=True)
     category_list = ProductClassification.objects.filter(id__in=category_list_id)
 
-    price_values = objects_in_category.aggregate(Min('price'), Max('price'))
-    price_form = PriceForm(request.GET, min_value=price_values['price__min'])
+    objects_in_category = Product.objects.filter(classification_id__in=category_id_list)
+    price_values = objects_in_category.aggregate(
+        min_price=Min('the_final_price'), max_price=Max('the_final_price'))
+    price_form = PriceForm(request.GET, min_value=price_values['min_price'])
     form_dictionary['price_form'] = price_form
+
+    filter_list = ClassificationFilters.objects.filter(
+        classification_id=category.id).values('filter__name', 'filter__type', 'filter__priority')
 
     for obj in filter_list:
         if obj['filter__type'] != 'TXT':

@@ -38,7 +38,7 @@ def cart(request):
 
 
 def add_product_to_cart(request, product_id):
-    if not request.session.get('cart', None):
+    if not request.session.get('cart'):
         request.session["cart"] = {}
 
     count = request.session['cart'].get(product_id, 0)
@@ -48,18 +48,22 @@ def add_product_to_cart(request, product_id):
 
 
 def remove_product_from_cart(request, product_id):
-    request.session["cart"].pop(product_id)
+    if request.session.get('cart'):
+        if product_id in request.session['cart']:
+            request.session["cart"].pop(product_id)
     return HttpResponseRedirect(request.GET['next'])
 
 
 def remove_one_from_cart(request, product_id):
-    count = request.session['cart'].get(product_id, 0)
+    if request.session.get('cart'):
+        if product_id in request.session['cart']:
+            count = request.session['cart'].get(product_id, 0)
 
-    if count <= 1:
-        request.session["cart"].pop(product_id)
-        return HttpResponseRedirect(request.GET['next'])
+            if count <= 1:
+                request.session["cart"].pop(product_id)
+                return HttpResponseRedirect(request.GET['next'])
 
-    request.session['cart'][product_id] -= 1
+            request.session['cart'][product_id] -= 1
     return HttpResponseRedirect(request.GET['next'])
 
 
@@ -68,7 +72,10 @@ def send_order(request):
     if not form.is_valid():
         return HttpResponseRedirect(request)
 
-    form_data = {key: value for key, value in form.cleaned_data.items() if value}
+    form_data = {
+        key: value
+        for key, value in form.cleaned_data.items() if value
+    }
 
     if request.user.is_authenticated:
         form_data['customer_id'] = request.user.id
