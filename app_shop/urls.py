@@ -14,6 +14,7 @@ authentication = [
 shopping = [
     url(r'^product/(?P<slug>\S+)$', views.ProductDetailView.as_view(), name='product_detail'),
     url(r'^category/(?P<category_id>\S+)$', views.CategoryListView.as_view(), name='section_products'),
+    url(r'^change_user_shop/(?P<shop_id>\w+)$', views.change_user_shop, name='change_user_shop'),
     url(r'^search$', views.search, name='search'),
     url(r'^filtration/(?P<category_id>\S+)$', views.filtration, name='filtration'),
 ]
@@ -23,6 +24,7 @@ cart = [
     url(r'^add_product/(?P<product_id>\w+)$', views.add_product_to_cart, name='add_product'),
     url(r'^remove_from_cart/(?P<product_id>\w+)$', views.remove_product_from_cart, name='remove_product'),
     url(r'^remove_one_from_cart/(?P<product_id>\w+)$', views.remove_one_from_cart, name='remove_one_copy'),
+    url(r'^empty_trash/', views.empty_trash, name='empty_trash'),
     url(r'^send_order$', views.send_order, name='send_order'),
 ]
 
