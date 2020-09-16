@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from operator import itemgetter
 
+from app_shop.models import SubscriptionEmails
 from shop_allhere.utils import transliterate
 
 
@@ -16,14 +17,17 @@ class SearchForm(forms.Form):
         self.helper.field_class = 'col-12 p-0'
 
 
-class SubscriptionForm(forms.Form):
-    user_mail = forms.EmailField(label='Email', max_length=40)
+class SubscriptionForm(forms.ModelForm):
+    email = forms.EmailField(label='Email', max_length=40)
 
     def __init__(self, *args, **kwargs):
         super(SubscriptionForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_show_labels = False
         self.helper.field_class = 'd-none d-xl-block col-12 pr-1'
+
+    class Meta:
+        model = SubscriptionEmails
 
 
 class OrderForm(forms.Form):
@@ -90,11 +94,11 @@ class PriceForm(forms.Form):
         )
 
 
-class VariableFiltersForm(forms.Form):
+class FiltersForm(forms.Form):
     pass
 
     def __init__(self, *args, filters=None, **kwargs):
-        super(VariableFiltersForm, self).__init__(*args, **kwargs)
+        super(FiltersForm, self).__init__(*args, **kwargs)
         if filters:
             ordered_filters = sorted(filters, key=itemgetter('filter__priority'), reverse=True)
             for item in ordered_filters:

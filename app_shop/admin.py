@@ -4,8 +4,8 @@ from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.forms import TextInput
 
-from .models import ClassificationFilters, FiltersForClassifications, OrderList, Promotions, Product, \
-    ProductClassification, PromotionsForCategory
+from app_shop.models import ClassificationFilters, FiltersForClassifications, OrderList, Product, \
+    ProductClassification, ProductListForOrder, ProductQuantity, Promotions, PromotionsForCategory
 from allhere_in_russia.models import News, Shops, ShopType, SubPagesArticle, SubPagesSection
 from shop_allhere.utils import ReadableJSONFormField
 
@@ -36,9 +36,9 @@ class ShopTypeAdmin(admin.ModelAdmin):
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
     date_hierarchy = 'datetime'
+    formfield_overrides = {models.CharField: {'widget': TextInput(attrs={'size': '100'})}}
     list_display = ('title', 'datetime')
     list_per_page = 50
-    formfield_overrides = {models.CharField: {'widget': TextInput(attrs={'size': '100'})}}
     search_fields = ('title', 'body')
 
 
@@ -67,14 +67,20 @@ class ProductCharacteristicsForm(forms.ModelForm):
         return super(ProductCharacteristicsForm, self).save(*args, **kwargs)
 
 
+class ProductQuantityInline(admin.TabularInline):
+    model = ProductQuantity
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'the_final_price', 'classification')
-    list_per_page = 50
     form = ProductCharacteristicsForm
     formfield_overrides = {
         JSONField: {'form_class': ReadableJSONFormField},
     }
+    inlines = [ProductQuantityInline]
+    list_display = ('name', 'price', 'the_final_price', 'classification')
+    list_per_page = 50
+    search_fields = ('name',)
 
 
 class ClassificationFiltersInline(admin.StackedInline):
@@ -83,9 +89,9 @@ class ClassificationFiltersInline(admin.StackedInline):
 
 @admin.register(ProductClassification)
 class ProductClassificationAdmin(admin.ModelAdmin):
+    inlines = [ClassificationFiltersInline]
     list_display = ('name', 'id', 'category', 'highest_category')
     search_fields = ('name',)
-    inlines = [ClassificationFiltersInline]
 
 
 @admin.register(FiltersForClassifications)
@@ -99,14 +105,19 @@ class PromotionsForCategoryInline(admin.StackedInline):
 
 @admin.register(Promotions)
 class PromotionsAdmin(admin.ModelAdmin):
+    inlines = [PromotionsForCategoryInline]
     list_display = ('name', 'start_time', 'end_time', 'for_carousel', )
     search_fields = ('name',)
-    inlines = [PromotionsForCategoryInline]
+
+
+class ProductListForOrderInline(admin.TabularInline):
+    model = ProductListForOrder
 
 
 @admin.register(OrderList)
 class OrderListAdmin(admin.ModelAdmin):
     date_hierarchy = 'order_creation_date'
     formfield_overrides = {models.CharField: {'widget': TextInput(attrs={'size': '100'})}}
+    inlines = [ProductListForOrderInline]
     list_display = ('id', 'order_creation_date', 'address', 'cost')
     search_fields = ('address',)
