@@ -92,7 +92,8 @@
                   {{ item.field.label }}
                 </a>
               </div>
-              <div class="section-block__body collapse {% if item.label in variable_filters_form.changed_data %}show{% endif %}"
+              <div
+                  class="section-block__body collapse {% if item.label in variable_filters_form.changed_data %}show{% endif %}"
                   id="collapse{{ item.field.slug|capfirst }}">
                 {{ item|as_crispy_field }}
                 {% if item.field.type == "INT" %}
@@ -149,13 +150,20 @@
                                 </span>
                               </div>
                             </li>
-                          {% else %}
+                          {% elif object.count > 0 %}
                             <li class="list-items__group-item">
                               <div class="list-items__item-container">
                                 <a class="list-items__link stretched-link"
                                    href="{% url 'app_shop:add_product' object.id %}?next={{ request.path }}"></a>
                                 <p class="list-items__price">{{ object.get_current_prices }} &#8381;</p>
-                                <div class="list-items__item-container">
+                                <p class="list-items__price">В наличии {{ object.count }}</p>
+                              </div>
+                            </li>
+                          {% else %}
+                            <li class="list-items__group-item">
+                              <div class="list-items__item-container">
+                                <p class="list-items__price">В данный момент товара нет на складе</p>
+                              </div>
                             </li>
                           {% endif %}
                         </ul>

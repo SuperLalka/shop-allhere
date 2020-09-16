@@ -147,6 +147,14 @@ span.ymaps-geolink {
     line-height: normal;
 }
 
+.primary-nav__city-category {
+    background-color: #85ca43;
+    color: white;
+    font: normal calc(16px + 5 * (100vw / 1920)) 'Bitter', serif;
+    text-align: center;
+    padding: 5px;
+}
+
 @media (min-width: 768px) {
 
     .logo_block {
@@ -787,10 +795,8 @@ span.ymaps-geolink {
 }
 
 .list-items__item-container {
-    align-items: center;
-    display: flex;
-    justify-content: space-around;
     position: relative;
+    text-align: center;
 }
 
 .list-items__link:hover {
@@ -951,6 +957,12 @@ span.ymaps-geolink {
     border-spacing: 0 15px;
     font: normal calc(20px + 5 * (100vw / 1920)) Vollkorn;
     width: 100%;
+}
+
+.cart-block__trash-button {
+    font-size: 25px;
+    margin: 20px auto;
+    width: 50%;
 }
 
 .authentication {

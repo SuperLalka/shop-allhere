@@ -62,16 +62,21 @@
               </a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="header__primary-nav-item-icon mr-lg-2 i-geolocation"></i>
-                <p class="header__primary-nav-item-text d-none d-md-block">Город</p>
+                <p class="header__primary-nav-item-text d-none d-md-block">{{ current_store.name }}</p>
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Выберите свой город</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Город 1</a>
-                <a class="dropdown-item" href="#">Город 2</a>
+                {% for city in city_list %}
+                  <p class="primary-nav__city-category">{{ city }}</p>
+                  {% for shop in shops_list %}
+                    {% if shop.city == city %}
+                    <a class="primary-nav__city-item dropdown-item"
+                       href="{% url 'app_shop:change_user_shop' shop.id %}?next={{ request.path }}">{{ shop.name }}</a>
+                    {% endif %}
+                  {% endfor %}
+                {% endfor %}
               </div>
             </li>
           </ul>
@@ -301,7 +306,7 @@
             action="{% url 'app_shop:subscription' %}?next={{ request.path }}" method="post">
         <div class="subscription-block__form-block d-flex">
           {% csrf_token %}
-          {{ user_mail_form.user_mail|as_crispy_field }}
+          {{ user_mail_form.email|as_crispy_field }}
           <button type="submit" class="subscription-button">ПОДПИСАТЬСЯ</button>
         </div>
       </form>

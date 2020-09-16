@@ -10,12 +10,12 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb bg-white my-0">
         <li class="breadcrumb-item"><a href="{% url 'app_shop:main_sub_pages' %}">Главная страница</a></li>
-        {% for item in object.classification.get_parent %}
+        {% for category in object.classification.get_parent %}
           {% if not forloop.last %}
             <li class="breadcrumb-item" aria-current="page"><a
-                href="{% url 'app_shop:section_products' item.id %}">{{ item.name }}</a></li>
+                href="{% url 'app_shop:section_products' category.id %}">{{ category.name }}</a></li>
           {% else %}
-            <li class="breadcrumb-item active" aria-current="page">{{ item.name }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
           {% endif %}
         {% endfor %}
       </ol>
@@ -38,16 +38,15 @@
           {% endif %}
           <div class="top-block__price">
             <p class="top-block__price-text">{{ object.get_current_prices }} &#8381; / шт</p>
-            <p class="top-block__price-text">В наличии:</p>
-            {% if cart_products_list_id %}
-              {% if object.id not in cart_products_list_id %}
-                <a class="top-block__buy-button btn btn-success"
-                   href="{% url 'app_shop:add_product' object.id %}?next={{ request.path }}">В корзину</a>
-              {% else %}
-                <a class="top-block__buy-button btn btn-danger"
-                   href="{% url 'app_shop:remove_product' object.id %}?next={{ request.path }}">Удалить из корзины</a>
-              {% endif %}
+            {% if object.count %}
+              <p class="top-block__price-text">В наличии: {{ object.count }}</p>
             {% else %}
+              <p class="top-block__price-text">Нет в наличии</p>
+            {% endif %}
+            {% if object.id|slugify in request.session.cart.keys %}
+              <a class="top-block__buy-button btn btn-danger"
+                 href="{% url 'app_shop:remove_product' object.id %}?next={{ request.path }}">Удалить из корзины</a>
+            {% elif object.count > 0 %}
               <a class="top-block__buy-button btn btn-success"
                  href="{% url 'app_shop:add_product' object.id %}?next={{ request.path }}">В корзину</a>
             {% endif %}
@@ -82,12 +81,12 @@
     {% if similiar_products %}
       <h2 class="recomendations-block__title">&laquo; Похожие товары &raquo;</h2>
       <div class="recomendations-container">
-        {% for item in similiar_products %}
+        {% for product in similiar_products %}
           <div class="recomendations-block__card card">
-            <img src="{{ item.images.url }}" class="card-img-top" alt="{{ item.name }}">
-            <a class="stretched-link" href="{% url 'app_shop:product_detail' item.slug %}"></a>
+            <img src="{{ product.images.url }}" class="card-img-top" alt="{{ product.name }}">
+            <a class="stretched-link" href="{% url 'app_shop:product_detail' product.slug %}"></a>
             <div class="card-body d-none d-md-block">
-              <p class="card-text">{{ item.name }}</p>
+              <p class="card-text">{{ product.name }}</p>
             </div>
           </div>
         {% endfor %}
@@ -96,12 +95,12 @@
     {% if also_buy_products %}
       <h2 class="recomendations-block__title">&laquo; С этим товаром покупают &raquo;</h2>
       <div class="recomendations-container">
-        {% for item in also_buy_products %}
+        {% for product in also_buy_products %}
           <div class="recomendations-block__card card">
-            <img src="{{ item.product.images.url }}" class="card-img-top" alt="{{ item.product.name }}">
-            <a class="stretched-link" href="{% url 'app_shop:product_detail' item.product.slug %}"></a>
+            <img src="{{ product.images.url }}" class="card-img-top" alt="{{ product.name }}">
+            <a class="stretched-link" href="{% url 'app_shop:product_detail' product.slug %}"></a>
             <div class="card-body d-none d-md-block">
-              <p class="card-text">{{ item.product.name }}</p>
+              <p class="card-text">{{ product.name }}</p>
             </div>
           </div>
         {% endfor %}

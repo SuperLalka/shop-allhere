@@ -25,17 +25,20 @@
                 </div>
                 <div class="cart-item__numbers">
                   <div class="btn-group" role="group" aria-label="Basic example">
-                    <a class="cart-item__numbers-button btn"
-                       href="{% url 'app_shop:add_product' object.id %}?next={{ request.path }}">+</a>
-                    {% for key, value in products_id.items %}
+                    {% for key, value in request.session.cart.items %}
                       {% if key == object.id|slugify %}
-                        <p class="cart-item__numbers-value">{{ value }}</p>
+                        {% if object.count > value %}
                           <a class="cart-item__numbers-button btn"
-                             href="{% url 'app_shop:remove_one_copy' object.id %}?next={{ request.path }}">-</a>
+                             href="{% url 'app_shop:add_product' object.id %}?next={{ request.path }}">+</a>
+                        {% endif %}
+                        <p class="cart-item__numbers-value">{{ value }}</p>
+                        <a class="cart-item__numbers-button btn"
+                           href="{% url 'app_shop:remove_one_copy' object.id %}?next={{ request.path }}">-</a>
                       {% endif %}
                     {% endfor %}
                   </div>
                   <p>{{ object.get_current_prices }} &#8381; / шт</p>
+                  <p>Всего на складе {{ object.count }} шт</p>
                 </div>
                 <div class="cart-item__cost">
                   {% for key, value in cost_list.items %}
@@ -78,7 +81,7 @@
             <td><b>{{ total_cost }} &#8381;</b></td>
           </tr>
         </table>
-        {% if not warning_min_amount %}
+        {% if disadvantage <= 0 %}
           <div class="cart-block__button-block">
             <button type="button" class="cart-item__numbers-button btn btn-danger" data-toggle="modal"
                     data-target="#OrderingModal">Перейти к оформлению
@@ -99,7 +102,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="{% url 'app_shop:send_order' %}?total_cost={{ total_cost }}" method="post">
+            <form action="{% url 'app_shop:send_order' %}" method="post">
               {% csrf_token %}
               {% if user.is_authenticated and products_in_cart %}
                 {{ order_form.address|as_crispy_field }}
@@ -114,6 +117,11 @@
       </div>
     </div>
     <!-- Modal end -->
+    {% if products_in_cart %}
+      <a class="cart-block__trash-button btn btn-outline-danger"
+         href="{% url 'app_shop:empty_trash' %}?next={{ request.path }}"
+         role="button">Очистить корзину</a>
+    {% endif %}
   </div>
 {% endblock %}
 
