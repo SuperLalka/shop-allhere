@@ -1,9 +1,10 @@
-from django.db.models import Q, Count, Max, Min
+from django.db.models import Q, Count, Max, Min, Subquery, OuterRef
 from django.shortcuts import render
 from django.views import generic
 
-from app_shop.models import ClassificationFilters, Promotions, Product, ProductClassification, ProductListForOrder
-from app_shop.forms import PriceForm, VariableFiltersForm
+from app_shop.models import ClassificationFilters, Promotions, Product, ProductClassification, ProductListForOrder,\
+    ProductQuantity
+from app_shop.forms import PriceForm, FiltersForm
 
 
 def main_sub_pages(request, **kwargs):
@@ -36,20 +37,16 @@ class ProductDetailView(generic.DetailView):
     slug_url_kwarg = 'slug'
 
     def get_context_data(self, **kwargs):
+        self.object.count = (ProductQuantity.objects.get(
+            shop_id=self.request.session['shop'], product_id=self.object.id)).number
+
         list_orders_id = ProductListForOrder.objects.filter(
             product_id=self.object.id).values_list('orderlist_id', flat=True)
         most_often_buy = ProductListForOrder.objects.filter(
             orderlist_id__in=list_orders_id).exclude(product_id=self.object.id).values('product_id').annotate(
             count=Count("id")).order_by('-count')[:5]
         most_often_buy = most_often_buy.values_list('product_id', flat=True)
-        also_buy_products = ProductListForOrder.objects.filter(
-            product_id__in=most_often_buy).distinct('product_id')
-
-        if self.request.session.get('cart', None):
-            cart_products = self.request.session["cart"]
-            cart_products_list_id = [int(x) for x in cart_products.keys()]
-        else:
-            cart_products_list_id = None
+        also_buy_products = Product.objects.filter(id__in=most_often_buy)
 
         similiar_products = Product.objects.filter(
             classification=self.object.classification).exclude(
@@ -62,7 +59,6 @@ class ProductDetailView(generic.DetailView):
             'also_buy_products': also_buy_products,
             'similiar_products': similiar_products,
             'promotions_for_detail_page': promotions_for_detail_page,
-            'cart_products_list_id': cart_products_list_id,
             **kwargs
         }
         return super().get_context_data(**context)
@@ -87,7 +83,14 @@ class CategoryListView(generic.ListView):
         category = ProductClassification.objects.get(id=self.kwargs['category_id'])
         category_id_list = list(recursive_get(category))
 
-        self.queryset = Product.objects.filter(classification_id__in=category_id_list).order_by(order)
+        products_quantity = ProductQuantity.objects.filter(
+            shop_id=self.request.session['shop'],
+            product_id=OuterRef('id')
+        )
+        self.queryset = Product.objects.filter(
+            classification_id__in=category_id_list).order_by(order).annotate(
+            count=Subquery(products_quantity.values_list('number', flat=True)[:1])
+        )
         return self.queryset
 
     def get_context_data(self, **kwargs):
@@ -126,7 +129,7 @@ class CategoryListView(generic.ListView):
                     obj['filter__values'] = value
             form_filters.append(obj)
 
-        variable_filters_form = VariableFiltersForm(filters=form_filters)
+        variable_filters_form = FiltersForm(filters=form_filters)
         form_dictionary['variable_filters_form'] = variable_filters_form
 
         context = {
