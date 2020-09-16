@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse
 from tinymce.models import HTMLField
 
+from allhere_in_russia.models import Shops
 from shop_allhere.utils import transliterate
 
 
@@ -26,6 +27,7 @@ class Product(models.Model):
                                        related_name='class_content', null=True, blank=True)
     specifications = JSONField(encoder={}, null=True, blank=True)
     slug = models.CharField(max_length=120, editable=False, null=True, blank=True)
+    quantity = models.ManyToManyField(Shops, through='ProductQuantity')
 
     def __str__(self):
         return self.name
@@ -84,7 +86,17 @@ class Product(models.Model):
 
     class Meta:
         app_label = 'app_shop'
-        ordering = ('name',)
+        ordering = ['name']
+
+
+class ProductQuantity(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    shop = models.ForeignKey(Shops, on_delete=models.CASCADE)
+    number = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        app_label = 'app_shop'
+        db_table = "app_shop_productquantity"
 
 
 class ProductClassification(models.Model):
@@ -136,7 +148,7 @@ FILTER_TYPE = [
 
 
 class FiltersForClassifications(models.Model):
-    name = models.CharField(max_length=30, help_text="Enter а product category")
+    name = models.CharField(max_length=30, help_text="Enter а filter name")
     type = models.CharField(max_length=3, choices=FILTER_TYPE, help_text="Enter а filter type")
     priority = models.SmallIntegerField(default=0)
 
@@ -171,7 +183,7 @@ class Promotions(models.Model):
 
     class Meta:
         app_label = 'app_shop'
-        ordering = ('-end_time',)
+        ordering = ['-end_time']
         verbose_name = 'Promotion'
         verbose_name_plural = 'Promotions'
 
@@ -194,6 +206,7 @@ class OrderList(models.Model):
     customer_phone = models.CharField(max_length=20, help_text="Customer phone", null=True, blank=True)
     address = models.CharField(max_length=100, help_text="Delivery address")
     order_creation_date = models.DateTimeField(auto_now_add=True)
+    paid = models.BooleanField(default=False, help_text="Notes whether the order has been paid")
 
     def __str__(self):
         return '{0} / {1}'.format(self.address, self.cost)
@@ -203,12 +216,28 @@ class OrderList(models.Model):
 
     class Meta:
         app_label = 'app_shop'
+        db_table = "app_shop_orderlist"
 
 
 class ProductListForOrder(models.Model):
     orderlist = models.ForeignKey(OrderList, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    store = models.PositiveSmallIntegerField(null=True, blank=True)
     count = models.PositiveSmallIntegerField(null=True, blank=True)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        write_off_product = ProductQuantity.objects.get(shop_id=self.store, product=self.product)
+        write_off_product.number = write_off_product.number - self.count
+        write_off_product.save()
+        return super(ProductListForOrder, self).save()
+
+    def delete(self, using=None, keep_parents=False):
+        if self.orderlist.paid:
+            super(ProductListForOrder, self).delete()
+        return_product = (ProductQuantity.objects.get(shop_id=self.store, product=self.product))
+        return_product.number = return_product.number + self.count
+        return_product.save()
+        return super(ProductListForOrder, self).delete()
 
     class Meta:
         app_label = 'app_shop'
