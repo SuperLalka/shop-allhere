@@ -11,3 +11,17 @@ class SubscriptionEmails(models.Model):
         app_label = 'app_shop'
         verbose_name = 'Mailing address'
         verbose_name_plural = 'Postal addresses'
+
+
+class VisitStatistics(models.Model):
+    url_address = models.CharField(max_length=200)
+    user_id = models.PositiveSmallIntegerField(null=True, blank=True)
+    actions = models.CharField(max_length=50, null=True, blank=True)
+
+    def __str__(self):
+        return self.id
+
+    class Meta:
+        app_label = 'app_shop'
+        verbose_name = 'Page visit'
+        verbose_name_plural = 'Page visits'
