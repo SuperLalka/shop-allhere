@@ -39,8 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Applications
     'app_shop',
     'allhere_in_russia',
+    # Third party modules
     'crispy_forms',
     'tinymce',
 ]
@@ -53,6 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'app_shop.middleware.CollectingStatistics',
+    'app_shop.middleware.UserIdentifier',
 ]
 
 ROOT_URLCONF = 'shop_allhere.urls'
