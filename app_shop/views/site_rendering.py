@@ -1,10 +1,13 @@
-from django.db.models import Q, Count, Max, Min, Subquery, OuterRef
+import random
+from django.db.models import Count, Max, Min, Subquery, OuterRef
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import generic
 
-from app_shop.models import ClassificationFilters, Promotions, Product, ProductClassification, ProductListForOrder,\
-    ProductQuantity
+from app_shop.models import ClassificationFilters, FiltersForClassifications, Promotions, Product, \
+    ProductClassification, ProductListForOrder, ProductQuantity
 from app_shop.forms import PriceForm, FiltersForm
+from shop_allhere.utils import promotions_for_category
 
 
 def main_sub_pages(request, **kwargs):
@@ -51,14 +54,13 @@ class ProductDetailView(generic.DetailView):
         similiar_products = Product.objects.filter(
             classification=self.object.classification).exclude(
             id=self.object.id).order_by('?')[:5]
-        promotions_for_detail_page = Promotions.objects.filter(
-            Q(for_category=self.object.classification_id) |
-            Q(for_category=None, for_carousel=False)).order_by('?')[:5]
+
+        promotions_for_page = promotions_for_category([self.object.classification_id])
 
         context = {
             'also_buy_products': also_buy_products,
             'similiar_products': similiar_products,
-            'promotions_for_detail_page': promotions_for_detail_page,
+            'promotions_for_page': promotions_for_page,
             **kwargs
         }
         return super().get_context_data(**context)
@@ -71,9 +73,26 @@ class CategoryListView(generic.ListView):
     slug_url_kwarg = 'id'
 
     def get_queryset(self):
+        query_dictionary = {}
         order = self.request.GET.get('sorted', None)
         if order not in ['price', '-price']:
             order = 'name'
+
+        if self.kwargs:
+            filters_form = FiltersForm(self.request.GET)
+            if not filters_form.is_valid():
+                return HttpResponseRedirect(self.request)
+
+            for filter_key, filter_value in filters_form.data.items():
+                if filter_key != 'price' and filter_value:
+                    filter_obj = FiltersForClassifications.objects.filter(name=filter_key).first()
+                    if filter_obj:
+                        if filter_obj.type == "INT":
+                            query_dictionary['specifications__' + filter_key + '__lte'] = float(filter_value)
+                        elif filter_obj.type == "CSM":
+                            query_dictionary['specifications__' + filter_key + '__in'] = self.request.GET.getlist(filter_key)
+                elif filter_value:
+                    query_dictionary['the_final_price__lte'] = float(filter_value)
 
         def recursive_get(item):
             yield item.id
@@ -82,13 +101,13 @@ class CategoryListView(generic.ListView):
 
         category = ProductClassification.objects.get(id=self.kwargs['category_id'])
         category_id_list = list(recursive_get(category))
+        query_dictionary['classification_id__in'] = category_id_list
 
         products_quantity = ProductQuantity.objects.filter(
             shop_id=self.request.session['shop'],
             product_id=OuterRef('id')
         )
-        self.queryset = Product.objects.filter(
-            classification_id__in=category_id_list).order_by(order).annotate(
+        self.queryset = Product.objects.filter(**query_dictionary).order_by(order).annotate(
             count=Subquery(products_quantity.values_list('number', flat=True)[:1])
         )
         return self.queryset
@@ -107,9 +126,9 @@ class CategoryListView(generic.ListView):
 
         category_id_list = recursive_get(category)
 
-        promotions_for_category_page = Promotions.objects.filter(
-            Q(for_category__in=category_id_list) |
-            Q(for_category=None, for_carousel=False)).order_by('?')[:5]
+        promotions_for_page = promotions_for_category(category_id_list)
+        product_listing_ads = Promotions.objects.filter(obligatory=True).order_by("?").first()
+        product_listing_ads.serial_number = random.randint(5, 10)
 
         price_values = self.queryset.aggregate(
             min_price=Min('the_final_price'), max_price=Max('the_final_price'))
@@ -135,7 +154,8 @@ class CategoryListView(generic.ListView):
         context = {
             'category': category,
             'category_list': category_list,
-            'promotions_for_category_page': promotions_for_category_page,
+            'promotions_for_page': promotions_for_page,
+            'product_listing_ads': product_listing_ads,
             'price_values': price_values,
             **form_dictionary,
             **kwargs,
