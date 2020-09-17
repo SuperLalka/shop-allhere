@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+
+
+{% load static %}
+
+{% block content %}
+  <div class="content-block col-11">
+    <div class="content-block__error">
+      <h2 class="content-block__error-title">
+        Ошибка 500 (Internal Server Error, внутренняя ошибка сервера)
+      </h2>
+      <hr>
+      <p class="content-block__error-text">
+        Что такое ошибка 500 – внутренняя ошибка сервера?<br>
+        Ошибка 500 говорит о том, что сервер не может обработать запрос к сайту, на странице которого вы находитесь. При
+        этом браузер не может точно сообщить, что именно пошло не так.
+      </p>
+    </div>
+  </div>
+{% endblock %}
+
+{% block promo %}
+{% endblock %}
+
+{% block text-info %}
+{% endblock %}

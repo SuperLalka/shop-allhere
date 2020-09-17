@@ -351,6 +351,8 @@ span.ymaps-geolink {
 .top-navigation__toolbar-items {
     align-items: center;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     list-style: none;
 }
 
@@ -477,6 +479,25 @@ span.ymaps-geolink {
 
 .content-block {
     margin: 2vh auto;
+}
+
+.content-block__error {
+    background-color: lightcoral;
+    border-radius: 0 25px;
+    padding: 50px 0;
+}
+
+.content-block__error-title {
+    font: normal 600 calc(34px + 10 * (100vw / 1920)) 'Bitter', serif;
+    margin: auto;
+    max-width: 1000px;
+    text-align: center;
+}
+
+.content-block__error-text {
+    font: normal calc(18px + 10 * (100vw / 1920)) 'Bitter', serif;
+    margin: auto;
+    max-width: 1000px;
 }
 
 .content-block__collapse-block {
