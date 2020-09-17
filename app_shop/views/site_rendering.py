@@ -4,40 +4,29 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import generic
 
+from app_shop.forms import PriceForm, FiltersForm
 from app_shop.models import ClassificationFilters, FiltersForClassifications, Promotions, Product, \
     ProductClassification, ProductListForOrder, ProductQuantity
-from app_shop.forms import PriceForm, FiltersForm
-from shop_allhere.utils import promotions_for_category
+from shop_allhere.utils import get_promotions_for_category
 
 
 def main_sub_pages(request, **kwargs):
-    if kwargs:
+    context_content = {}
+    if not kwargs:
+        template_name = 'index.html'
+        context_content['promotions_for_carousel'] = Promotions.objects.filter(for_carousel=True)
+        context_content['highest_categories'] = ProductClassification.objects.filter(highest_category=True)
+    else:
         template_name = 'main_subpages/%s.html' % kwargs['page']
-        promotions_ordinary = list(Promotions.objects.filter(
-            for_category=None, for_carousel=False).order_by('?')[:5])
-        return render(request, template_name, context={'promotions_ordinary': promotions_ordinary})
 
-    template_name = 'index.html'
-    promotions_carousel = Promotions.objects.filter(for_carousel=True)
-    promotions_ordinary = list(Promotions.objects.filter(for_category=None, for_carousel=False).order_by('?')[:5])
-    highest_categories = ProductClassification.objects.filter(highest_category=True)
-
-    return render(
-        request,
-        template_name,
-        context={
-            'promotions_for_carousel': promotions_carousel,
-            'promotions_ordinary': promotions_ordinary,
-            'highest_categories': highest_categories,
-        }
-    )
+    context_content['promotions_ordinary'] = list(Promotions.objects.filter(
+        for_category=None, for_carousel=False).order_by('?')[:5])
+    return render(request, template_name, context={**context_content})
 
 
 class ProductDetailView(generic.DetailView):
     model = Product
     template_name = 'product_detail.html'
-    slug_field = 'slug'
-    slug_url_kwarg = 'slug'
 
     def get_context_data(self, **kwargs):
         self.object.count = (ProductQuantity.objects.get(
@@ -55,7 +44,7 @@ class ProductDetailView(generic.DetailView):
             classification=self.object.classification).exclude(
             id=self.object.id).order_by('?')[:5]
 
-        promotions_for_page = promotions_for_category([self.object.classification_id])
+        promotions_for_page = get_promotions_for_category([self.object.classification_id])
 
         context = {
             'also_buy_products': also_buy_products,
@@ -69,8 +58,6 @@ class ProductDetailView(generic.DetailView):
 class CategoryListView(generic.ListView):
     model = ProductClassification
     template_name = 'section_products.html'
-    slug_field = 'id'
-    slug_url_kwarg = 'id'
 
     def get_queryset(self):
         query_dictionary = {}
@@ -81,7 +68,7 @@ class CategoryListView(generic.ListView):
         if self.kwargs:
             filters_form = FiltersForm(self.request.GET)
             if not filters_form.is_valid():
-                return HttpResponseRedirect(self.request)
+                return HttpResponseRedirect(self.request.path)
 
             for filter_key, filter_value in filters_form.data.items():
                 if filter_key != 'price' and filter_value:
@@ -94,14 +81,14 @@ class CategoryListView(generic.ListView):
                 elif filter_value:
                     query_dictionary['the_final_price__lte'] = float(filter_value)
 
-        def recursive_get(item):
+        def recursive_get_childs(item):
             yield item.id
             for child in item.get_child():
-                yield from recursive_get(child)
+                yield from recursive_get_childs(child)
 
-        category = ProductClassification.objects.get(id=self.kwargs['category_id'])
-        category_id_list = list(recursive_get(category))
-        query_dictionary['classification_id__in'] = category_id_list
+        self.kwargs['category'] = ProductClassification.objects.get(id=self.kwargs['category_id'])
+        self.kwargs['category_ids'] = list(recursive_get_childs(self.kwargs['category']))
+        query_dictionary['classification_id__in'] = self.kwargs['category_ids']
 
         products_quantity = ProductQuantity.objects.filter(
             shop_id=self.request.session['shop'],
@@ -115,18 +102,10 @@ class CategoryListView(generic.ListView):
     def get_context_data(self, **kwargs):
         form_dictionary = {}
 
-        category = ProductClassification.objects.get(id=self.kwargs['category_id'])
-        category_list_id = self.queryset.values_list('classification_id', flat=True)
-        category_list = ProductClassification.objects.filter(id__in=category_list_id)
+        self.kwargs['category_ids'] = self.queryset.values_list('classification_id', flat=True)
+        category_list = ProductClassification.objects.filter(id__in=self.kwargs['category_ids'])
 
-        def recursive_get(item):
-            yield item
-            if item.category:
-                yield from recursive_get(item.category)
-
-        category_id_list = recursive_get(category)
-
-        promotions_for_page = promotions_for_category(category_id_list)
+        promotions_for_page = get_promotions_for_category(self.kwargs['category_ids'])
         product_listing_ads = Promotions.objects.filter(obligatory=True).order_by("?").first()
         product_listing_ads.serial_number = random.randint(5, 10)
 
@@ -136,23 +115,23 @@ class CategoryListView(generic.ListView):
         form_dictionary['price_form'] = price_form
 
         filter_list = ClassificationFilters.objects.filter(
-            classification_id=category.id).values('filter__name', 'filter__type', 'filter__priority')
+            classification_id=self.kwargs['category_id']).values('filter__name', 'filter__type', 'filter__priority')
 
         form_filters = []
-        for obj in filter_list:
-            if obj['filter__type'] != 'TXT':
-                value = self.queryset.values_list('specifications__' + obj['filter__name'], flat=True)
-                if obj['filter__type'] == 'INT':
-                    obj['filter__values'] = [min(value), max(value)]
-                elif obj['filter__type'] == 'CSM':
-                    obj['filter__values'] = value
-            form_filters.append(obj)
+        for filter_object in filter_list:
+            if filter_object['filter__type'] != 'TXT':
+                value = self.queryset.values_list('specifications__' + filter_object['filter__name'], flat=True)
+                if filter_object['filter__type'] == 'INT':
+                    filter_object['filter__values'] = [min(value), max(value)]
+                elif filter_object['filter__type'] == 'CSM':
+                    filter_object['filter__values'] = value
+            form_filters.append(filter_object)
 
-        variable_filters_form = FiltersForm(filters=form_filters)
-        form_dictionary['variable_filters_form'] = variable_filters_form
+        filters_form = FiltersForm(filters=form_filters)
+        form_dictionary['filters_form'] = filters_form
 
         context = {
-            'category': category,
+            'category': self.kwargs['category'],
             'category_list': category_list,
             'promotions_for_page': promotions_for_page,
             'product_listing_ads': product_listing_ads,

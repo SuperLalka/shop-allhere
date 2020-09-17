@@ -9,12 +9,12 @@ from app_shop.models import Product, ProductClassification, SubscriptionEmails
 def search(request):
     form = SearchForm(request.GET)
     if not form.is_valid():
-        return HttpResponseRedirect(request)
+        return HttpResponseRedirect(request.path)
 
     key = form.cleaned_data.get("search_key")
     object_list = Product.objects.filter(Q(name__icontains=key) | Q(description__icontains=key))
-    category_list_id = object_list.values_list('classification_id', flat=True)
-    category_list = ProductClassification.objects.filter(id__in=category_list_id)
+    category_ids = object_list.values_list('classification_id', flat=True)
+    category_list = ProductClassification.objects.filter(id__in=category_ids)
     return render(
         request,
         'search_results.html',

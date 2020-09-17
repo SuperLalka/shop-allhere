@@ -1,9 +1,8 @@
 from django.db.models import OuterRef, Subquery
-
-from app_shop import constants
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
+from app_shop import constants
 from app_shop.forms import OrderForm
 from app_shop.models import OrderList, Product, ProductListForOrder, ProductQuantity
 
@@ -17,7 +16,7 @@ def cart(request):
     if not request.session.get('cart', False):
         return render(request, 'cart.html', context={
                 'total_cost': 0,
-                'disadvantage': constants.MINIMUM_ORDER_AMOUNT}
+                'shortage': constants.MINIMUM_ORDER_AMOUNT}
         )
 
     products_quantity = ProductQuantity.objects.filter(
@@ -25,17 +24,17 @@ def cart(request):
         product_id=OuterRef('id')
     )
 
-    products_id = request.session["cart"]
-    products_in_cart = Product.objects.filter(id__in={**products_id}.keys()).annotate(
+    products_ids = request.session["cart"]
+    products_in_cart = Product.objects.filter(id__in={**products_ids}.keys()).annotate(
         count=Subquery(products_quantity.values_list('number', flat=True)[:1]))
 
     cost_list = {
-        str(item.id): round(float(item.get_current_prices()) * products_id[str(item.id)], 2)
+        str(item.id): round(float(item.get_current_prices()) * products_ids[str(item.id)], 2)
         for item in products_in_cart
     }
 
     total_cost = round(sum(cost_list.values()), 2)
-    disadvantage = round(constants.MINIMUM_ORDER_AMOUNT - sum(cost_list.values()), 2)
+    shortage = round(constants.MINIMUM_ORDER_AMOUNT - sum(cost_list.values()), 2)
 
     return render(
         request,
@@ -45,7 +44,7 @@ def cart(request):
             'products_in_cart': products_in_cart,
             'cost_list': cost_list,
             'total_cost': total_cost,
-            'disadvantage': disadvantage,
+            'shortage': shortage,
         }
     )
 
@@ -82,7 +81,7 @@ def empty_trash(request):
 def send_order(request):
     form = OrderForm(request.POST)
     if not form.is_valid():
-        return HttpResponseRedirect(request)
+        return HttpResponseRedirect(request.path)
 
     products_id = request.session["cart"]
     products_in_cart = Product.objects.filter(id__in={**products_id}.keys())
