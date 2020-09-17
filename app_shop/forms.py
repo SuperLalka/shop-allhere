@@ -14,7 +14,7 @@ class SearchForm(forms.Form):
         super(SearchForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_show_labels = False
-        self.helper.field_class = 'col-12 p-0'
+        self.helper.field_class = 'search-form__input-container'
 
 
 class SubscriptionForm(forms.ModelForm):
@@ -28,6 +28,7 @@ class SubscriptionForm(forms.ModelForm):
 
     class Meta:
         model = SubscriptionEmails
+        fields = ['email']
 
 
 class OrderForm(forms.Form):
