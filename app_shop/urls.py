@@ -16,7 +16,6 @@ shopping = [
     url(r'^category/(?P<category_id>\S+)$', views.CategoryListView.as_view(), name='section_products'),
     url(r'^change_user_shop/(?P<shop_id>\w+)$', views.change_user_shop, name='change_user_shop'),
     url(r'^search$', views.search, name='search'),
-    url(r'^filtration/(?P<category_id>\S+)$', views.filtration, name='filtration'),
 ]
 
 cart = [
