@@ -41,7 +41,7 @@
     <hr>
     <div class="row">
       <div class="category-block__filter filter col-12 col-md-4 col-lg-3">
-        <form class="filter__form" action="{% url 'app_shop:filtration' category.id %}" method="get">
+        <form class="filter__form" action="{% url 'app_shop:section_products' category.id %}" method="get">
           <!-- Subcategories list -->
           {% if category.get_child %}
             <div class="filter__section-block section-block card">
@@ -83,7 +83,7 @@
           </div>
           <!-- Price filter end -->
           <!-- Variable filters -->
-          {% for item in variable_filters_form %}
+          {% for item in filters_form %}
             <div class="filter__section-block section-block card">
               <div class="section-block__header">
                 <a class="stretched-link" data-toggle="collapse" href="#collapse{{ item.field.slug|capfirst }}"
@@ -93,7 +93,7 @@
                 </a>
               </div>
               <div
-                  class="section-block__body collapse {% if item.label in variable_filters_form.changed_data %}show{% endif %}"
+                  class="section-block__body collapse {% if item.label in filters_form.changed_data %}show{% endif %}"
                   id="collapse{{ item.field.slug|capfirst }}">
                 {{ item|as_crispy_field }}
                 {% if item.field.type == "INT" %}
@@ -130,6 +130,12 @@
               <div class="category-block__list-section">
                 {% for object in object_list %}
                   {% if object.classification_id == category.id %}
+                    {% if forloop.counter == product_listing_ads.serial_number %}
+                      <div class="category-block__list-items list-items card">
+                        <img src="{{ product_listing_ads.images.url }}" class="list-items__card-ads"
+                             alt="{{ product_listing_ads.name }}">
+                      </div>
+                    {% endif %}
                     <div class="category-block__list-items list-items card">
                       <div class="list-items__image-block">
                         <img src="{{ object.images.url }}" class="list-items__image card-img-top"
@@ -182,10 +188,10 @@
 
 {% block promo %}
   <div class="recomendations-block d-none d-sm-block col-12">
-    {% if promotions_for_category_page %}
+    {% if promotions_for_page %}
       <h2 class="recomendations-block__title d-none d-md-block">&laquo; Акции &raquo;</h2>
       <div class="recomendations-promotions d-none d-md-flex">
-        {% for promo in promotions_for_category_page %}
+        {% for promo in promotions_for_page %}
           <div class="promotions-block">
             <img class="promotions-block__image" src="{{ promo.images.url }}" alt="{{ promo.name }}">
           </div>

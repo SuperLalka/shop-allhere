@@ -61,8 +61,8 @@
     <div class="cart-block__count col-12 col-lg-3 col-xl-4">
       <div class="cart-block__count-header">
         <h2>Итого</h2>
-        {% if disadvantage > 0 %}
-          <p class="cart-block__count-warning">До минимальной суммы заказа осталось {{ disadvantage }} &#8381;</p>
+        {% if shortage > 0 %}
+          <p class="cart-block__count-warning">До минимальной суммы заказа осталось {{ shortage }} &#8381;</p>
         {% endif %}
       </div>
       <hr>
@@ -81,7 +81,7 @@
             <td><b>{{ total_cost }} &#8381;</b></td>
           </tr>
         </table>
-        {% if disadvantage <= 0 %}
+        {% if shortage <= 0 %}
           <div class="cart-block__button-block">
             <button type="button" class="cart-item__numbers-button btn btn-danger" data-toggle="modal"
                     data-target="#OrderingModal">Перейти к оформлению

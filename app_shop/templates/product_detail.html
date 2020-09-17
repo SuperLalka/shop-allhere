@@ -106,10 +106,10 @@
         {% endfor %}
       </div>
     {% endif %}
-    {% if promotions_for_detail_page %}
+    {% if promotions_for_page %}
       <h2 class="recomendations-block__title d-none d-md-block">&laquo; Акции &raquo;</h2>
       <div class="recomendations-promotions d-none d-md-flex">
-        {% for promo in promotions_for_detail_page %}
+        {% for promo in promotions_for_page %}
           <div class="promotions-block">
             <img class="promotions-block__image" src="{{ promo.images.url }}" alt="{{ promo.name }}">
           </div>
