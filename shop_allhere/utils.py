@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 from django.contrib.postgres.forms.jsonb import InvalidJSONInput, JSONField
+from django.db.models import Q
 
 
 def transliterate(name):
@@ -30,3 +31,17 @@ class ReadableJSONFormField(JSONField):
         if isinstance(value, InvalidJSONInput):
             return value
         return json.dumps(value, ensure_ascii=False, indent=2)
+
+
+def get_promotions_for_category(list_categories):
+    from app_shop.models import Promotions
+
+    quantity_promotions = Promotions.objects.filter(obligatory=True)[:5]
+    numbers_promotions = 5 - quantity_promotions.count()
+    if numbers_promotions > 0:
+        promotions = Promotions.objects.filter(
+                    Q(for_category__in=list_categories) |
+                    Q(for_category=None, for_carousel=False, obligatory=False)).order_by('?')[:numbers_promotions]
+        quantity_promotions = quantity_promotions.union(promotions)
+
+    return quantity_promotions.order_by('-obligatory')

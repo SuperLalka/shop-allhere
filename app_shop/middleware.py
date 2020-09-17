@@ -23,7 +23,7 @@ class CollectingStatistics(MiddlewareMixin):
             )
 
         if response.status_code == 200:
-            if response.get('url', request.path) not in request.headers['Referer']:
+            if response.get('url', request.path) not in request.headers.get('Referer', request.path):
                 VisitStatistics.objects.create(
                     url_address=request.path,
                     user_id=request.user.id,

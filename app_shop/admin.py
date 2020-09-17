@@ -106,7 +106,7 @@ class PromotionsForCategoryInline(admin.StackedInline):
 @admin.register(Promotions)
 class PromotionsAdmin(admin.ModelAdmin):
     inlines = [PromotionsForCategoryInline]
-    list_display = ('name', 'start_time', 'end_time', 'for_carousel', )
+    list_display = ('name', 'start_time', 'end_time', 'obligatory', 'for_carousel')
     search_fields = ('name',)
 
 
