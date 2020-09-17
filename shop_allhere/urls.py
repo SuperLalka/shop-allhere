@@ -4,6 +4,8 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import RedirectView
 
+from app_shop import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,3 +16,7 @@ urlpatterns = [
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler403 = views.handler403
+handler404 = views.handler404
+handler500 = views.handler500
