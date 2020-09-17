@@ -11,6 +11,7 @@ PRODUCT_DISCOUNT = "Enter the discount percentage for this product"
 PRODUCT_DISCOUNT_FIXED_PRICE = "Enter the price of the fixed discount"
 PROMOTIONS_TIME = "Use an interactive calendar image or enter a date in the format 'YYYY-MM-DD'"
 PROMOTIONS_FOR_CAROUSEL = "Check, if promotion should be used for the main carousel"
+PROMOTIONS_OBLIGATORY = "Check, if this action should always be displayed"
 
 
 class Product(models.Model):
@@ -176,6 +177,7 @@ class Promotions(models.Model):
     start_time = models.DateField(help_text=PROMOTIONS_TIME, null=True, blank=True)
     end_time = models.DateField(help_text=PROMOTIONS_TIME, null=True, blank=True)
     for_carousel = models.BooleanField(help_text=PROMOTIONS_FOR_CAROUSEL, default=False)
+    obligatory = models.BooleanField(help_text=PROMOTIONS_OBLIGATORY, default=False)
     for_category = models.ManyToManyField('ProductClassification', through='PromotionsForCategory')
 
     def __str__(self):
