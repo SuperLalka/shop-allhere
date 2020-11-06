@@ -2,9 +2,9 @@ from django.db.models import OuterRef, Subquery
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
-from app_shop import constants
 from app_shop.forms import OrderForm
 from app_shop.models import OrderList, Product, ProductListForOrder, ProductQuantity
+from shop_allhere import constants
 
 
 def change_user_shop(request, shop_id):

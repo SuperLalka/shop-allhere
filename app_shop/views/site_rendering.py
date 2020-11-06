@@ -1,12 +1,13 @@
-import random
 from django.db.models import Count, Max, Min, Subquery, OuterRef
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import generic
 
 from app_shop.forms import PriceForm, FiltersForm
-from app_shop.models import ClassificationFilters, FiltersForClassifications, Promotions, Product, \
-    ProductClassification, ProductListForOrder, ProductQuantity
+from app_shop.models import (
+    ClassificationFilters, FiltersForClassifications, Promotions,
+    Product, ProductClassification, ProductListForOrder, ProductQuantity
+)
 from shop_allhere.utils import get_promotions_for_category
 
 
@@ -94,7 +95,7 @@ class CategoryListView(generic.ListView):
             shop_id=self.request.session['shop'],
             product_id=OuterRef('id')
         )
-        self.queryset = Product.objects.filter(**query_dictionary).order_by(order).annotate(
+        self.queryset = Product.objects.filter(**query_dictionary).order_by('classification', order).annotate(
             count=Subquery(products_quantity.values_list('number', flat=True)[:1])
         )
         return self.queryset
@@ -103,11 +104,10 @@ class CategoryListView(generic.ListView):
         form_dictionary = {}
 
         self.kwargs['category_ids'] = self.queryset.values_list('classification_id', flat=True)
-        category_list = ProductClassification.objects.filter(id__in=self.kwargs['category_ids'])
 
         promotions_for_page = get_promotions_for_category(self.kwargs['category_ids'])
-        product_listing_ads = Promotions.objects.filter(obligatory=True).order_by("?").first()
-        product_listing_ads.serial_number = random.randint(5, 10)
+        product_listing_ads = Promotions.objects.select_related('advertising').filter(
+            advertising__obligatory=True).order_by("?")[:5]
 
         price_values = self.queryset.aggregate(
             min_price=Min('the_final_price'), max_price=Max('the_final_price'))
@@ -132,7 +132,6 @@ class CategoryListView(generic.ListView):
 
         context = {
             'category': self.kwargs['category'],
-            'category_list': category_list,
             'promotions_for_page': promotions_for_page,
             'product_listing_ads': product_listing_ads,
             'price_values': price_values,
