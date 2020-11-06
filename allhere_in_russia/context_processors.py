@@ -6,7 +6,7 @@ from shop_allhere import settings
 def request(request):
     shops_list = Shops.objects.all()
     current_store = Shops.objects.get(id=request.session['shop'])
-    city_list = shops_list.values_list('city', flat=True).distinct().order_by('city')
+    city_list = shops_list.distinct('city').order_by('city')
     return {
         'API_KEY_YANDEX_GEOCODER': settings.API_KEY_YANDEX_GEOCODER,
         'application_for_ordering_form': ApplicationForOrderingForm(),

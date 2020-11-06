@@ -36,12 +36,25 @@ class ReadableJSONFormField(JSONField):
 def get_promotions_for_category(list_categories):
     from app_shop.models import Promotions
 
-    quantity_promotions = Promotions.objects.filter(obligatory=True)[:5]
-    numbers_promotions = 5 - quantity_promotions.count()
-    if numbers_promotions > 0:
+    quantity_promotions = Promotions.objects.filter(advertising__obligatory=True)[:5]
+    occupied_indexes = quantity_promotions.values_list('advertising__idx_among_promotions', flat=True)
+
+    all_indexes = list(range(5))
+    required_indexes = list(set(all_indexes) - set(occupied_indexes))
+    if len(required_indexes) > 0:
         promotions = Promotions.objects.filter(
                     Q(for_category__in=list_categories) |
-                    Q(for_category=None, for_carousel=False, obligatory=False)).order_by('?')[:numbers_promotions]
+                    Q(for_category=None, for_carousel=False, advertising=None)).order_by('?')[:len(required_indexes)]
+
         quantity_promotions = quantity_promotions.union(promotions)
 
-    return quantity_promotions.order_by('-obligatory')
+    quantity_promotions = list(quantity_promotions.order_by('-advertising'))
+    idx_to_item = []
+    for index, promo in enumerate(quantity_promotions):
+        idx_to_item.append([
+            promo.advertising.idx_among_promotions if promo.advertising else required_indexes[index],
+            promo,
+        ])
+
+    quantity_promotions = map(lambda x: x[1], sorted(idx_to_item, key=lambda x: x[0]))
+    return quantity_promotions

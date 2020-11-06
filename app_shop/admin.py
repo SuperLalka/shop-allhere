@@ -4,8 +4,11 @@ from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.forms import TextInput
 
-from app_shop.models import ClassificationFilters, FiltersForClassifications, OrderList, Product, \
-    ProductClassification, ProductListForOrder, ProductQuantity, Promotions, PromotionsForCategory
+from app_shop.models import (
+    Advertising, ClassificationFilters, FiltersForClassifications,
+    OrderList, Product, ProductClassification, ProductListForOrder,
+    ProductQuantity, Promotions, PromotionsForCategory
+)
 from allhere_in_russia.models import News, Shops, ShopType, SubPagesArticle, SubPagesSection
 from shop_allhere.utils import ReadableJSONFormField
 
@@ -106,8 +109,13 @@ class PromotionsForCategoryInline(admin.StackedInline):
 @admin.register(Promotions)
 class PromotionsAdmin(admin.ModelAdmin):
     inlines = [PromotionsForCategoryInline]
-    list_display = ('name', 'start_time', 'end_time', 'obligatory', 'for_carousel')
+    list_display = ('name', 'start_time', 'end_time', 'for_carousel', 'advertising')
     search_fields = ('name',)
+
+
+@admin.register(Advertising)
+class AdvertisingAdmin(admin.ModelAdmin):
+    list_display = ('id', 'obligatory', 'idx_among_products', 'idx_among_promotions')
 
 
 class ProductListForOrderInline(admin.TabularInline):
