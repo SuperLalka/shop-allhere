@@ -20,7 +20,7 @@
           {% for item in shops_list %}
             {% if item.type.title == 'AllHere' %}
               <a class="dropdown-item {% if item.id == request.session.shop %}bg-success text-white{% endif %}"
-                 href="{% url 'allhere_in_russia:shop_detail' item.id %}">{{ item.city }} / {{ item.name }}</a>
+                 href="{% url 'allhere_in_russia:shop_detail' item.id %}">{{ item.get_city_display }} / {{ item.name }}</a>
             {% endif %}
           {% endfor %}
         </div>
@@ -36,7 +36,7 @@
           {% for item in shops_list %}
             {% if item.type.title == 'AllHere Сад' %}
               <a class="dropdown-item {% if item.id == request.session.shop %}bg-success text-white{% endif %}"
-                 href="{% url 'allhere_in_russia:shop_detail' item.id %}">{{ item.city }} / {{ item.name }}</a>
+                 href="{% url 'allhere_in_russia:shop_detail' item.id %}">{{ item.get_city_display }} / {{ item.name }}</a>
             {% endif %}
           {% endfor %}
         </div>
@@ -52,7 +52,7 @@
           {% for item in shops_list %}
             {% if item.type.title == 'AllHere Сити' %}
               <a class="dropdown-item {% if item.id == request.session.shop %}bg-success text-white{% endif %}"
-                 href="{% url 'allhere_in_russia:shop_detail' item.id %}">{{ item.city }} / {{ item.name }}</a>
+                 href="{% url 'allhere_in_russia:shop_detail' item.id %}">{{ item.get_city_display }} / {{ item.name }}</a>
             {% endif %}
           {% endfor %}
         </div>

@@ -2,7 +2,7 @@
 
 
 {% block name-page %}
-{{ object.name }} ({{ object.city }})
+{{ object.name }} ({{ object.get_city_display }})
 {% endblock %}
 
 {% block content %}
