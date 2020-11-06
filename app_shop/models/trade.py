@@ -11,7 +11,9 @@ PRODUCT_DISCOUNT = "Enter the discount percentage for this product"
 PRODUCT_DISCOUNT_FIXED_PRICE = "Enter the price of the fixed discount"
 PROMOTIONS_TIME = "Use an interactive calendar image or enter a date in the format 'YYYY-MM-DD'"
 PROMOTIONS_FOR_CAROUSEL = "Check, if promotion should be used for the main carousel"
-PROMOTIONS_OBLIGATORY = "Check, if this action should always be displayed"
+ADVERTISING_OBLIGATORY = "Check, if this action should always be displayed"
+ADVERTISING_IDX_PROMO = "Specify a position for fixing a advertising in a block of promotions (0 - 4)"
+ADVERTISING_IDX_PRODUCT = "Specify a position for fixing a advertising in the list of products (0 - ∞)"
 
 
 class Product(models.Model):
@@ -86,7 +88,6 @@ class Product(models.Model):
         return super(Product, self).save()
 
     class Meta:
-        app_label = 'app_shop'
         ordering = ['name']
 
 
@@ -96,7 +97,6 @@ class ProductQuantity(models.Model):
     number = models.PositiveIntegerField(default=0)
 
     class Meta:
-        app_label = 'app_shop'
         db_table = "app_shop_productquantity"
 
 
@@ -137,8 +137,7 @@ class ProductClassification(models.Model):
         return path
 
     class Meta:
-        app_label = 'app_shop'
-        ordering = ('id', 'highest_category')
+        ordering = ['id', 'highest_category']
 
 
 FILTER_TYPE = [
@@ -157,7 +156,6 @@ class FiltersForClassifications(models.Model):
         return self.name
 
     class Meta:
-        app_label = 'app_shop'
         ordering = ['priority']
 
 
@@ -166,7 +164,6 @@ class ClassificationFilters(models.Model):
     filter = models.ForeignKey(FiltersForClassifications, on_delete=models.CASCADE)
 
     class Meta:
-        app_label = 'app_shop'
         db_table = "app_shop_classificationfilters"
 
 
@@ -177,14 +174,14 @@ class Promotions(models.Model):
     start_time = models.DateField(help_text=PROMOTIONS_TIME, null=True, blank=True)
     end_time = models.DateField(help_text=PROMOTIONS_TIME, null=True, blank=True)
     for_carousel = models.BooleanField(help_text=PROMOTIONS_FOR_CAROUSEL, default=False)
-    obligatory = models.BooleanField(help_text=PROMOTIONS_OBLIGATORY, default=False)
     for_category = models.ManyToManyField('ProductClassification', through='PromotionsForCategory')
+    advertising = models.OneToOneField('Advertising', on_delete=models.CASCADE, related_name='promo',
+                                       null=True, blank=True)
 
     def __str__(self):
         return '{0} ({1} - {2})'.format(self.name, self.start_time, self.end_time)
 
     class Meta:
-        app_label = 'app_shop'
         ordering = ['-end_time']
         verbose_name = 'Promotion'
         verbose_name_plural = 'Promotions'
@@ -196,8 +193,15 @@ class PromotionsForCategory(models.Model):
     discount = models.PositiveSmallIntegerField()
 
     class Meta:
-        app_label = 'app_shop'
         db_table = "app_shop_promotionsforcategory"
+
+
+class Advertising(models.Model):
+    obligatory = models.BooleanField(help_text=ADVERTISING_OBLIGATORY, default=False)
+    idx_among_products = models.PositiveSmallIntegerField(help_text=ADVERTISING_IDX_PRODUCT,
+                                                          null=True, blank=True)
+    idx_among_promotions = models.PositiveSmallIntegerField(help_text=ADVERTISING_IDX_PROMO,
+                                                            null=True, blank=True)
 
 
 class OrderList(models.Model):
@@ -216,10 +220,6 @@ class OrderList(models.Model):
     def get_products_in_list(self):
         return ProductListForOrder.objects.filter(orderlist_id=self.id)
 
-    class Meta:
-        app_label = 'app_shop'
-        db_table = "app_shop_orderlist"
-
 
 class ProductListForOrder(models.Model):
     orderlist = models.ForeignKey(OrderList, on_delete=models.CASCADE)
@@ -227,20 +227,19 @@ class ProductListForOrder(models.Model):
     store = models.PositiveSmallIntegerField(null=True, blank=True)
     count = models.PositiveSmallIntegerField(null=True, blank=True)
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    def save(self, *args, **kwargs):
         write_off_product = ProductQuantity.objects.get(shop_id=self.store, product=self.product)
         write_off_product.number = write_off_product.number - self.count
         write_off_product.save()
-        return super(ProductListForOrder, self).save()
+        return super(ProductListForOrder, self).save(*args, **kwargs)
 
-    def delete(self, using=None, keep_parents=False):
+    def delete(self, *args, **kwargs):
         if self.orderlist.paid:
             super(ProductListForOrder, self).delete()
         return_product = (ProductQuantity.objects.get(shop_id=self.store, product=self.product))
         return_product.number = return_product.number + self.count
         return_product.save()
-        return super(ProductListForOrder, self).delete()
+        return super(ProductListForOrder, self).delete(*args, **kwargs)
 
     class Meta:
-        app_label = 'app_shop'
         db_table = "app_shop_productlistfororder"

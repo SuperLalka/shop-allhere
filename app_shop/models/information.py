@@ -8,7 +8,6 @@ class SubscriptionEmails(models.Model):
         return self.email
 
     class Meta:
-        app_label = 'app_shop'
         verbose_name = 'Mailing address'
         verbose_name_plural = 'Postal addresses'
 
@@ -22,6 +21,5 @@ class VisitStatistics(models.Model):
         return self.id
 
     class Meta:
-        app_label = 'app_shop'
         verbose_name = 'Page visit'
         verbose_name_plural = 'Page visits'

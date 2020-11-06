@@ -3,13 +3,13 @@ from django.urls import reverse
 from tinymce.models import HTMLField
 from yandex_geocoder import Client
 
-from shop_allhere import settings
+from shop_allhere import constants, settings
 from shop_allhere.utils import transliterate
 
 
 SUBPAGESARTICLE_ADDRESS = "Enter a url address for article, otherwise the address will be set automatically"
 SUBPAGESARTICLE_UNIQ_TEMPLATE = "check if the page will use a unique HTML template"
-SHOPS_CITY = "Enter the city where the store is located"
+SHOPS_CITY = "Check the city where the store is located"
 SHOPS_ADDRESS = "Enter address of shop in the format City, street, house number"
 SHOPS_LATITUDE = "indicates the latitude of the location on the world map"
 SHOPS_LONGITUDE = "indicates the longitude of the location on the world map"
@@ -54,7 +54,7 @@ class SubPagesSection(models.Model):
 
 class Shops(models.Model):
     name = models.CharField(max_length=40, help_text="Enter store name")
-    city = models.CharField(max_length=20, help_text=SHOPS_CITY)
+    city = models.CharField(max_length=20, choices=constants.CITY_LIST, help_text=SHOPS_CITY)
     address = models.CharField(max_length=100, help_text=SHOPS_ADDRESS)
     type = models.ForeignKey('ShopType', on_delete=models.SET_NULL, related_name='content',
                              null=True, blank=True)
@@ -68,7 +68,7 @@ class Shops(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('app_shop:shop_detail', args=[self.id])
+        return reverse('allhere_in_russia:shop_detail', args=[self.id])
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
